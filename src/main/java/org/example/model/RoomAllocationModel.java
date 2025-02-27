@@ -18,6 +18,15 @@ public class RoomAllocationModel extends BaseEntity {
     @Column(nullable = false)
     private Date room_allocation_date;
 
+    public RoomAllocationModel() {
+    }
+
+    public RoomAllocationModel(Date room_allocation_date, Long room_id, Long student_id) {
+        this.room_allocation_date = room_allocation_date;
+        this.room_id = room_id;
+        this.student_id = student_id;
+    }
+
     public Long getStudent_id() {
         return student_id;
     }

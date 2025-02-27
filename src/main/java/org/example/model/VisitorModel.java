@@ -27,6 +27,19 @@ public class VisitorModel extends BaseEntity {
     @Column(nullable = false)
     private Date exit_time;
 
+
+    public VisitorModel() {
+    }
+
+    public VisitorModel(Long student_id, String fullName, String relation, String reason, Date entry_time, Date exit_time) {
+        this.student_id = student_id;
+        this.fullName = fullName;
+        this.relation = relation;
+        this.reason = reason;
+        this.entry_time = entry_time;
+        this.exit_time = exit_time;
+    }
+
     public Long getStudent_id() {
         return student_id;
     }

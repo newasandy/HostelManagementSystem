@@ -24,6 +24,17 @@ public class LeaveRequestModel extends BaseEntity {
     @Column(nullable = false)
     private String status;
 
+    public LeaveRequestModel() {
+    }
+
+    public LeaveRequestModel(Long student_id, String reason, Date start_date, Date end_date, String status) {
+        this.student_id = student_id;
+        this.reason = reason;
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.status = status;
+    }
+
     public Long getStudent_id() {
         return student_id;
     }

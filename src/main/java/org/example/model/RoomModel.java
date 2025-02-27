@@ -13,6 +13,15 @@ public class RoomModel extends BaseEntity{
     @Column(nullable = false)
     private int capacity;
 
+
+    public RoomModel() {
+    }
+
+    public RoomModel(int room_number, int capacity) {
+        this.room_number = room_number;
+        this.capacity = capacity;
+    }
+
     public int getRoom_number() {
         return room_number;
     }

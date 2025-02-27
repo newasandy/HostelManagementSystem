@@ -16,6 +16,16 @@ public class UsersModel extends BaseEntity{
     @Column(nullable = false)
     private String roles;
 
+    public UsersModel() {
+    }
+
+    public UsersModel(String fullName, String email, String passwords, String roles) {
+        this.fullName = fullName;
+        this.email = email;
+        this.passwords = passwords;
+        this.roles = roles;
+    }
+
     public String getFullName() {
         return fullName;
     }
