@@ -1,7 +1,5 @@
 package org.example.controller;
 
-import org.example.model.StudentModel;
-
 import java.util.Scanner;
 
 public class MainController {
