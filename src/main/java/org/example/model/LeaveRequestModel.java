@@ -1,26 +1,34 @@
 package org.example.model;
 
-public class LeaveRequestModel {
-    private int leave_id;
-    private int student_id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+import java.util.Date;
+
+@Entity
+@Table(name = "leave_request")
+public class LeaveRequestModel extends BaseEntity {
+    @Column(nullable = false)
+    private Long student_id;
+
+    @Column(nullable = false)
     private String reason;
-    private String start_date;
-    private String end_date;
+
+    @Column(nullable = false)
+    private Date start_date;
+
+    @Column(nullable = false)
+    private Date end_date;
+
+    @Column(nullable = false)
     private String status;
 
-    public int getLeave_id() {
-        return leave_id;
-    }
-
-    public void setLeave_id(int leave_id) {
-        this.leave_id = leave_id;
-    }
-
-    public int getStudent_id() {
+    public Long getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(int student_id) {
+    public void setStudent_id(Long student_id) {
         this.student_id = student_id;
     }
 
@@ -32,19 +40,19 @@ public class LeaveRequestModel {
         this.reason = reason;
     }
 
-    public String getStart_date() {
+    public Date getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(String start_date) {
+    public void setStart_date(Date start_date) {
         this.start_date = start_date;
     }
 
-    public String getEnd_date() {
+    public Date getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(String end_date) {
+    public void setEnd_date(Date end_date) {
         this.end_date = end_date;
     }
 

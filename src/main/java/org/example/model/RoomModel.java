@@ -1,17 +1,17 @@
 package org.example.model;
 
-public class RoomModel {
-    private int room_id;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "rooms")
+public class RoomModel extends BaseEntity{
+    @Column(nullable = false)
     private int room_number;
+
+    @Column(nullable = false)
     private int capacity;
-
-    public int getRoom_id() {
-        return room_id;
-    }
-
-    public void setRoom_id(int room_id) {
-        this.room_id = room_id;
-    }
 
     public int getRoom_number() {
         return room_number;

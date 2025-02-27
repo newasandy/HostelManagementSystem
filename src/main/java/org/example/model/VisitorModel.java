@@ -1,28 +1,46 @@
 package org.example.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 
-public class VisitorModel {
-    private int visitor_id;
-    private String visitor_name;
+import java.util.Date;
+
+@Entity
+@Table(name = "visitors")
+public class VisitorModel extends BaseEntity {
+    @Column(nullable = false)
+    private Long student_id;
+
+    @Column(nullable = false)
+    private String fullName;
+
+    @Column(nullable = false)
     private String relation;
-    private String entry_time;
-    private String exit_time;
 
+    @Column(nullable = false)
+    private String reason;
 
-    public int getVisitor_id() {
-        return visitor_id;
+    @Column(nullable = false)
+    private Date entry_time;
+
+    @Column(nullable = false)
+    private Date exit_time;
+
+    public Long getStudent_id() {
+        return student_id;
     }
 
-    public void setVisitor_id(int visitor_id) {
-        this.visitor_id = visitor_id;
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
-    public String getVisitor_name() {
-        return visitor_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setVisitor_name(String visitor_name) {
-        this.visitor_name = visitor_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getRelation() {
@@ -33,21 +51,27 @@ public class VisitorModel {
         this.relation = relation;
     }
 
-    public String getEntry_time() {
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Date getEntry_time() {
         return entry_time;
     }
 
-    public void setEntry_time(String entry_time) {
+    public void setEntry_time(Date entry_time) {
         this.entry_time = entry_time;
     }
 
-    public String getExit_time() {
+    public Date getExit_time() {
         return exit_time;
     }
 
-    public void setExit_time(String exit_time) {
+    public void setExit_time(Date exit_time) {
         this.exit_time = exit_time;
     }
-
-
 }
