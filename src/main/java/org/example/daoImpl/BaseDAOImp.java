@@ -1,13 +1,9 @@
 package org.example.daoImpl;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.Persistence;
+import jakarta.persistence.*;
 import org.example.dao.BaseDAO;
 
 import java.io.Serializable;
-import java.security.PrivilegedAction;
 import java.util.List;
 
 public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T, ID> {
@@ -74,6 +70,6 @@ public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T
 
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("SELECT e FROM "+ entityClass.getSimpleName()+" e "+entityClass).getResultList();
+        return entityManager.createQuery("SELECT e FROM "+ entityClass.getName() + " e",entityClass).getResultList();
     }
 }

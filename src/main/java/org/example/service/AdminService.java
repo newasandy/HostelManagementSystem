@@ -23,8 +23,8 @@ private boolean status;
     public boolean registerNewStudent(UsersModel registerStudent){
 
         UserDAOImpl user = new UserDAOImpl();
-
-//        System.out.println("Name: "+registerStudent.getFullName()+"email: "+registerStudent.getEmail()+"password: "+registerStudent.getPasswords()+"roles: "+ registerStudent.getRoles());
+//        UsersModel finduser = user.getById(registerStudent.getId());
+//        System.out.println("new User added");
         return user.add(registerStudent);
     }
 
