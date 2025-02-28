@@ -21,7 +21,7 @@ public class LeaveRequestModel extends BaseEntity {
     @Column(nullable = false)
     private Date end_date;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 25)
     private String status;
 
     public LeaveRequestModel() {

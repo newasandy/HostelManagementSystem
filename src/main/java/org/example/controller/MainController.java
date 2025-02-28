@@ -2,6 +2,8 @@ package org.example.controller;
 
 
 
+import org.example.testConnection.TestConnection;
+
 import java.util.Date;
 import java.util.Scanner;
 
@@ -10,20 +12,16 @@ public class MainController {
 
         Scanner sc = new Scanner(System.in);
         AdminController adminController = new AdminController();
-        Date dt = new Date();
+TestConnection tc = new TestConnection();
         while (true){
             System.out.println("Select user: \n 1. Admin \n 2. Student \n 3. Exit");
             int i = sc.nextInt();
             sc.nextLine();
             if (i == 1){
-                System.out.println("Enter email");
-                String email = sc.nextLine();
-                System.out.println("Enter Password");
-                String password = sc.nextLine();
-                adminController.adminLogin(email , password);
-
+                adminController.adminLogin();
             } else if (i == 2){
-                System.out.println("this is student"+ dt);
+//                System.out.println("this is student");
+                tc.testConnection();
             }else if (i ==3) {
                 System.out.println("have a good day");
                 break;

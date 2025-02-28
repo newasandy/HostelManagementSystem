@@ -12,32 +12,32 @@ public class VisitorModel extends BaseEntity {
     @Column(nullable = false)
     private Long student_id;
 
-    @Column(nullable = false)
-    private String fullName;
+    @Column(nullable = false, length = 50)
+    private String full_name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String relation;
 
     @Column(nullable = false)
     private String reason;
 
     @Column(nullable = false)
-    private Date entry_time;
+    private Date entry_datetime;
 
     @Column(nullable = false)
-    private Date exit_time;
+    private Date exit_datetime;
 
 
     public VisitorModel() {
     }
 
-    public VisitorModel(Long student_id, String fullName, String relation, String reason, Date entry_time, Date exit_time) {
+    public VisitorModel(Long student_id, String full_name, String relation, String reason, Date entry_datetime, Date exit_datetime) {
         this.student_id = student_id;
-        this.fullName = fullName;
+        this.full_name = full_name;
         this.relation = relation;
         this.reason = reason;
-        this.entry_time = entry_time;
-        this.exit_time = exit_time;
+        this.entry_datetime = entry_datetime;
+        this.exit_datetime = exit_datetime;
     }
 
     public Long getStudent_id() {
@@ -48,12 +48,12 @@ public class VisitorModel extends BaseEntity {
         this.student_id = student_id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFull_name() {
+        return full_name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFull_name(String full_name) {
+        this.full_name = full_name;
     }
 
     public String getRelation() {
@@ -72,19 +72,19 @@ public class VisitorModel extends BaseEntity {
         this.reason = reason;
     }
 
-    public Date getEntry_time() {
-        return entry_time;
+    public Date getEntry_datetime() {
+        return entry_datetime;
     }
 
-    public void setEntry_time(Date entry_time) {
-        this.entry_time = entry_time;
+    public void setEntry_datetime(Date entry_datetime) {
+        this.entry_datetime = entry_datetime;
     }
 
-    public Date getExit_time() {
-        return exit_time;
+    public Date getExit_datetime() {
+        return exit_datetime;
     }
 
-    public void setExit_time(Date exit_time) {
-        this.exit_time = exit_time;
+    public void setExit_datetime(Date exit_datetime) {
+        this.exit_datetime = exit_datetime;
     }
 }

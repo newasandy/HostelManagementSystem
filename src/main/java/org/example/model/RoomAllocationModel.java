@@ -16,13 +16,16 @@ public class RoomAllocationModel extends BaseEntity {
     private Long room_id;
 
     @Column(nullable = false)
-    private Date room_allocation_date;
+    private Date allocation_date;
+
+    @Column(nullable = false)
+    private Date unallocation_date;
 
     public RoomAllocationModel() {
     }
 
-    public RoomAllocationModel(Date room_allocation_date, Long room_id, Long student_id) {
-        this.room_allocation_date = room_allocation_date;
+    public RoomAllocationModel(Date allocation_date, Long room_id, Long student_id) {
+        this.allocation_date = allocation_date;
         this.room_id = room_id;
         this.student_id = student_id;
     }
@@ -43,11 +46,19 @@ public class RoomAllocationModel extends BaseEntity {
         this.room_id = room_id;
     }
 
-    public Date getRoom_allocation_date() {
-        return room_allocation_date;
+    public Date getAllocation_date() {
+        return allocation_date;
     }
 
-    public void setRoom_allocation_date(Date room_allocation_date) {
-        this.room_allocation_date = room_allocation_date;
+    public void setAllocation_date(Date allocation_date) {
+        this.allocation_date = allocation_date;
+    }
+
+    public Date getUnallocation_date() {
+        return unallocation_date;
+    }
+
+    public void setUnallocation_date(Date unallocation_date) {
+        this.unallocation_date = unallocation_date;
     }
 }
