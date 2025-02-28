@@ -1,7 +1,5 @@
 package org.example.controller;
 
-
-
 import org.example.testConnection.TestConnection;
 
 import java.util.Date;
@@ -12,7 +10,7 @@ public class MainController {
 
         Scanner sc = new Scanner(System.in);
         AdminController adminController = new AdminController();
-TestConnection tc = new TestConnection();
+        TestConnection tc = new TestConnection();
         while (true){
             System.out.println("Select user: \n 1. Admin \n 2. Student \n 3. Exit");
             int i = sc.nextInt();

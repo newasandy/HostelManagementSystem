@@ -1,7 +1,10 @@
 package org.example.service;
 
+import org.example.dao.BaseDAO;
 import org.example.dao.UserDAO;
 import org.example.dao.UserDAOImp;
+import org.example.daoImpl.BaseDAOImp;
+import org.example.daoImpl.UserDAOImpl;
 import org.example.model.UsersModel;
 
 public class AdminService {
@@ -19,10 +22,10 @@ private boolean status;
 
     public boolean registerNewStudent(UsersModel registerStudent){
 
-        UserDAO userDAO = new UserDAOImp();
-        userDAO.addUser(registerStudent);
+        UserDAOImpl user = new UserDAOImpl();
+
 //        System.out.println("Name: "+registerStudent.getFullName()+"email: "+registerStudent.getEmail()+"password: "+registerStudent.getPasswords()+"roles: "+ registerStudent.getRoles());
-        return true;
+        return user.add(registerStudent);
     }
 
 }

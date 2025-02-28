@@ -73,6 +73,7 @@ public class AdminController {
         student.setEmail(email);
         student.setPasswords(password);
         student.setRoles(role);
+        student.setStatus(true);
 
         if (adminService.registerNewStudent(student)){
             System.out.println("register successfully");
