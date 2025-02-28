@@ -1,7 +1,8 @@
-package org.example.daoImpl;
+package org.example.daoImplementation;
 
 import jakarta.persistence.*;
-import org.example.dao.BaseDAO;
+import org.example.daoInterface.BaseDAO;
+import org.example.utils.EntityManages;
 
 import java.io.Serializable;
 import java.util.List;
@@ -9,9 +10,9 @@ import java.util.List;
 public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T, ID> {
 
     private final Class<T> entityClass;
-    private static final String Persistence_Unit_Name = "hostelmanagement";
-    private static EntityManagerFactory factory = Persistence.createEntityManagerFactory(Persistence_Unit_Name);
-    private EntityManager entityManager = factory.createEntityManager();
+
+    EntityManages entityManages = new EntityManages();
+    private EntityManager entityManager = entityManages.getEntityManager();
 
     public BaseDAOImp(Class<T> entityClass){
         this.entityClass = entityClass;

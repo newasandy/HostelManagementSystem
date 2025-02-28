@@ -1,4 +1,4 @@
-package org.example.dao;
+package org.example.daoInterface;
 
 import java.io.Serializable;
 import java.util.List;

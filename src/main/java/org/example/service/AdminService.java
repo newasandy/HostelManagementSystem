@@ -1,10 +1,8 @@
 package org.example.service;
 
-import org.example.dao.BaseDAO;
-import org.example.dao.UserDAO;
-import org.example.dao.UserDAOImp;
-import org.example.daoImpl.BaseDAOImp;
-import org.example.daoImpl.UserDAOImpl;
+import org.example.daoImplementation.AddressDAOImp;
+import org.example.daoImplementation.UserDAOImpl;
+import org.example.model.AddressModel;
 import org.example.model.UsersModel;
 
 public class AdminService {
@@ -23,9 +21,12 @@ private boolean status;
     public boolean registerNewStudent(UsersModel registerStudent){
 
         UserDAOImpl user = new UserDAOImpl();
-//        UsersModel finduser = user.getById(registerStudent.getId());
-//        System.out.println("new User added");
         return user.add(registerStudent);
+    }
+
+    public boolean addUserAddress(AddressModel address){
+        AddressDAOImp addressAdd = new AddressDAOImp();
+        return addressAdd.add(address);
     }
 
 }

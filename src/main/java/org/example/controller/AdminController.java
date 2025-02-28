@@ -1,7 +1,9 @@
 package org.example.controller;
 
+import org.example.model.AddressModel;
 import org.example.model.UsersModel;
 import org.example.service.AdminService;
+import org.example.utils.PasswordUtil;
 
 import java.util.Scanner;
 
@@ -60,23 +62,44 @@ public class AdminController {
     private void registerStudent(){
         sc.nextLine();
         UsersModel student = new UsersModel();
+        AddressModel address = new AddressModel();
+
         System.out.println("Enter full name");
         String studentName = sc.nextLine();
         System.out.println("Enter Email");
         String email= sc.nextLine();
         System.out.println("Enter Password");
-        String password= sc.nextLine();
+        String plain_password= sc.nextLine();
         System.out.println("Role");
         String role = sc.nextLine();
+        String hashPassword = PasswordUtil.getHashPassword(plain_password);
+
+        System.out.println("Enter Country");
+        String country = sc.nextLine();
+        System.out.println("Enter District");
+        String district = sc.nextLine();
+        System.out.println("Enter metropolitan city / municipality / rural municipality");
+        String rmc_mc = sc.nextLine();
+        System.out.println("Enter ward number");
+        int ward_no = sc.nextInt();
+        sc.nextLine();
 
         student.setFull_name(studentName);
         student.setEmail(email);
-        student.setPasswords(password);
+        student.setPasswords(hashPassword);
         student.setRoles(role);
         student.setStatus(true);
 
+        address.setCountry(country);
+        address.setDistrict(district);
+        address.setRmc_mc(rmc_mc);
+        address.setWard_no(ward_no);
+
         if (adminService.registerNewStudent(student)){
-            System.out.println("register successfully");
+            address.setUser_id(student.getId());
+                if (adminService.addUserAddress(address)){
+                    System.out.println("Register Success");
+                }
         }else {
             System.out.println("register not success");
         }

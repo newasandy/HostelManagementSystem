@@ -1,10 +1,9 @@
 package org.example.controller;
 
-import org.example.daoImpl.UserDAOImpl;
+import org.example.daoImplementation.UserDAOImpl;
 import org.example.model.UsersModel;
 import org.example.testConnection.TestConnection;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -23,8 +22,8 @@ public class MainController {
                 adminController.adminLogin();
             } else if (i == 2){
 //                System.out.println("this is student");
-                tc.testConnection();
-//                mcc.testGetAllUser();
+//                tc.testConnection();
+                mcc.testGetAllUser();
             }else if (i ==3) {
                 System.out.println("have a good day");
                 break;
@@ -36,6 +35,14 @@ public class MainController {
     public void testGetAllUser(){
 
         UserDAOImpl getAll = new UserDAOImpl();
+
+//        UserDAO user = new UserDAOImpl();
+//
+//        UsersModel usersss = user.findByEmail("sandy@gmail.com");
+//
+//        if (usersss != null){
+//            System.out.println("ID: "+usersss.getId()+" Name: "+usersss.getFull_name()+" Email: "+ usersss.getEmail()+ " pass: "+usersss.getPasswords()+" role: "+usersss.getRoles()+" status: "+usersss.isStatus());
+//        }
         List<UsersModel> userss = getAll.getAll();
         for (UsersModel usersModel:userss){
             System.out.println("ID: "+usersModel.getId() +"Name: "+usersModel.getFull_name()+" email: "+usersModel.getEmail()+" password: "+usersModel.getPasswords()+" roll: "+usersModel.getRoles()+" status: "+usersModel.isStatus());
