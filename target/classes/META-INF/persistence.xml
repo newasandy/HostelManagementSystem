@@ -4,9 +4,9 @@
         <properties>
             <!-- Database Connection -->
             <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hostelmanagement"/>
-            <property name="jakarta.persistence.jdbc.user" value="taskuser"/>
-            <property name="jakarta.persistence.jdbc.password" value="Taskuser@2"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hostelmanagementsys"/>
+            <property name="jakarta.persistence.jdbc.user" value="hm_system"/>
+            <property name="jakarta.persistence.jdbc.password" value="Hmsystem@2"/>
 
             <!-- Hibernate Properties -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>

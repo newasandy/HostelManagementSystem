@@ -23,8 +23,8 @@ public class MainController {
                 adminController.adminLogin();
             } else if (i == 2){
 //                System.out.println("this is student");
-//                tc.testConnection();
-                mcc.testGetAllUser();
+                tc.testConnection();
+//                mcc.testGetAllUser();
             }else if (i ==3) {
                 System.out.println("have a good day");
                 break;
