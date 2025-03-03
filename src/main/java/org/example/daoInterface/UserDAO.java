@@ -1,10 +1,10 @@
 package org.example.daoInterface;
 
-import org.example.model.UsersModel;
+import org.example.model.Users;
 
 import java.util.List;
 
-public interface UserDAO extends BaseDAO<UsersModel, Long>{
-    UsersModel findByEmail(String Email);
-    List<UsersModel> getUnallocatedUsers();
+public interface UserDAO extends BaseDAO<Users, Long>{
+    Users findByEmail(String Email);
+    List<Users> getUnallocatedUsers();
 }

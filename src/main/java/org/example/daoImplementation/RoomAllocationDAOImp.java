@@ -3,19 +3,18 @@ package org.example.daoImplementation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import org.example.daoInterface.RoomAloocationDAO;
-import org.example.model.RoomAllocationModel;
+import org.example.model.RoomAllocation;
 import org.example.utils.EntityManages;
 
 import java.sql.Timestamp;
-import java.util.List;
 
-public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocationModel , Long> implements RoomAloocationDAO {
+public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> implements RoomAloocationDAO {
 
     private final EntityManages entityManages = new EntityManages();
     private final EntityManager entityManager = entityManages.getEntityManager();
     private final EntityTransaction entityTransaction = entityManager.getTransaction();
     public RoomAllocationDAOImp(){
-        super(RoomAllocationModel.class);
+        super(RoomAllocation.class);
     }
 
     @Override

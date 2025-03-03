@@ -1,9 +1,9 @@
 package org.example.daoImplementation;
 
-import org.example.model.RoomModel;
+import org.example.model.Rooms;
 
-public class RoomDAOImp extends BaseDAOImp<RoomModel , Long> {
+public class RoomDAOImp extends BaseDAOImp<Rooms, Long> {
     public RoomDAOImp (){
-        super(RoomModel.class);
+        super(Rooms.class);
     }
 }

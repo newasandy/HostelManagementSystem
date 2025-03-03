@@ -3,14 +3,14 @@ package org.example.daoImplementation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import org.example.daoInterface.UserDAO;
-import org.example.model.UsersModel;
+import org.example.model.Users;
 import org.example.utils.EntityManages;
 
 import java.util.List;
 
-public class UserDAOImpl extends BaseDAOImp<UsersModel, Long> implements UserDAO {
+public class UserDAOImpl extends BaseDAOImp<Users, Long> implements UserDAO {
     public UserDAOImpl(){
-        super(UsersModel.class);
+        super(Users.class);
     }
     private final EntityManages entityManages = new EntityManages();
     private final EntityManager entityManager = entityManages.getEntityManager();
@@ -18,9 +18,9 @@ public class UserDAOImpl extends BaseDAOImp<UsersModel, Long> implements UserDAO
 
 
     @Override
-    public UsersModel findByEmail(String email){
+    public Users findByEmail(String email){
         try{
-            return entityManager.createQuery("SELECT e FROM UsersModel e WHERE e.email = :email",UsersModel.class)
+            return entityManager.createQuery("SELECT e FROM UsersModel e WHERE e.email = :email", Users.class)
                     .setParameter("email",email)
                     .getSingleResult();
         }catch (NoResultException e){
@@ -29,9 +29,9 @@ public class UserDAOImpl extends BaseDAOImp<UsersModel, Long> implements UserDAO
     }
 
     @Override
-    public List<UsersModel> getUnallocatedUsers(){
+    public List<Users> getUnallocatedUsers(){
         try{
-            return entityManager.createQuery("SELECT u FROM UsersModel u WHERE u.roles = :roles AND u.id NOT IN (SELECT ra.student_id FROM RoomAllocationModel ra WHERE ra.unallocation_date IS NULL)",UsersModel.class)
+            return entityManager.createQuery("SELECT u FROM UsersModel u WHERE u.roles = :roles AND u.id NOT IN (SELECT ra.student_id FROM RoomAllocationModel ra WHERE ra.unallocation_date IS NULL)", Users.class)
                     .setParameter("roles", "USER")
                     .getResultList();
         }catch (NoResultException e){

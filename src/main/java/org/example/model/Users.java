@@ -3,39 +3,43 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class UsersModel extends BaseEntity{
-    @Column(nullable = false, length = 50)
-    private String full_name;
+public class Users extends BaseEntity{
+    @Column(name = "full_name", nullable = false, length = 50)
+    private String fullName;
 
-    @Column(unique = true, nullable = false, length = 50)
+    @Column(name = "email", unique = true, nullable = false, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "passwords", nullable = false, length = 100)
     private String passwords;
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "roles", nullable = false, length = 20)
     private String roles;
 
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false)
     private boolean status;
 
-    public UsersModel() {
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Address address;
+
+
+    public Users() {
     }
 
-    public UsersModel(String full_name, String email, String passwords, String roles, boolean status) {
-        this.full_name = full_name;
+    public Users(String fullName, String email, String passwords, String roles, boolean status) {
+        this.fullName = fullName;
         this.email = email;
         this.passwords = passwords;
         this.roles = roles;
         this.status = status;
     }
 
-    public String getFull_name() {
-        return full_name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {

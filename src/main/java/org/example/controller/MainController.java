@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import org.example.daoImplementation.UserDAOImpl;
-import org.example.model.UsersModel;
+import org.example.model.Users;
 import org.example.testConnection.TestConnection;
 
 import java.util.List;
@@ -35,9 +35,9 @@ public class MainController {
         UserDAOImpl getAll = new UserDAOImpl();
 
 
-        List<UsersModel> userss = getAll.getAll();
-        for (UsersModel usersModel:userss){
-            System.out.println("ID: "+usersModel.getId() +"Name: "+usersModel.getFull_name()+" email: "+usersModel.getEmail()+" password: "+usersModel.getPasswords()+" roll: "+usersModel.getRoles()+" status: "+usersModel.isStatus());
+        List<Users> userss = getAll.getAll();
+        for (Users usersModel:userss){
+            System.out.println("ID: "+usersModel.getId() +"Name: "+usersModel.getFullName()+" email: "+usersModel.getEmail()+" password: "+usersModel.getPasswords()+" roll: "+usersModel.getRoles()+" status: "+usersModel.isStatus());
         }
     }
 }

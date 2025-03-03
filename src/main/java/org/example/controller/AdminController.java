@@ -12,10 +12,10 @@ public class AdminController {
     private Scanner sc = new Scanner(System.in);
     private final AdminService adminService = new AdminService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private RoomAllocationModel roomAllocationModel = new RoomAllocationModel();
+    private RoomAllocation roomAllocation = new RoomAllocation();
 
     public void adminLogin(){
-        UsersModel admin = new UsersModel();
+        Users admin = new Users();
         while (true){
             System.out.println("Enter Email:");
             String email = sc.nextLine();
@@ -45,8 +45,8 @@ public class AdminController {
         while (true){
             System.out.println("1. Add Student");
             System.out.println("2. Add New Room");
-            System.out.println("3. View All User");
-            System.out.println("4. View All User");
+            System.out.println("3. View All Students");
+            System.out.println("4. View All Rooms");
             System.out.println("5. Student Allocate at Room");
             System.out.println("6. Unallocated");
             System.out.println("7. logout");
@@ -80,8 +80,8 @@ public class AdminController {
     }
     public void registerStudent(){
         sc.nextLine();
-        UsersModel student = new UsersModel();
-        AddressModel address = new AddressModel();
+        Users student = new Users();
+        Address address = new Address();
 
         System.out.println("Enter full name");
         String studentName = sc.nextLine();
@@ -103,7 +103,7 @@ public class AdminController {
         int ward_no = sc.nextInt();
         sc.nextLine();
 
-        student.setFull_name(studentName);
+        student.setFullName(studentName);
         student.setEmail(email);
         student.setPasswords(hashPassword);
         student.setRoles(role);
@@ -111,13 +111,13 @@ public class AdminController {
 
         address.setCountry(country);
         address.setDistrict(district);
-        address.setRmc_mc(rmc_mc);
-        address.setWard_no(ward_no);
+        address.setRmcMc(rmc_mc);
+        address.setWardNo(ward_no);
 
         statusMessageModel = adminService.registerNewStudent(student);
 
         if (statusMessageModel.isStatus()){
-            address.setUser_id(student.getId());
+            address.setUserId(student.getId());
                 if (adminService.addUserAddress(address)){
                     System.out.println(statusMessageModel.getMessage());
                 }
@@ -128,17 +128,17 @@ public class AdminController {
 
     public void addNewRoom(){
         sc.nextLine();
-        RoomModel roomModel = new RoomModel();
+        Rooms roomsModel = new Rooms();
 
         System.out.println("Enter New Room Number");
         int roomNumber = sc.nextInt();
         System.out.println("Enter Room Capacity");
         int roomCapacity = sc.nextInt();
 
-        roomModel.setRoom_number(roomNumber);
-        roomModel.setCapacity(roomCapacity);
+        roomsModel.setRoomNumber(roomNumber);
+        roomsModel.setCapacity(roomCapacity);
 
-        statusMessageModel = adminService.addNewRoomService(roomModel);
+        statusMessageModel = adminService.addNewRoomService(roomsModel);
         if (statusMessageModel.isStatus()){
             System.out.println(statusMessageModel.getMessage());
         }else {
@@ -174,11 +174,11 @@ public class AdminController {
         Date getDate = new Date();
         Timestamp allocationDate = new Timestamp(getDate.getTime());
 
-        roomAllocationModel.setStudent_id(studentId);
-        roomAllocationModel.setRoom_id(roomId);
-        roomAllocationModel.setAllocation_date(allocationDate);
+        roomAllocation.setStudentId(studentId);
+        roomAllocation.setRoomId(roomId);
+        roomAllocation.setAllocationDate(allocationDate);
 
-        statusMessageModel = adminService.setStudentAtRoom(roomAllocationModel);
+        statusMessageModel = adminService.setStudentAtRoom(roomAllocation);
         System.out.println(statusMessageModel.getMessage());
     }
 

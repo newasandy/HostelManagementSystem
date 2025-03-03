@@ -14,15 +14,14 @@ import java.util.Date;
 import java.util.List;
 
 public class AdminService {
-    boolean status;
     private final UserDAO userDAO = new UserDAOImpl();
     private final StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final RoomDAOImp roomDAOImp = new RoomDAOImp();
     private final RoomAloocationDAO roomAloocationDAO = new RoomAllocationDAOImp();
     private final AddressDAOImp addressDAOImp = new AddressDAOImp();
 
-    public StatusMessageModel adminLoginService(UsersModel admin){
-        UsersModel admins = userDAO.findByEmail(admin.getEmail());
+    public StatusMessageModel adminLoginService(Users admin){
+        Users admins = userDAO.findByEmail(admin.getEmail());
         if (admins != null){
             if (PasswordUtil.verifyPassword(admin.getPasswords(),admins.getPasswords()) && admins.getRoles().equals("ADMIN")){
                 statusMessageModel.setStatus(true);
@@ -39,8 +38,8 @@ public class AdminService {
     }
 
 
-    public StatusMessageModel registerNewStudent(UsersModel registerStudent){
-        UsersModel checkUser = userDAO.findByEmail(registerStudent.getEmail());
+    public StatusMessageModel registerNewStudent(Users registerStudent){
+        Users checkUser = userDAO.findByEmail(registerStudent.getEmail());
         if (checkUser == null){
             userDAO.add(registerStudent);
             statusMessageModel.setStatus(true);
@@ -52,13 +51,13 @@ public class AdminService {
         return statusMessageModel;
     }
 
-    public boolean addUserAddress(AddressModel address){
+    public boolean addUserAddress(Address address){
 
         return addressDAOImp.add(address);
     }
 
-    public StatusMessageModel addNewRoomService (RoomModel newRoom){
-        if (roomDAOImp.add(newRoom)){
+    public StatusMessageModel addNewRoomService (Rooms newRooms){
+        if (roomDAOImp.add(newRooms)){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Room Added Successfully");
         }else {
@@ -69,34 +68,38 @@ public class AdminService {
     }
 
     public void getAllUser(){
-        List<UsersModel> users = userDAO.getAll();
-        for (UsersModel user : users){
-            System.out.println(user.getId()+"\t"+ user.getFull_name()+"\t"+user.getEmail()+"\t"+user.getRoles());
+        List<Users> users = userDAO.getAll();
+        System.out.println("User ID \t Full Name \t Email \t Role");
+        System.out.println("=============================================");
+        for (Users user : users){
+            System.out.println(user.getId()+"\t"+ user.getFullName()+"\t"+user.getEmail()+"\t"+user.getRoles());
         }
     }
 
     public void getAllRoom(){
-        List<RoomModel> rooms = roomDAOImp.getAll();
+        List<Rooms> rooms = roomDAOImp.getAll();
+        System.out.println("SN \t Room ID \t Room number \t Room Capacity");
+        System.out.println("=============================================");
         int rowNumber = 1;
-        for (RoomModel room : rooms){
-            System.out.println(rowNumber + "."+ room.getId()+"\t"+room.getRoom_number()+"\t"+room.getCapacity());
+        for (Rooms room : rooms){
+            System.out.println(rowNumber + "."+ room.getId()+"\t"+room.getRoomNumber()+"\t"+room.getCapacity());
             rowNumber++;
         }
     }
 
     public void viewUnalicatedStudent(){
-        List<UsersModel> unallocatedUser = userDAO.getUnallocatedUsers();
+        List<Users> unallocatedUser = userDAO.getUnallocatedUsers();
         System.out.println("Not Allocate Student");
         System.out.println("=================================");
         int rowNumber = 1;
-        for (UsersModel user : unallocatedUser){
-            System.out.println(rowNumber + "."+user.getFull_name()+"\t ID: "+user.getId());
+        for (Users user : unallocatedUser){
+            System.out.println(rowNumber + "."+user.getFullName()+"\t ID: "+user.getId());
             rowNumber++;
         }
     }
 
     public Long getUserIdByRowNumber(int rowNumber){
-        List<UsersModel> unallocatedUser = userDAO.getUnallocatedUsers();
+        List<Users> unallocatedUser = userDAO.getUnallocatedUsers();
         if (rowNumber < 1 || rowNumber > unallocatedUser.size()){
             throw new IllegalArgumentException("Invalid Row Number");
         }
@@ -104,19 +107,19 @@ public class AdminService {
     }
 
     public Long getRoomIdByRowNumber(int rowNumber){
-        List<RoomModel> roomList = roomDAOImp.getAll();
-        if (rowNumber < 1 || rowNumber > roomList.size()){
+        List<Rooms> roomsList = roomDAOImp.getAll();
+        if (rowNumber < 1 || rowNumber > roomsList.size()){
             throw new IllegalArgumentException("Invalid Row Number");
         }
-        return roomList.get(rowNumber - 1).getId();
+        return roomsList.get(rowNumber - 1).getId();
     }
 
     public int getRoomCapacity(int rowNumber){
-        List<RoomModel> roomList = roomDAOImp.getAll();
-        if (rowNumber < 1 || rowNumber > roomList.size()){
+        List<Rooms> roomsList = roomDAOImp.getAll();
+        if (rowNumber < 1 || rowNumber > roomsList.size()){
             throw new IllegalArgumentException("Invalid Row Number");
         }
-        return roomList.get(rowNumber - 1).getCapacity();
+        return roomsList.get(rowNumber - 1).getCapacity();
     }
 
     public boolean isRoomAvailable(Long roomId, int roomCapacity){
@@ -124,8 +127,8 @@ public class AdminService {
         return currentOccupancy < roomCapacity;
     }
 
-    public StatusMessageModel setStudentAtRoom(RoomAllocationModel roomAllocationModel){
-        if (roomAloocationDAO.add(roomAllocationModel)){
+    public StatusMessageModel setStudentAtRoom(RoomAllocation roomAllocation){
+        if (roomAloocationDAO.add(roomAllocation)){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Student Allocated at room Successfully");
         }else{
@@ -136,18 +139,20 @@ public class AdminService {
     }
 
     public void getAllRoomAllocatedList(){
-        List<RoomAllocationModel> roomAllocationList = roomAloocationDAO.getAll();
+        List<RoomAllocation> roomAllocationList = roomAloocationDAO.getAll();
+        System.out.println("SN \t S ID \t R ID \t allocated \t unallocated");
+        System.out.println("=============================================");
         int rowNumber =1 ;
-        for (RoomAllocationModel list : roomAllocationList){
-            System.out.println(rowNumber +". "+list.getStudent_id()+"\t"+list.getRoom_id()+"\t"+list.getAllocation_date());
+        for (RoomAllocation list : roomAllocationList){
+            System.out.println(rowNumber +". "+list.getStudentId()+"\t"+list.getRoomId()+"\t"+list.getAllocationDate()+"\t"+list.getUnallocation_date());
             rowNumber++;
         }
     }
 
     public StatusMessageModel unallocatedStudentFromRoom(int rowNumber){
-        List<RoomAllocationModel> roomAllocationList = roomAloocationDAO.getAll();
-        Long studentId = roomAllocationList.get(rowNumber - 1 ).getStudent_id();
-        Long roomId = roomAllocationList.get(rowNumber - 1 ).getRoom_id();
+        List<RoomAllocation> roomAllocationList = roomAloocationDAO.getAll();
+        Long studentId = roomAllocationList.get(rowNumber - 1 ).getStudentId();
+        Long roomId = roomAllocationList.get(rowNumber - 1 ).getRoomId();
         Date date = new Date();
         Timestamp unallocationDate = new Timestamp(date.getTime());
         if (roomAloocationDAO.unallocateStudent(studentId,roomId,unallocationDate)){

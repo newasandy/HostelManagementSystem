@@ -1,9 +1,9 @@
 package org.example.daoImplementation;
 
-import org.example.model.AddressModel;
+import org.example.model.Address;
 
-public class AddressDAOImp extends BaseDAOImp<AddressModel,Long>{
+public class AddressDAOImp extends BaseDAOImp<Address,Long>{
     public AddressDAOImp (){
-        super(AddressModel.class);
+        super(Address.class);
     }
 }
