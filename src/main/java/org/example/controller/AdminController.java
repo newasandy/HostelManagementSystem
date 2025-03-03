@@ -1,6 +1,8 @@
 package org.example.controller;
 
 import org.example.model.AddressModel;
+import org.example.model.RoomModel;
+import org.example.model.StatusMessageModel;
 import org.example.model.UsersModel;
 import org.example.service.AdminService;
 import org.example.utils.PasswordUtil;
@@ -11,6 +13,8 @@ public class AdminController {
     private Scanner sc = new Scanner(System.in);
     private boolean isAdmin ;
     private AdminService adminService = new AdminService();
+
+
     public void adminLogin(){
 
 
@@ -22,7 +26,7 @@ public class AdminController {
             String password = sc.nextLine();
             admin.setEmail(email);
             admin.setPasswords(password);
-            isAdmin = adminService.adminLogin(admin);
+            isAdmin = adminService.adminLoginService(admin);
             if(isAdmin){
                 System.out.println("login success");
                 loginedAdminService();
@@ -38,31 +42,33 @@ public class AdminController {
         }
 
     }
-    private void loginedAdminService(){
+    public void loginedAdminService(){
         while (true){
             System.out.println("1. Add Student");
-            System.out.println("2. Student Allocate at Room");
-            System.out.println("3. Add Room");
-            System.out.println("4. Update Room Allocation");
-            System.out.println("5. logout");
+            System.out.println("2. Add New Room");
+            System.out.println("3. View All User");
+            System.out.println("4. Student Allocate at Room");
+            System.out.println("5. Update Room Allocation");
+            System.out.println("6. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
                 registerStudent();
             } else if (inputs == 2) {
-                System.out.println("allocated student");
+                addNewRoom();
             } else if (inputs == 3) {
                 System.out.println("add room");
             } else if (inputs == 4) {
                 System.out.println("update rooms allocations");
-            } else if (inputs ==5) {
+            } else if (inputs ==6) {
                 break;
             }
         }
     }
-    private void registerStudent(){
+    public void registerStudent(){
         sc.nextLine();
         UsersModel student = new UsersModel();
         AddressModel address = new AddressModel();
+        StatusMessageModel statusMessageModel = new StatusMessageModel();
 
         System.out.println("Enter full name");
         String studentName = sc.nextLine();
@@ -95,15 +101,40 @@ public class AdminController {
         address.setRmc_mc(rmc_mc);
         address.setWard_no(ward_no);
 
-        if (adminService.registerNewStudent(student)){
+
+        statusMessageModel = adminService.registerNewStudent(student);
+
+        if (statusMessageModel.isStatus()){
             address.setUser_id(student.getId());
                 if (adminService.addUserAddress(address)){
-                    System.out.println("Register Success");
+                    System.out.println(statusMessageModel.getMessage());
                 }
         }else {
-            System.out.println("register not success");
+            System.out.println(statusMessageModel.getMessage());
         }
 
+    }
+
+    public void addNewRoom(){
+        sc.nextLine();
+        StatusMessageModel statusMessageModel = new StatusMessageModel();
+        RoomModel roomModel = new RoomModel();
+
+        System.out.println("Enter New Room Number");
+        int roomNumber = sc.nextInt();
+        System.out.println("Enter Room Capacity");
+        int roomCapacity = sc.nextInt();
+
+        roomModel.setRoom_number(roomNumber);
+        roomModel.setCapacity(roomCapacity);
+
+        statusMessageModel = adminService.addNewRoomService(roomModel);
+        if (statusMessageModel.isStatus()){
+            System.out.println(statusMessageModel.getMessage());
+        }else {
+            System.out.println(statusMessageModel.getMessage());
+        }
 
     }
+
 }

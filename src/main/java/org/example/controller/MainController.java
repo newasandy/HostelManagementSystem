@@ -21,8 +21,6 @@ public class MainController {
             if (i == 1){
                 adminController.adminLogin();
             } else if (i == 2){
-//                System.out.println("this is student");
-//                tc.testConnection();
                 mcc.testGetAllUser();
             }else if (i ==3) {
                 System.out.println("have a good day");
@@ -36,13 +34,7 @@ public class MainController {
 
         UserDAOImpl getAll = new UserDAOImpl();
 
-//        UserDAO user = new UserDAOImpl();
-//
-//        UsersModel usersss = user.findByEmail("sandy@gmail.com");
-//
-//        if (usersss != null){
-//            System.out.println("ID: "+usersss.getId()+" Name: "+usersss.getFull_name()+" Email: "+ usersss.getEmail()+ " pass: "+usersss.getPasswords()+" role: "+usersss.getRoles()+" status: "+usersss.isStatus());
-//        }
+
         List<UsersModel> userss = getAll.getAll();
         for (UsersModel usersModel:userss){
             System.out.println("ID: "+usersModel.getId() +"Name: "+usersModel.getFull_name()+" email: "+usersModel.getEmail()+" password: "+usersModel.getPasswords()+" roll: "+usersModel.getRoles()+" status: "+usersModel.isStatus());
