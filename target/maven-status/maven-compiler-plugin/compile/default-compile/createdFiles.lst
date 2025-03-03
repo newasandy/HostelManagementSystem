@@ -10,9 +10,12 @@ org/example/daoInterface/BaseDAO.class
 org/example/daoImplementation/AddressDAOImp.class
 org/example/model/StatusMessageModel.class
 org/example/daoImplementation/UserDAOImpl.class
+org/example/daoImplementation/RoomAllocationDAOImp.class
 org/example/daoInterface/UserDAO.class
 org/example/utils/PasswordUtil.class
 org/example/model/LeaveRequestModel.class
+org/example/daoInterface/RoomAloocationDAO.class
+org/example/daoImplementation/RoomDAOImp.class
 org/example/utils/EntityManages.class
 org/example/controller/MainController.class
 org/example/daoImplementation/BaseDAOImp.class
