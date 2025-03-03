@@ -1,19 +1,17 @@
 package org.example.controller;
 
-import org.example.model.AddressModel;
-import org.example.model.RoomModel;
-import org.example.model.StatusMessageModel;
-import org.example.model.UsersModel;
+import org.example.model.*;
 import org.example.service.AdminService;
 import org.example.utils.PasswordUtil;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Scanner;
 
 public class AdminController {
     private Scanner sc = new Scanner(System.in);
-    private boolean isAdmin ;
-    private AdminService adminService = new AdminService();
-
+    private final AdminService adminService = new AdminService();
+    private StatusMessageModel statusMessageModel = new StatusMessageModel();
 
     public void adminLogin(){
 
@@ -26,16 +24,18 @@ public class AdminController {
             String password = sc.nextLine();
             admin.setEmail(email);
             admin.setPasswords(password);
-            isAdmin = adminService.adminLoginService(admin);
-            if(isAdmin){
-                System.out.println("login success");
+
+            statusMessageModel = adminService.adminLoginService(admin);
+            if(statusMessageModel.isStatus()){
+                System.out.println(statusMessageModel.getMessage());
                 loginedAdminService();
                 break;
             }else{
+                System.out.println(statusMessageModel.getMessage());
                 System.out.println("1. Re-Enter");
                 System.out.println("2. Exit");
-                String inpute = sc.nextLine();
-                if (inpute.equals("2")){
+                String option = sc.nextLine();
+                if (option.equals("2")){
                     break;
                 }
             }
@@ -47,19 +47,31 @@ public class AdminController {
             System.out.println("1. Add Student");
             System.out.println("2. Add New Room");
             System.out.println("3. View All User");
-            System.out.println("4. Student Allocate at Room");
-            System.out.println("5. Update Room Allocation");
-            System.out.println("6. logout");
+            System.out.println("4. View All User");
+            System.out.println("5. Student Allocate at Room");
+            System.out.println("6. Update Room Allocation");
+            System.out.println("7. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
+                System.out.println("======================================");
                 registerStudent();
+                System.out.println("======================================");
             } else if (inputs == 2) {
+                System.out.println("======================================");
                 addNewRoom();
+                System.out.println("======================================");
             } else if (inputs == 3) {
-                System.out.println("add room");
+                System.out.println("======================================");
+                adminService.getAllUser();
+                System.out.println("======================================");
             } else if (inputs == 4) {
-                System.out.println("update rooms allocations");
-            } else if (inputs ==6) {
+                System.out.println("======================================");
+                adminService.getAllRoom();
+                System.out.println("======================================");
+            } else if (inputs ==5) {
+                System.out.println("======================================");
+                allocatedRoom();
+            }else if (inputs ==7) {
                 break;
             }
         }
@@ -68,7 +80,7 @@ public class AdminController {
         sc.nextLine();
         UsersModel student = new UsersModel();
         AddressModel address = new AddressModel();
-        StatusMessageModel statusMessageModel = new StatusMessageModel();
+//        StatusMessageModel statusMessageModel = new StatusMessageModel();
 
         System.out.println("Enter full name");
         String studentName = sc.nextLine();
@@ -117,7 +129,7 @@ public class AdminController {
 
     public void addNewRoom(){
         sc.nextLine();
-        StatusMessageModel statusMessageModel = new StatusMessageModel();
+
         RoomModel roomModel = new RoomModel();
 
         System.out.println("Enter New Room Number");
@@ -136,5 +148,40 @@ public class AdminController {
         }
 
     }
+
+    public void allocatedRoom(){
+        RoomAllocationModel roomAllocationModel = new RoomAllocationModel();
+        adminService.viewUnalicatedStudent();
+        System.out.println("Select student by row number ");
+        int studentRowNumber = sc.nextInt();
+        Long studentId = adminService.getUserIdByRowNumber(studentRowNumber);
+        int roomRowNumber;
+        Long roomId ;
+        while (true){
+            adminService.getAllRoom();
+            System.out.println("Select Room by row Number ");
+            roomRowNumber = sc.nextInt();
+            int roomCapacity = adminService.getRoomCapacity(roomRowNumber);
+            roomId = adminService.getRoomIdByRowNumber(roomRowNumber);
+            if (adminService.isRoomAvailable(roomId,roomCapacity)){
+                break;
+            }
+            System.out.println("Selected Room Is full select other room");
+
+        }
+
+
+        Date getDate = new Date();
+        Timestamp allocationDate = new Timestamp(getDate.getTime());
+
+        roomAllocationModel.setStudent_id(studentId);
+        roomAllocationModel.setRoom_id(roomId);
+        roomAllocationModel.setAllocation_date(allocationDate);
+
+        statusMessageModel = adminService.setStudentAtRoom(roomAllocationModel);
+        System.out.println(statusMessageModel.getMessage());
+
+    }
+
 
 }

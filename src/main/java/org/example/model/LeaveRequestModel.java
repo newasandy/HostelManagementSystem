@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -16,10 +17,10 @@ public class LeaveRequestModel extends BaseEntity {
     private String reason;
 
     @Column(nullable = false)
-    private Date start_date;
+    private Timestamp start_date;
 
     @Column(nullable = false)
-    private Date end_date;
+    private Timestamp end_date;
 
     @Column(nullable = false, length = 25)
     private String status;
@@ -27,7 +28,7 @@ public class LeaveRequestModel extends BaseEntity {
     public LeaveRequestModel() {
     }
 
-    public LeaveRequestModel(Long student_id, String reason, Date start_date, Date end_date, String status) {
+    public LeaveRequestModel(Long student_id, String reason, Timestamp start_date, Timestamp end_date, String status) {
         this.student_id = student_id;
         this.reason = reason;
         this.start_date = start_date;
@@ -55,7 +56,7 @@ public class LeaveRequestModel extends BaseEntity {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(Timestamp start_date) {
         this.start_date = start_date;
     }
 
@@ -63,7 +64,7 @@ public class LeaveRequestModel extends BaseEntity {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(Timestamp end_date) {
         this.end_date = end_date;
     }
 

@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -22,16 +23,16 @@ public class VisitorModel extends BaseEntity {
     private String reason;
 
     @Column(nullable = false)
-    private Date entry_datetime;
+    private Timestamp entry_datetime;
 
     @Column(nullable = false)
-    private Date exit_datetime;
+    private Timestamp exit_datetime;
 
 
     public VisitorModel() {
     }
 
-    public VisitorModel(Long student_id, String full_name, String relation, String reason, Date entry_datetime, Date exit_datetime) {
+    public VisitorModel(Long student_id, String full_name, String relation, String reason, Timestamp entry_datetime, Timestamp exit_datetime) {
         this.student_id = student_id;
         this.full_name = full_name;
         this.relation = relation;
@@ -76,7 +77,7 @@ public class VisitorModel extends BaseEntity {
         return entry_datetime;
     }
 
-    public void setEntry_datetime(Date entry_datetime) {
+    public void setEntry_datetime(Timestamp entry_datetime) {
         this.entry_datetime = entry_datetime;
     }
 
@@ -84,7 +85,7 @@ public class VisitorModel extends BaseEntity {
         return exit_datetime;
     }
 
-    public void setExit_datetime(Date exit_datetime) {
+    public void setExit_datetime(Timestamp exit_datetime) {
         this.exit_datetime = exit_datetime;
     }
 }
