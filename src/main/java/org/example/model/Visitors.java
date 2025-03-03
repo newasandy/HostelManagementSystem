@@ -1,8 +1,6 @@
 package org.example.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -10,8 +8,10 @@ import java.util.Date;
 @Entity
 @Table(name = "visitors")
 public class Visitors extends BaseEntity {
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
+    private Users studentId;
 
     @Column(name = "full_name", nullable = false, length = 50)
     private String fullName;
@@ -32,7 +32,7 @@ public class Visitors extends BaseEntity {
     public Visitors() {
     }
 
-    public Visitors(Long studentId, String fullName, String relation, String reason, Timestamp entryDatetime, Timestamp exitDatetime) {
+    public Visitors(Users studentId, String fullName, String relation, String reason, Timestamp entryDatetime, Timestamp exitDatetime) {
         this.studentId = studentId;
         this.fullName = fullName;
         this.relation = relation;
@@ -41,11 +41,11 @@ public class Visitors extends BaseEntity {
         this.exitDatetime = exitDatetime;
     }
 
-    public Long getStudentId() {
+    public Users getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Long studentId) {
+    public void setStudentId(Users studentId) {
         this.studentId = studentId;
     }
 

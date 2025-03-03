@@ -1,6 +1,8 @@
 package org.example.model;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 public class Users extends BaseEntity{
@@ -22,6 +24,14 @@ public class Users extends BaseEntity{
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Address address;
 
+    @OneToMany(mappedBy = "studentId")
+    private List<LeaveRequest> leaveRequests;
+
+    @OneToMany(mappedBy = "studentId")
+    private List<RoomAllocation> roomAllocations;
+
+    @OneToMany(mappedBy = "studentId")
+    private List<Visitors> visitors;
 
     public Users() {
     }
@@ -72,5 +82,37 @@ public class Users extends BaseEntity{
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<LeaveRequest> getLeaveRequests() {
+        return leaveRequests;
+    }
+
+    public void setLeaveRequests(List<LeaveRequest> leaveRequests) {
+        this.leaveRequests = leaveRequests;
+    }
+
+    public List<RoomAllocation> getRoomAllocations() {
+        return roomAllocations;
+    }
+
+    public void setRoomAllocations(List<RoomAllocation> roomAllocations) {
+        this.roomAllocations = roomAllocations;
+    }
+
+    public List<Visitors> getVisitors() {
+        return visitors;
+    }
+
+    public void setVisitors(List<Visitors> visitors) {
+        this.visitors = visitors;
     }
 }

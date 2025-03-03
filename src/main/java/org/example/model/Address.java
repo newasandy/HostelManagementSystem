@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Address extends BaseEntity{
 
     @OneToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private Users user;
 
     @Column(nullable = false, length = 50)
@@ -16,10 +16,10 @@ public class Address extends BaseEntity{
     @Column(nullable = false, length = 50)
     private String district;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "rmc_mc", nullable = false, length = 100)
     private String rmcMc;
 
-    @Column(nullable = false)
+    @Column(name = "ward_no", nullable = false)
     private int wardNo;
 
 

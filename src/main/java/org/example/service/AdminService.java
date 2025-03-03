@@ -98,20 +98,20 @@ public class AdminService {
         }
     }
 
-    public Long getUserIdByRowNumber(int rowNumber){
+    public Users getUserIdByRowNumber(int rowNumber){
         List<Users> unallocatedUser = userDAO.getUnallocatedUsers();
         if (rowNumber < 1 || rowNumber > unallocatedUser.size()){
             throw new IllegalArgumentException("Invalid Row Number");
         }
-        return unallocatedUser.get(rowNumber - 1).getId();
+        return unallocatedUser.get(rowNumber - 1);
     }
 
-    public Long getRoomIdByRowNumber(int rowNumber){
+    public Rooms getRoomIdByRowNumber(int rowNumber){
         List<Rooms> roomsList = roomDAOImp.getAll();
         if (rowNumber < 1 || rowNumber > roomsList.size()){
             throw new IllegalArgumentException("Invalid Row Number");
         }
-        return roomsList.get(rowNumber - 1).getId();
+        return roomsList.get(rowNumber - 1);
     }
 
     public int getRoomCapacity(int rowNumber){
@@ -122,7 +122,7 @@ public class AdminService {
         return roomsList.get(rowNumber - 1).getCapacity();
     }
 
-    public boolean isRoomAvailable(Long roomId, int roomCapacity){
+    public boolean isRoomAvailable(Rooms roomId, int roomCapacity){
         Long currentOccupancy = roomAloocationDAO.getRoomOccupancy(roomId);
         return currentOccupancy < roomCapacity;
     }
@@ -144,15 +144,15 @@ public class AdminService {
         System.out.println("=============================================");
         int rowNumber =1 ;
         for (RoomAllocation list : roomAllocationList){
-            System.out.println(rowNumber +". "+list.getStudentId()+"\t"+list.getRoomId()+"\t"+list.getAllocationDate()+"\t"+list.getUnallocation_date());
+            System.out.println(rowNumber +". "+list.getStudentId()+"\t"+list.getRoomId()+"\t"+list.getAllocationDate()+"\t"+list.getUnallocationDate());
             rowNumber++;
         }
     }
 
     public StatusMessageModel unallocatedStudentFromRoom(int rowNumber){
         List<RoomAllocation> roomAllocationList = roomAloocationDAO.getAll();
-        Long studentId = roomAllocationList.get(rowNumber - 1 ).getStudentId();
-        Long roomId = roomAllocationList.get(rowNumber - 1 ).getRoomId();
+        Users studentId = roomAllocationList.get(rowNumber - 1 ).getStudentId();
+        Rooms roomId = roomAllocationList.get(rowNumber - 1 ).getRoomId();
         Date date = new Date();
         Timestamp unallocationDate = new Timestamp(date.getTime());
         if (roomAloocationDAO.unallocateStudent(studentId,roomId,unallocationDate)){

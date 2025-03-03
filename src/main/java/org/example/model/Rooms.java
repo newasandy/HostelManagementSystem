@@ -1,8 +1,8 @@
 package org.example.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "rooms")
@@ -13,6 +13,8 @@ public class Rooms extends BaseEntity{
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    @OneToMany(mappedBy = "roomId", cascade = CascadeType.ALL)
+    private List<RoomAllocation> roomAllocations;
 
     public Rooms() {
     }
@@ -36,5 +38,13 @@ public class Rooms extends BaseEntity{
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public List<RoomAllocation> getRoomAllocations() {
+        return roomAllocations;
+    }
+
+    public void setRoomAllocations(List<RoomAllocation> roomAllocations) {
+        this.roomAllocations = roomAllocations;
     }
 }

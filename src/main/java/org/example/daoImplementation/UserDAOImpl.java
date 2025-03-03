@@ -20,7 +20,7 @@ public class UserDAOImpl extends BaseDAOImp<Users, Long> implements UserDAO {
     @Override
     public Users findByEmail(String email){
         try{
-            return entityManager.createQuery("SELECT e FROM UsersModel e WHERE e.email = :email", Users.class)
+            return entityManager.createQuery("SELECT e FROM Users e WHERE e.email = :email", Users.class)
                     .setParameter("email",email)
                     .getSingleResult();
         }catch (NoResultException e){

@@ -1,19 +1,20 @@
 package org.example.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Table(name = "room_allocation")
 public class RoomAllocation extends BaseEntity {
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
+    @ManyToOne
+    @JoinColumn(name = "student_id", nullable = false)
+    private Users studentId;
 
-    @Column(name = "room_id", nullable = false)
-    private Long roomId;
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private Rooms roomId;
 
     @Column(name = "allocation_date", nullable = false)
     private Timestamp allocationDate;
@@ -24,26 +25,26 @@ public class RoomAllocation extends BaseEntity {
     public RoomAllocation() {
     }
 
-    public RoomAllocation(Long studentId, Long roomId, Timestamp allocationDate, Timestamp unallocationDate) {
+    public RoomAllocation(Users studentId, Rooms roomId, Timestamp allocationDate, Timestamp unallocationDate) {
         this.studentId = studentId;
         this.roomId = roomId;
         this.allocationDate = allocationDate;
         this.unallocationDate = unallocationDate;
     }
 
-    public Long getStudentId() {
+    public Users getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(Long studentId) {
+    public void setStudentId(Users studentId) {
         this.studentId = studentId;
     }
 
-    public Long getRoomId() {
+    public Rooms getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(Long roomId) {
+    public void setRoomId(Rooms roomId) {
         this.roomId = roomId;
     }
 

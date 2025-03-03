@@ -117,7 +117,7 @@ public class AdminController {
         statusMessageModel = adminService.registerNewStudent(student);
 
         if (statusMessageModel.isStatus()){
-            address.setUserId(student.getId());
+            address.setUser(student);
                 if (adminService.addUserAddress(address)){
                     System.out.println(statusMessageModel.getMessage());
                 }
@@ -151,9 +151,9 @@ public class AdminController {
         adminService.viewUnalicatedStudent();
         System.out.println("Select student by row number ");
         int studentRowNumber = sc.nextInt();
-        Long studentId = adminService.getUserIdByRowNumber(studentRowNumber);
+        Users studentId = adminService.getUserIdByRowNumber(studentRowNumber);
         int roomRowNumber;
-        Long roomId ;
+        Rooms roomId ;
         while (true){
             adminService.getAllRoom();
             System.out.println("Select Room by row Number ");
