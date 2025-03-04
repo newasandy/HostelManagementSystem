@@ -330,10 +330,16 @@ public class AdminController {
             sc.nextLine();
             System.out.println("1. Add Visitor");
             System.out.println("2. Update Visitor when Exit");
+            System.out.println("3. Exit");
             int option = sc.nextInt();
             if (option == 1){
                 System.out.println("Add Visitor");
                 System.out.println("===================================");
+                addVisitor();
+            } else if (option == 2) {
+                exitVisitor();
+            } else if (option == 3) {
+                break;
             }
         }
     }
@@ -359,5 +365,17 @@ public class AdminController {
         visitor.setRelation(relation);
         visitor.setReason(reason);
         visitor.setEntryDatetime(entryDateTime);
+
+        statusMessageModel = adminService.addVisitorService(visitor);
+        System.out.println(statusMessageModel.getMessage());
+    }
+
+    public void exitVisitor(){
+        adminService.getAllVisitor();
+        System.out.println("========================================");
+        System.out.println("Select the visitor who exit");
+        int rowNumber =sc.nextInt();
+        statusMessageModel = adminService.exitVisitorUpdate(rowNumber);
+        System.out.println(statusMessageModel.getMessage());
     }
 }

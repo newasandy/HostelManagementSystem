@@ -279,4 +279,24 @@ public class AdminService {
         return statusMessageModel;
     }
 
+    public StatusMessageModel exitVisitorUpdate(int rowNumber){
+        List<Visitors> visitors = visitorsDAO.getAll();
+        if (rowNumber < 0 || rowNumber > visitors.size()){
+            System.out.println("Invalid Row Number");
+        }
+        Date date = new Date();
+        Timestamp exitDate = new Timestamp(date.getTime());
+        Visitors visitor = visitors.get(rowNumber-1);
+        visitor.setExitDatetime(exitDate);
+
+        if (visitorsDAO.update(visitor)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Visitor Update Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Can't Update Visitor");
+        }
+        return statusMessageModel;
+    }
+
 }
