@@ -43,22 +43,6 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
             e.printStackTrace();
             return false;
         }
-
     }
 
-    @Override
-    public boolean unallocatedStudentBeforeDeleteRoom(Rooms roomId, Timestamp unallocationDate){
-        try{
-            entityTransaction.begin();
-            int updateRow = entityManager.createQuery("UPDATE RoomAllocation ra SET ra.unallocationDate = :unallocationDate WHERE ra.roomId = :roomId AND ra.unallocationDate IS NULL")
-                    .setParameter("roomId", roomId)
-                    .setParameter("unallocationDate", unallocationDate)
-                    .executeUpdate();
-            entityTransaction.commit();
-            return updateRow >0;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
 }

@@ -37,6 +37,7 @@ public class AdminController {
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");
+                viewVisitors();
             } else if (inputs ==5) {
                 break;
             }
@@ -324,6 +325,6 @@ public class AdminController {
     }
 
     public void viewVisitors(){
-
+        adminService.getAllVisitor();
     }
 }

@@ -1,11 +1,9 @@
 package org.example.service;
 
-import org.example.daoImplementation.AddressDAOImp;
-import org.example.daoImplementation.RoomAllocationDAOImp;
-import org.example.daoImplementation.RoomDAOImp;
-import org.example.daoImplementation.UserDAOImpl;
+import org.example.daoImplementation.*;
 import org.example.daoInterface.RoomAllocationDAO;
 import org.example.daoInterface.UserDAO;
+import org.example.daoInterface.VisitorsDAO;
 import org.example.model.*;
 import org.example.utils.PasswordUtil;
 
@@ -19,6 +17,7 @@ public class AdminService {
     private final RoomDAOImp roomDAOImp = new RoomDAOImp();
     private final RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
     private final AddressDAOImp addressDAOImp = new AddressDAOImp();
+    private final VisitorsDAO visitorsDAO = new VisitorsDAOImp();
 
     public StatusMessageModel adminLoginService(Users admin){
         Users admins = userDAO.findByEmail(admin.getEmail());
@@ -258,6 +257,15 @@ public class AdminService {
             statusMessageModel.setMessage("!! Unallocated Not Success");
         }
         return statusMessageModel;
+    }
+
+    public void getAllVisitor(){
+        List<Visitors> visitors = visitorsDAO.getAll();
+        int rowNumber = 1;
+        for(Visitors visitor : visitors){
+            System.out.println(rowNumber +"\t\t"+visitor.getStudentId().getFullName()+"\t\t\t"+visitor.getFullName()+"\t\t\t"+visitor.getRelation()+"\t\t\t"+visitor.getReason()+"\t\t\t"+visitor.getEntryDatetime()+"\t\t\t"+visitor.getExitDatetime());
+            rowNumber++;
+        }
     }
 
 }
