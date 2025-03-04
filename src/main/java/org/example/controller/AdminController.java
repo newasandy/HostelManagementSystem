@@ -326,5 +326,38 @@ public class AdminController {
 
     public void viewVisitors(){
         adminService.getAllVisitor();
+        while (true){
+            sc.nextLine();
+            System.out.println("1. Add Visitor");
+            System.out.println("2. Update Visitor when Exit");
+            int option = sc.nextInt();
+            if (option == 1){
+                System.out.println("Add Visitor");
+                System.out.println("===================================");
+            }
+        }
+    }
+
+    public void addVisitor(){
+        Visitors visitor = new Visitors();
+        adminService.getAllUserAndAddress();
+        System.out.println("Select Student By Row Number");
+        int rowNumber = sc.nextInt();
+        Address user = adminService.getUserDetailByRowNumber(rowNumber);
+        sc.nextLine();
+        System.out.println("Enter Visitor Name");
+        String visitorName = sc.nextLine();
+        System.out.println("Enter Visitor Relation With Student");
+        String relation = sc.nextLine();
+        System.out.println("Enter Reason");
+        String reason = sc.nextLine();
+        Date getEntryDate = new Date();
+        Timestamp entryDateTime = new Timestamp(getEntryDate.getTime());
+
+        visitor.setStudentId(user.getUser());
+        visitor.setFullName(visitorName);
+        visitor.setRelation(relation);
+        visitor.setReason(reason);
+        visitor.setEntryDatetime(entryDateTime);
     }
 }

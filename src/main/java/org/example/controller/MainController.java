@@ -60,6 +60,18 @@ public class MainController {
         }
     }
 
+    public void userLogin(){
+        Users user = new Users();
+        while (true){
+            System.out.println("Enter Email:");
+            String email = sc.nextLine();
+            System.out.println("Enter Password:");
+            String password = sc.nextLine();
+            user.setEmail(email);
+            user.setPasswords(password);
+        }
+    }
+
     public void testGetAllUser(){
 
         UserDAOImpl getAll = new UserDAOImpl();

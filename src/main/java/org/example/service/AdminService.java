@@ -268,4 +268,15 @@ public class AdminService {
         }
     }
 
+    public StatusMessageModel addVisitorService(Visitors visitor){
+        if (visitorsDAO.add(visitor)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Add Visitor Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Not Added visitor");
+        }
+        return statusMessageModel;
+    }
+
 }

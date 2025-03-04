@@ -25,7 +25,7 @@ public class Visitors extends BaseEntity {
     @Column(name = "entry_datetime", nullable = false)
     private Timestamp entryDatetime;
 
-    @Column(name = "exit_datetime", nullable = false)
+    @Column(name = "exit_datetime")
     private Timestamp exitDatetime;
 
 
