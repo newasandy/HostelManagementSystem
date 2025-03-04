@@ -10,62 +10,34 @@ import java.util.Scanner;
 
 public class AdminController {
     private Scanner sc = new Scanner(System.in);
-    private final AdminService adminService = new AdminService();
+    private AdminService adminService = new AdminService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private RoomAllocation roomAllocation = new RoomAllocation();
 
-    public void adminLogin(){
-        Users admin = new Users();
-        while (true){
-            System.out.println("Enter Email:");
-            String email = sc.nextLine();
-            System.out.println("Enter Password:");
-            String password = sc.nextLine();
-            admin.setEmail(email);
-            admin.setPasswords(password);
 
-            statusMessageModel = adminService.adminLoginService(admin);
-            if(statusMessageModel.isStatus()){
-                System.out.println(statusMessageModel.getMessage());
-                loginedAdminService();
-                break;
-            }else{
-                System.out.println(statusMessageModel.getMessage());
-                System.out.println("1. Re-Enter");
-                System.out.println("2. Exit");
-                String option = sc.nextLine();
-                if (option.equals("2")){
-                    break;
-                }
-            }
-        }
-
-    }
     public void loginedAdminService(){
         while (true){
-            System.out.println("1. Add Student");
-            System.out.println("2. Add New Room");
-            System.out.println("3. View All Students");
-            System.out.println("4. View All Rooms");
+            System.out.println("1. View All Students");
+            System.out.println("2. View All Rooms");
             System.out.println("5. Student Allocate at Room");
             System.out.println("6. Unallocated");
             System.out.println("7. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
                 System.out.println("======================================");
-                registerStudent();
+                viewAllStudent();
                 System.out.println("======================================");
             } else if (inputs == 2) {
                 System.out.println("======================================");
-                addNewRoom();
+                viewAllRoom();
                 System.out.println("======================================");
             } else if (inputs == 3) {
                 System.out.println("======================================");
-                adminService.getAllUser();
+
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");
-                adminService.getAllRoom();
+
                 System.out.println("======================================");
             } else if (inputs ==5) {
                 System.out.println("======================================");
@@ -78,7 +50,28 @@ public class AdminController {
             }
         }
     }
-    public void registerStudent(){
+    public void viewAllStudent(){
+
+        adminService.viewOnlyStudent();
+        while (true){
+            System.out.println("1. Add New Student");
+            System.out.println("2. Update Users Details");
+            System.out.println("3. Delete Student");
+            System.out.println("4. Exit");
+            System.out.println("=================================");
+            int option = sc.nextInt();
+            if (option == 1){
+                addNewStudent();
+            } else if (option == 2) {
+                updateUsersDetails();
+            } else if (option == 3) {
+                deleteUser();
+            } else if (option == 4) {
+                break;
+            }
+        }
+    }
+    public void addNewStudent(){
         sc.nextLine();
         Users student = new Users();
         Address address = new Address();
@@ -98,9 +91,9 @@ public class AdminController {
         System.out.println("Enter District");
         String district = sc.nextLine();
         System.out.println("Enter metropolitan city / municipality / rural municipality");
-        String rmc_mc = sc.nextLine();
+        String rmcMc = sc.nextLine();
         System.out.println("Enter ward number");
-        int ward_no = sc.nextInt();
+        int wardNo = sc.nextInt();
         sc.nextLine();
 
         student.setFullName(studentName);
@@ -111,8 +104,8 @@ public class AdminController {
 
         address.setCountry(country);
         address.setDistrict(district);
-        address.setRmcMc(rmc_mc);
-        address.setWardNo(ward_no);
+        address.setRmcMc(rmcMc);
+        address.setWardNo(wardNo);
 
         statusMessageModel = adminService.registerNewStudent(student);
 
@@ -123,6 +116,100 @@ public class AdminController {
                 }
         }else {
             System.out.println(statusMessageModel.getMessage());
+        }
+    }
+
+    public void updateUsersDetails(){
+        adminService.getAllUserAndAddress();
+        System.out.println("Pick user by Row Number which want to update:");
+        System.out.println("===========================================");
+        int rowNumber = sc.nextInt();
+        Address user = adminService.getUserDetailByRowNumber(rowNumber);
+        while (true){
+            System.out.println("Which field want to update:");
+            System.out.println("===============================");
+            System.out.println("1. Name: "+user.getUser().getFullName());
+            System.out.println("2. Email: "+user.getUser().getEmail());
+            System.out.println("3. Role: "+user.getUser().getRoles());
+            System.out.println("4. Status: "+(user.getUser().isStatus() ? "Active" : "Inactive"));
+            System.out.println("5. Country: "+user.getCountry());
+            System.out.println("6. District: "+user.getDistrict());
+            System.out.println("7. RMC/MC: "+user.getRmcMc());
+            System.out.println("8. Ward No: "+user.getWardNo());
+            System.out.println("9. Update ");
+            int option = sc.nextInt();
+            if (option ==1){
+                sc.nextLine();
+                System.out.println("Enter new Name:");
+                user.getUser().setFullName(sc.nextLine());
+            } else if (option ==2) {
+                sc.nextLine();
+                System.out.println("Enter new Email:");
+                user.getUser().setEmail(sc.nextLine());
+            }else if (option ==3) {
+                sc.nextLine();
+                System.out.println("Enter new Role:");
+                user.getUser().setRoles(sc.nextLine());
+            }else if (option ==4) {
+                sc.nextLine();
+                System.out.println("Enter new status:1 for active and 0 or inactive");
+                int status = sc.nextInt();
+                if (status ==1){
+                    user.getUser().setStatus(true);
+                } else if (status == 0) {
+                    user.getUser().setStatus(false);
+                }
+            }else if (option ==5) {
+                sc.nextLine();
+                System.out.println("Enter new Country:");
+                user.setCountry(sc.nextLine());
+            }else if (option ==6) {
+                sc.nextLine();
+                System.out.println("Enter new District:");
+                user.setDistrict(sc.nextLine());
+            }else if (option ==7) {
+                sc.nextLine();
+                System.out.println("Enter new RMC/MC:");
+                user.setRmcMc(sc.nextLine());
+            }else if (option ==8) {
+                sc.nextLine();
+                System.out.println("Enter new Ward No.:");
+                user.setWardNo(sc.nextInt());
+            }else if (option ==9) {
+                break;
+            }
+        }
+        statusMessageModel = adminService.updateUserDetails(user);
+        System.out.println(statusMessageModel.getMessage());
+    }
+
+    public void deleteUser(){
+        adminService.getAllUserAndAddress();
+        System.out.println("Pick user by Row Number which want to delete:");
+        System.out.println("===========================================");
+        int rowNumber = sc.nextInt();
+        statusMessageModel = adminService.deleteUserService(rowNumber);
+        System.out.println(statusMessageModel.getMessage());
+    }
+
+    public void viewAllRoom(){
+        adminService.getAllRoom();
+        while (true){
+            System.out.println("1. Add New Room");
+            System.out.println("2. Update Room");
+            System.out.println("3. Delete Room");
+            System.out.println("4. Exit");
+            System.out.println("=================================");
+            int option = sc.nextInt();
+            if (option == 1){
+                addNewRoom();
+            } else if (option == 2) {
+                updateRoom();
+            } else if (option == 3) {
+                deleteRoom();
+            } else if (option == 4) {
+                break;
+            }
         }
     }
 
@@ -139,19 +226,53 @@ public class AdminController {
         roomsModel.setCapacity(roomCapacity);
 
         statusMessageModel = adminService.addNewRoomService(roomsModel);
-        if (statusMessageModel.isStatus()){
-            System.out.println(statusMessageModel.getMessage());
-        }else {
-            System.out.println(statusMessageModel.getMessage());
-        }
+        System.out.println(statusMessageModel.getMessage());
 
+    }
+
+    public void updateRoom(){
+        adminService.getAllRoom();
+        System.out.println("Pick room by Row Number which want to update:");
+        System.out.println("===========================================");
+        int rowNumber = sc.nextInt();
+        Rooms rooms = adminService.getRoomByRowNumber(rowNumber);
+        while (true){
+            System.out.println("Which field want to update:");
+            System.out.println("===============================");
+            System.out.println("1. Room Number: "+rooms.getRoomNumber());
+            System.out.println("2. Room Capacity: "+rooms.getCapacity());
+            System.out.println("3. Exit");
+            int option = sc.nextInt();
+            if (option ==1){
+                sc.nextLine();
+                System.out.println("Enter new Room Number:");
+                rooms.setRoomNumber(sc.nextInt());
+            } else if (option ==2) {
+                sc.nextLine();
+                System.out.println("Enter new Room Capacity:");
+                rooms.setCapacity(sc.nextInt());
+            }else if (option ==3) {
+                break;
+            }
+        }
+        statusMessageModel = adminService.updateRoomService(rooms);
+        System.out.println(statusMessageModel.getMessage());
+    }
+
+    public void deleteRoom(){
+        adminService.getAllRoom();
+        System.out.println("Pick room by Row Number which want to delete:");
+        System.out.println("===========================================");
+        int rowNumber = sc.nextInt();
+        statusMessageModel = adminService.deleteRoomService(rowNumber);
+        System.out.println(statusMessageModel.getMessage());
     }
 
     public void allocatedRoom(){
         adminService.viewUnalicatedStudent();
         System.out.println("Select student by row number ");
         int studentRowNumber = sc.nextInt();
-        Users studentId = adminService.getUserIdByRowNumber(studentRowNumber);
+        Users studentId = adminService.getUnallocatedUserIdByRowNumber(studentRowNumber);
         int roomRowNumber;
         Rooms roomId ;
         while (true){

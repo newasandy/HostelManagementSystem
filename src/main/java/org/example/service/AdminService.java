@@ -52,8 +52,60 @@ public class AdminService {
     }
 
     public boolean addUserAddress(Address address){
-
         return addressDAOImp.add(address);
+    }
+
+    public void viewOnlyStudent(){
+        List<Users> students = userDAO.getOnlyStudent();
+        System.out.printf("%-15s %-20s %-25s%n", "User Id", "Full Name", "Email");
+        System.out.println("======================================================");
+        for(Users student : students ){
+            System.out.printf("%-15s %-20s %-25s%n",student.getId(),student.getFullName(),student.getEmail());
+        }
+    }
+
+    public Address getUserDetailByRowNumber(int rowNumber){
+        List<Address> users = addressDAOImp.getAll();
+        if (rowNumber < 1 || rowNumber > users.size()){
+            throw new IllegalArgumentException("Invalid Row Number");
+        }
+        return users.get(rowNumber-1);
+
+    }
+
+    public void getAllUserAndAddress(){
+        List<Address> users = addressDAOImp.getAll();
+        int rowNumber = 1;
+        for (Address user : users){
+            System.out.println(rowNumber+"\t"+user.getUser().getFullName()+"\t\t"+user.getUser().getEmail() +"\t\t" +user.getUser().getRoles()+"\t\t" +user.getUser().isStatus());
+            rowNumber++;
+        }
+    }
+
+    public StatusMessageModel updateUserDetails(Address user){
+        if (addressDAOImp.update(user)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("User Details Update Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! User Details Not Updated");
+        }
+        return statusMessageModel;
+    }
+
+    public StatusMessageModel deleteUserService(int rowNumber){
+        List<Users> users = userDAO.getAll();
+        if (rowNumber < 0 || rowNumber > users.size()){
+            throw new IllegalArgumentException("Invalid Row Number");
+        }
+        if (userDAO.delete(users.get(rowNumber - 1 ).getId())){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Delete user Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Not Delete User");
+        }
+        return statusMessageModel;
     }
 
     public StatusMessageModel addNewRoomService (Rooms newRooms){
@@ -87,6 +139,40 @@ public class AdminService {
         }
     }
 
+    public Rooms getRoomByRowNumber(int rowNumber){
+        List<Rooms> rooms = roomDAOImp.getAll();
+        if (rowNumber <0 || rowNumber > rooms.size()){
+            throw new IllegalArgumentException("Invalid Row Number");
+        }
+        return rooms.get(rowNumber - 1);
+    }
+
+    public StatusMessageModel updateRoomService(Rooms room){
+        if (roomDAOImp.update(room)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Update Room Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Not Update Room");
+        }
+        return statusMessageModel;
+    }
+
+    public StatusMessageModel deleteRoomService(int rowNumber){
+        List<Rooms> rooms = roomDAOImp.getAll();
+        if (rowNumber <0 || rowNumber > rooms.size()){
+            System.out.println("Invalid Row Number");
+        }
+        if (roomDAOImp.delete(rooms.get(rowNumber-1).getId())){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Delete Room Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Room Not Delete");
+        }
+        return statusMessageModel;
+    }
+
     public void viewUnalicatedStudent(){
         List<Users> unallocatedUser = userDAO.getUnallocatedUsers();
         System.out.println("Not Allocate Student");
@@ -98,7 +184,7 @@ public class AdminService {
         }
     }
 
-    public Users getUserIdByRowNumber(int rowNumber){
+    public Users getUnallocatedUserIdByRowNumber(int rowNumber){
         List<Users> unallocatedUser = userDAO.getUnallocatedUsers();
         if (rowNumber < 1 || rowNumber > unallocatedUser.size()){
             throw new IllegalArgumentException("Invalid Row Number");
@@ -144,7 +230,7 @@ public class AdminService {
         System.out.println("=============================================");
         int rowNumber =1 ;
         for (RoomAllocation list : roomAllocationList){
-            System.out.println(rowNumber +". "+list.getStudentId()+"\t"+list.getRoomId()+"\t"+list.getAllocationDate()+"\t"+list.getUnallocationDate());
+            System.out.println(rowNumber +". "+list.getStudentId().getId()+"\t"+list.getRoomId().getId()+"\t"+list.getAllocationDate()+"\t"+list.getUnallocationDate());
             rowNumber++;
         }
     }

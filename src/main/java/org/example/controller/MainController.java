@@ -1,33 +1,63 @@
 package org.example.controller;
 
 import org.example.daoImplementation.UserDAOImpl;
+import org.example.model.StatusMessageModel;
 import org.example.model.Users;
+import org.example.service.AdminService;
 import org.example.testConnection.TestConnection;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MainController {
+
+    private StatusMessageModel statusMessageModel = new StatusMessageModel();
+    private final AdminService adminService = new AdminService();
+    private final AdminController adminController = new AdminController();
+    private static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-        AdminController adminController = new AdminController();
         TestConnection tc = new TestConnection();
-        MainController mcc = new MainController();
+        MainController mainController = new MainController();
         while (true){
             System.out.println("Select user: \n 1. Admin \n 2. Student \n 3. Exit");
             int i = sc.nextInt();
             sc.nextLine();
             if (i == 1){
-                adminController.adminLogin();
+                mainController.adminLogin();
             } else if (i == 2){
-                mcc.testGetAllUser();
+                mainController.testGetAllUser();
             }else if (i ==3) {
                 System.out.println("have a good day");
                 break;
             }
         }
+    }
+    public void adminLogin(){
+        Users admin = new Users();
+        while (true){
+            System.out.println("Enter Email:");
+            String email = sc.nextLine();
+            System.out.println("Enter Password:");
+            String password = sc.nextLine();
+            admin.setEmail(email);
+            admin.setPasswords(password);
 
+            statusMessageModel = adminService.adminLoginService(admin);
+            if(statusMessageModel.isStatus()){
+                System.out.println(statusMessageModel.getMessage());
+                adminController.loginedAdminService();
+                break;
+            }else{
+                System.out.println(statusMessageModel.getMessage());
+                System.out.println("1. Re-Enter");
+                System.out.println("2. Exit");
+                String option = sc.nextLine();
+                if (option.equals("2")){
+                    break;
+                }
+            }
+        }
     }
 
     public void testGetAllUser(){

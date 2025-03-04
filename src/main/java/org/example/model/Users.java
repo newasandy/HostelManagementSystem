@@ -24,13 +24,13 @@ public class Users extends BaseEntity{
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
     private List<LeaveRequest> leaveRequests;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
     private List<RoomAllocation> roomAllocations;
 
-    @OneToMany(mappedBy = "studentId")
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
     private List<Visitors> visitors;
 
     public Users() {

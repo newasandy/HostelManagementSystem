@@ -58,6 +58,7 @@ public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T
                 entityManager.remove(entity);
             }
             transaction.commit();
+            status = true;
         }catch (Exception e){
             transaction.rollback();
             e.printStackTrace();

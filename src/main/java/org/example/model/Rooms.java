@@ -13,7 +13,7 @@ public class Rooms extends BaseEntity{
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
-    @OneToMany(mappedBy = "roomId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "roomId")
     private List<RoomAllocation> roomAllocations;
 
     public Rooms() {

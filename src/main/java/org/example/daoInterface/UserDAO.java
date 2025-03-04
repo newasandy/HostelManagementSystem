@@ -7,4 +7,5 @@ import java.util.List;
 public interface UserDAO extends BaseDAO<Users, Long>{
     Users findByEmail(String Email);
     List<Users> getUnallocatedUsers();
+    List<Users> getOnlyStudent();
 }
