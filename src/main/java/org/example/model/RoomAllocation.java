@@ -9,11 +9,11 @@ import java.util.Date;
 @Table(name = "room_allocation")
 public class RoomAllocation extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id")
     private Users studentId;
 
     @ManyToOne
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "room_id")
     private Rooms roomId;
 
     @Column(name = "allocation_date", nullable = false)

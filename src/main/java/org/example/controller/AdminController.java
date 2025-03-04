@@ -19,9 +19,9 @@ public class AdminController {
         while (true){
             System.out.println("1. View All Students");
             System.out.println("2. View All Rooms");
-            System.out.println("5. Student Allocate at Room");
-            System.out.println("6. Unallocated");
-            System.out.println("7. logout");
+            System.out.println("3. View Allocated Details");
+            System.out.println("4. View Visitors");
+            System.out.println("5. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
                 System.out.println("======================================");
@@ -33,19 +33,11 @@ public class AdminController {
                 System.out.println("======================================");
             } else if (inputs == 3) {
                 System.out.println("======================================");
-
+                viewAllocatedDetails();
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");
-
-                System.out.println("======================================");
             } else if (inputs ==5) {
-                System.out.println("======================================");
-                allocatedRoom();
-            } else if (inputs ==6) {
-                System.out.println("======================================");
-                unallocatedRoom();
-            }else if (inputs ==7) {
                 break;
             }
         }
@@ -268,8 +260,26 @@ public class AdminController {
         System.out.println(statusMessageModel.getMessage());
     }
 
+    public void viewAllocatedDetails(){
+        adminService.getAllocationDetails();
+        while (true){
+            sc.nextLine();
+            System.out.println("1. Allocated New Student in Room");
+            System.out.println("2. Unallocated Student From Room");
+            System.out.println("3. Exit");
+            int option = sc.nextInt();
+            if (option ==1){
+                allocatedRoom();
+            } else if (option == 2) {
+                unallocatedRoom();
+            } else if (option == 3) {
+                break;
+            }
+        }
+    }
+
     public void allocatedRoom(){
-        adminService.viewUnalicatedStudent();
+        adminService.viewUnallocatedStudent();
         System.out.println("Select student by row number ");
         int studentRowNumber = sc.nextInt();
         Users studentId = adminService.getUnallocatedUserIdByRowNumber(studentRowNumber);
@@ -291,7 +301,6 @@ public class AdminController {
                 loginedAdminService();
             }
         }
-
         Date getDate = new Date();
         Timestamp allocationDate = new Timestamp(getDate.getTime());
 
@@ -312,5 +321,9 @@ public class AdminController {
             statusMessageModel = adminService.unallocatedStudentFromRoom(rowNumber);
             System.out.println(statusMessageModel.getMessage());
         }
+    }
+
+    public void viewVisitors(){
+
     }
 }
