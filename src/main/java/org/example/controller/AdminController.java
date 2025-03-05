@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.model.*;
 import org.example.service.AdminService;
+import org.example.service.RoomsService;
 import org.example.utils.PasswordUtil;
 
 import java.sql.Timestamp;
@@ -12,9 +13,11 @@ public class AdminController {
     private Scanner sc = new Scanner(System.in);
     private AdminService adminService = new AdminService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private RoomAllocation roomAllocation = new RoomAllocation();
     private LeaveRequestController leaveRequestController = new LeaveRequestController();
-
+    private RoomsController roomsController = new RoomsController();
+    private RoomsService roomsService = new RoomsService();
+    private RoomAllocationController roomAllocationController = new RoomAllocationController();
+    private VisitorsController visitorsController = new VisitorsController();
 
     public void loginedAdminService(){
         while (true){
@@ -31,15 +34,15 @@ public class AdminController {
                 System.out.println("======================================");
             } else if (inputs == 2) {
                 System.out.println("======================================");
-                viewAllRoom();
+                roomsController.viewAllRoom();
                 System.out.println("======================================");
             } else if (inputs == 3) {
                 System.out.println("======================================");
-                viewAllocatedDetails();
+                roomAllocationController.viewAllocatedDetails();
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");
-                viewVisitors();
+                visitorsController.viewVisitors();
             }else if (inputs == 5) {
                 System.out.println("======================================");
                 viewAllLeaveRequest();
@@ -190,199 +193,8 @@ public class AdminController {
         System.out.println(statusMessageModel.getMessage());
     }
 
-    public void viewAllRoom(){
-        adminService.getAllRoom();
-        while (true){
-            System.out.println("1. Add New Room");
-            System.out.println("2. Update Room");
-            System.out.println("3. Delete Room");
-            System.out.println("4. Exit");
-            System.out.println("=================================");
-            int option = sc.nextInt();
-            if (option == 1){
-                addNewRoom();
-            } else if (option == 2) {
-                updateRoom();
-            } else if (option == 3) {
-                deleteRoom();
-            } else if (option == 4) {
-                break;
-            }
-        }
-    }
 
-    public void addNewRoom(){
-        sc.nextLine();
-        Rooms roomsModel = new Rooms();
 
-        System.out.println("Enter New Room Number");
-        int roomNumber = sc.nextInt();
-        System.out.println("Enter Room Capacity");
-        int roomCapacity = sc.nextInt();
-
-        roomsModel.setRoomNumber(roomNumber);
-        roomsModel.setCapacity(roomCapacity);
-
-        statusMessageModel = adminService.addNewRoomService(roomsModel);
-        System.out.println(statusMessageModel.getMessage());
-
-    }
-
-    public void updateRoom(){
-        adminService.getAllRoom();
-        System.out.println("Pick room by Row Number which want to update:");
-        System.out.println("===========================================");
-        int rowNumber = sc.nextInt();
-        Rooms rooms = adminService.getRoomByRowNumber(rowNumber);
-        while (true){
-            System.out.println("Which field want to update:");
-            System.out.println("===============================");
-            System.out.println("1. Room Number: "+rooms.getRoomNumber());
-            System.out.println("2. Room Capacity: "+rooms.getCapacity());
-            System.out.println("3. Exit");
-            int option = sc.nextInt();
-            if (option ==1){
-                sc.nextLine();
-                System.out.println("Enter new Room Number:");
-                rooms.setRoomNumber(sc.nextInt());
-            } else if (option ==2) {
-                sc.nextLine();
-                System.out.println("Enter new Room Capacity:");
-                rooms.setCapacity(sc.nextInt());
-            }else if (option ==3) {
-                break;
-            }
-        }
-        statusMessageModel = adminService.updateRoomService(rooms);
-        System.out.println(statusMessageModel.getMessage());
-    }
-
-    public void deleteRoom(){
-        adminService.getAllRoom();
-        System.out.println("Pick room by Row Number which want to delete:");
-        System.out.println("===========================================");
-        int rowNumber = sc.nextInt();
-        statusMessageModel = adminService.deleteRoomService(rowNumber);
-        System.out.println(statusMessageModel.getMessage());
-    }
-
-    public void viewAllocatedDetails(){
-        adminService.getAllocationDetails();
-        while (true){
-            sc.nextLine();
-            System.out.println("1. Allocated New Student in Room");
-            System.out.println("2. Unallocated Student From Room");
-            System.out.println("3. Exit");
-            int option = sc.nextInt();
-            if (option ==1){
-                allocatedRoom();
-            } else if (option == 2) {
-                unallocatedRoom();
-            } else if (option == 3) {
-                break;
-            }
-        }
-    }
-
-    public void allocatedRoom(){
-        adminService.viewUnallocatedStudent();
-        System.out.println("Select student by row number ");
-        int studentRowNumber = sc.nextInt();
-        Users studentId = adminService.getUnallocatedUserIdByRowNumber(studentRowNumber);
-        int roomRowNumber;
-        Rooms roomId ;
-        while (true){
-            adminService.getAllRoom();
-            System.out.println("Select Room by row Number ");
-            roomRowNumber = sc.nextInt();
-            int roomCapacity = adminService.getRoomCapacity(roomRowNumber);
-            roomId = adminService.getRoomIdByRowNumber(roomRowNumber);
-            if (adminService.isRoomAvailable(roomId,roomCapacity)){
-                break;
-            }
-            System.out.println("Selected Room Is full select other room or enter exit:");
-            sc.nextLine();
-            String inputs = sc.nextLine();
-            if (inputs.equals( "exit")){
-                loginedAdminService();
-            }
-        }
-        Date getDate = new Date();
-        Timestamp allocationDate = new Timestamp(getDate.getTime());
-
-        roomAllocation.setStudentId(studentId);
-        roomAllocation.setRoomId(roomId);
-        roomAllocation.setAllocationDate(allocationDate);
-
-        statusMessageModel = adminService.setStudentAtRoom(roomAllocation);
-        System.out.println(statusMessageModel.getMessage());
-    }
-
-    public void unallocatedRoom(){
-        adminService.getAllRoomAllocatedList();
-        System.out.println("Enter row number that want to unallocated");
-        System.out.println("For exit enter 0");
-        int rowNumber = sc.nextInt();
-        if (rowNumber > 0){
-            statusMessageModel = adminService.unallocatedStudentFromRoom(rowNumber);
-            System.out.println(statusMessageModel.getMessage());
-        }
-    }
-
-    public void viewVisitors(){
-        adminService.getAllVisitor();
-        while (true){
-            sc.nextLine();
-            System.out.println("1. Add Visitor");
-            System.out.println("2. Update Visitor when Exit");
-            System.out.println("3. Exit");
-            int option = sc.nextInt();
-            if (option == 1){
-                System.out.println("Add Visitor");
-                System.out.println("===================================");
-                addVisitor();
-            } else if (option == 2) {
-                exitVisitor();
-            } else if (option == 3) {
-                break;
-            }
-        }
-    }
-
-    public void addVisitor(){
-        Visitors visitor = new Visitors();
-        adminService.getAllUserAndAddress();
-        System.out.println("Select Student By Row Number");
-        int rowNumber = sc.nextInt();
-        Address user = adminService.getUserDetailByRowNumber(rowNumber);
-        sc.nextLine();
-        System.out.println("Enter Visitor Name");
-        String visitorName = sc.nextLine();
-        System.out.println("Enter Visitor Relation With Student");
-        String relation = sc.nextLine();
-        System.out.println("Enter Reason");
-        String reason = sc.nextLine();
-        Date getEntryDate = new Date();
-        Timestamp entryDateTime = new Timestamp(getEntryDate.getTime());
-
-        visitor.setStudentId(user.getUser());
-        visitor.setFullName(visitorName);
-        visitor.setRelation(relation);
-        visitor.setReason(reason);
-        visitor.setEntryDatetime(entryDateTime);
-
-        statusMessageModel = adminService.addVisitorService(visitor);
-        System.out.println(statusMessageModel.getMessage());
-    }
-
-    public void exitVisitor(){
-        adminService.getAllVisitor();
-        System.out.println("========================================");
-        System.out.println("Select the visitor who exit");
-        int rowNumber =sc.nextInt();
-        statusMessageModel = adminService.exitVisitorUpdate(rowNumber);
-        System.out.println(statusMessageModel.getMessage());
-    }
 
     public void viewAllLeaveRequest(){
         leaveRequestController.viewAllLeaveRequestByAdmin();
