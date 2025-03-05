@@ -16,9 +16,10 @@ public class RoomDAOImp extends BaseDAOImp<Rooms, Long> implements RoomDAO {
         super(Rooms.class);
     }
 
+    @Override
     public Rooms findByRoomNumber(int roomNumber){
         try{
-            return entityManager.createQuery("SELECT r FORM Rooms r WHERE r.roomNumber = : roomNumber", Rooms.class)
+            return entityManager.createQuery("SELECT r FROM Rooms r WHERE r.roomNumber = :roomNumber",Rooms.class)
                     .setParameter("roomNumber", roomNumber)
                     .getSingleResult();
         }catch (NoResultException e){

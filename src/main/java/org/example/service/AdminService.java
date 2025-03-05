@@ -74,9 +74,11 @@ public class AdminService {
     public StatusMessageModel updateUserDetails(Address user){
         Users getUser = userDAO.getById(user.getUser().getId());
         if (getUser.getEmail().equals(user.getUser().getEmail())){
-            if (addressDAOImp.update(user)){
-                statusMessageModel.setStatus(true);
-                statusMessageModel.setMessage("User Details Update Successfully");
+            if (userDAO.update(user.getUser())){
+                if (addressDAOImp.update(user)){
+                    statusMessageModel.setStatus(true);
+                    statusMessageModel.setMessage("User Details Update Successfully");
+                }
             }else {
                 statusMessageModel.setStatus(false);
                 statusMessageModel.setMessage("!! User Details Not Updated");
@@ -84,9 +86,11 @@ public class AdminService {
         }else {
             Users checkUser = userDAO.findByEmail(user.getUser().getEmail());
             if (checkUser == null){
-                if (addressDAOImp.update(user)){
-                    statusMessageModel.setStatus(true);
-                    statusMessageModel.setMessage("User Details Update Successfully");
+                if (userDAO.update(user.getUser())){
+                    if (addressDAOImp.update(user)){
+                        statusMessageModel.setStatus(true);
+                        statusMessageModel.setMessage("User Details Update Successfully");
+                    }
                 }else {
                     statusMessageModel.setStatus(false);
                     statusMessageModel.setMessage("!! User Details Not Updated");

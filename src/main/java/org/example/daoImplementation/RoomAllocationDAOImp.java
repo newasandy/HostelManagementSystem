@@ -3,11 +3,9 @@ package org.example.daoImplementation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.OrderBy;
 import org.example.daoInterface.RoomAllocationDAO;
 import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
-import org.example.model.Users;
 import org.example.utils.EntityManages;
 
 import java.sql.Timestamp;
@@ -31,10 +29,10 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
     }
 
     @Override
-    public boolean unallocateStudent(Users studentId, Rooms roomId, Timestamp unallocationDate){
+    public boolean unallocateStudent(Long studentId, Long roomId, Timestamp unallocationDate){
         try{
             entityTransaction.begin();
-            int updateRow = entityManager.createQuery("UPDATE RoomAllocation ra SET ra.unallocationDate = :unallocationDate WHERE ra.studentId = :studentId AND ra.roomId = :roomId AND ra.unallocationDate IS NULL")
+            int updateRow = entityManager.createQuery("UPDATE RoomAllocation ra SET ra.unallocationDate = :unallocationDate WHERE ra.studentId.id = :studentId AND ra.roomId.id = :roomId AND ra.unallocationDate IS NULL")
                     .setParameter("unallocationDate", unallocationDate)
                     .setParameter("studentId",studentId)
                     .setParameter("roomId",roomId)
@@ -56,6 +54,23 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
                     .getResultList();
         }catch (NoResultException e){
             return null;
+        }
+    }
+
+    @Override
+    public boolean disableRoomUnallocatedStudent(Long roomId, Timestamp unallocationDate){
+        try{
+            entityTransaction.begin();
+            int updateRow = entityManager.createQuery("UPDATE RoomAllocation ra SET ra.unallocationDate = :unallocationDate WHERE ra.roomId.id = :roomId AND ra.unallocationDate IS NULL")
+                    .setParameter("unallocationDate", unallocationDate)
+                    .setParameter("roomId",roomId)
+                    .executeUpdate();
+            entityTransaction.commit();
+
+            return updateRow > 0;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
         }
     }
 

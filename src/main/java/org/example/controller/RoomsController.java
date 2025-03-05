@@ -1,10 +1,8 @@
 package org.example.controller;
 
-import jdk.jshell.Snippet;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
 import org.example.service.RoomsService;
-
 import java.util.Scanner;
 
 public class RoomsController {
@@ -43,6 +41,7 @@ public class RoomsController {
         System.out.println("Enter Room Capacity");
         int roomCapacity = sc.nextInt();
 
+        roomsModel.setStatus(true);
         roomsModel.setRoomNumber(roomNumber);
         roomsModel.setCapacity(roomCapacity);
 

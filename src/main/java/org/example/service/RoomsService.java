@@ -7,6 +7,8 @@ import org.example.daoInterface.RoomDAO;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public class RoomsService {
@@ -89,14 +91,21 @@ public class RoomsService {
         if (rowNumber <= 0 || rowNumber > rooms.size()){
             System.out.println("Invalid Row Number");
         }
-        if (roomDAO.delete(rooms.get(rowNumber-1).getId())){
-            statusMessageModel.setStatus(true);
-            statusMessageModel.setMessage("Delete Room Successfully");
+        Rooms room = rooms.get(rowNumber-1);
+        Date date = new Date();
+        Timestamp unallocatedDate = new Timestamp(date.getTime());
+        if (roomAllocationDAO.disableRoomUnallocatedStudent(room.getId(),unallocatedDate)){
+            if (roomDAO.delete(rooms.get(rowNumber-1).getId())){
+                statusMessageModel.setStatus(true);
+                statusMessageModel.setMessage("Delete Room Successfully");
+            }else {
+                statusMessageModel.setStatus(false);
+                statusMessageModel.setMessage("!! Room Not Delete");
+            }
         }else {
             statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("!! Room Not Delete");
+            statusMessageModel.setMessage("!! Student Unallocated Failed");
         }
-
         return statusMessageModel;
     }
 

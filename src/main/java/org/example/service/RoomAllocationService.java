@@ -56,7 +56,7 @@ public class RoomAllocationService {
         return unallocatedUser.get(rowNumber - 1);
     }
 
-    public Rooms getRoomIdByRowNumber(int rowNumber){
+    public Rooms getRoomByRowNumber(int rowNumber){
         List<Rooms> roomsList = roomDAO.getAll();
         if (rowNumber < 1 || rowNumber > roomsList.size()){
             throw new IllegalArgumentException("Invalid Row Number");
@@ -74,6 +74,7 @@ public class RoomAllocationService {
 
     public boolean isRoomAvailable(Rooms roomId, int roomCapacity){
         Long currentOccupancy = roomAllocationDAO.getRoomOccupancy(roomId);
+        System.out.println(currentOccupancy);
         return currentOccupancy < roomCapacity;
     }
 
@@ -101,11 +102,11 @@ public class RoomAllocationService {
 
     public StatusMessageModel unallocatedStudentFromRoom(int rowNumber){
         List<RoomAllocation> roomAllocationList = roomAllocationDAO.getAll();
-        Users studentId = roomAllocationList.get(rowNumber - 1 ).getStudentId();
-        Rooms roomId = roomAllocationList.get(rowNumber - 1 ).getRoomId();
+        RoomAllocation unallocatedStudent = roomAllocationList.get(rowNumber-1);
         Date date = new Date();
         Timestamp unallocationDate = new Timestamp(date.getTime());
-        if (roomAllocationDAO.unallocateStudent(studentId,roomId,unallocationDate)){
+        unallocatedStudent.setUnallocationDate(unallocationDate);
+        if (roomAllocationDAO.update(unallocatedStudent)){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Unallocated Successfully");
         }else {

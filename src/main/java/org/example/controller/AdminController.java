@@ -2,22 +2,18 @@ package org.example.controller;
 
 import org.example.model.*;
 import org.example.service.AdminService;
-import org.example.service.RoomsService;
 import org.example.utils.PasswordUtil;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Scanner;
 
 public class AdminController {
-    private Scanner sc = new Scanner(System.in);
-    private AdminService adminService = new AdminService();
+    private final Scanner sc = new Scanner(System.in);
+    private final AdminService adminService = new AdminService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private LeaveRequestController leaveRequestController = new LeaveRequestController();
-    private RoomsController roomsController = new RoomsController();
-    private RoomsService roomsService = new RoomsService();
-    private RoomAllocationController roomAllocationController = new RoomAllocationController();
-    private VisitorsController visitorsController = new VisitorsController();
+    private final LeaveRequestController leaveRequestController = new LeaveRequestController();
+    private final RoomsController roomsController = new RoomsController();
+    private final RoomAllocationController roomAllocationController = new RoomAllocationController();
+    private final VisitorsController visitorsController = new VisitorsController();
 
     public void loginedAdminService(){
         while (true){
@@ -51,8 +47,8 @@ public class AdminController {
             }
         }
     }
-    public void viewAllStudent(){
 
+    public void viewAllStudent(){
         adminService.viewOnlyStudent();
         while (true){
             System.out.println("1. Add New Student");
@@ -72,6 +68,7 @@ public class AdminController {
             }
         }
     }
+
     public void addNewStudent(){
         sc.nextLine();
         Users student = new Users();
@@ -192,9 +189,6 @@ public class AdminController {
         statusMessageModel = adminService.deleteUserService(rowNumber);
         System.out.println(statusMessageModel.getMessage());
     }
-
-
-
 
     public void viewAllLeaveRequest(){
         leaveRequestController.viewAllLeaveRequestByAdmin();

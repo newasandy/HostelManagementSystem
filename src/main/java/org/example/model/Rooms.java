@@ -13,15 +13,20 @@ public class Rooms extends BaseEntity{
     @Column(name = "capacity", nullable = false)
     private int capacity;
 
+    @Column(name = "status", nullable = false)
+    private boolean status;
+
     @OneToMany(mappedBy = "roomId", cascade =CascadeType.ALL)
     private List<RoomAllocation> roomAllocations;
 
     public Rooms() {
     }
 
-    public Rooms(int roomNumber, int capacity) {
+    public Rooms(int roomNumber, int capacity, boolean status, List<RoomAllocation> roomAllocations) {
         this.roomNumber = roomNumber;
         this.capacity = capacity;
+        this.status = status;
+        this.roomAllocations = roomAllocations;
     }
 
     public int getRoomNumber() {
@@ -38,6 +43,14 @@ public class Rooms extends BaseEntity{
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public List<RoomAllocation> getRoomAllocations() {
