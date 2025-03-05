@@ -5,8 +5,10 @@ import org.example.model.Rooms;
 import org.example.model.Users;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public interface RoomAllocationDAO extends BaseDAO<RoomAllocation, Long> {
     Long getRoomOccupancy(Rooms roomId);
     boolean unallocateStudent(Users studentId, Rooms roomId, Timestamp unallocationDate);
+    List<RoomAllocation> getUserAllocated(Long userId);
 }

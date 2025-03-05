@@ -2,6 +2,8 @@ package org.example.daoImplementation;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.OrderBy;
 import org.example.daoInterface.RoomAllocationDAO;
 import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
@@ -9,6 +11,7 @@ import org.example.model.Users;
 import org.example.utils.EntityManages;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> implements RoomAllocationDAO {
 
@@ -42,6 +45,17 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
         }catch (Exception e){
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public List<RoomAllocation> getUserAllocated(Long userId){
+        try{
+            return entityManager.createQuery("SELECT ra FROM RoomAllocation ra WHERE ra.studentId.id = :studentId",RoomAllocation.class)
+                    .setParameter("studentId", userId)
+                    .getResultList();
+        }catch (NoResultException e){
+            return null;
         }
     }
 
