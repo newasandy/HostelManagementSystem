@@ -16,23 +16,27 @@ public class LeaveRequest extends BaseEntity {
     @Column(name = "reason", nullable = false)
     private String reason;
 
-    @Column(name = "start_date", nullable = false)
-    private Timestamp startDate;
+    @Column(name = "apply_date", nullable = false)
+    private Timestamp applyDate;
 
-    @Column(name = "end_date", nullable = false)
-    private Timestamp endDate;
+    @Column(name = "start_from", nullable = false, length = 25)
+    private String startFrom;
 
-    @Column(name = "status", nullable = false, length = 25)
+    @Column(name = "leave_days", nullable = false , length = 25)
+    private String leaveDays;
+
+    @Column(name = "status", nullable = false, length = 20)
     private String status;
 
     public LeaveRequest() {
     }
 
-    public LeaveRequest(Users studentId, String reason, Timestamp startDate, Timestamp endDate, String status) {
+    public LeaveRequest(Users studentId, String reason, Timestamp applyDate, String startFrom, String leaveDays, String status) {
         this.studentId = studentId;
         this.reason = reason;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.applyDate = applyDate;
+        this.startFrom = startFrom;
+        this.leaveDays = leaveDays;
         this.status = status;
     }
 
@@ -52,20 +56,28 @@ public class LeaveRequest extends BaseEntity {
         this.reason = reason;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Timestamp getApplyDate() {
+        return applyDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
-        this.startDate = startDate;
+    public void setApplyDate(Timestamp applyDate) {
+        this.applyDate = applyDate;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public String getStartFrom() {
+        return startFrom;
     }
 
-    public void setEndDate(Timestamp endDate) {
-        this.endDate = endDate;
+    public void setStartFrom(String startFrom) {
+        this.startFrom = startFrom;
+    }
+
+    public String getLeaveDays() {
+        return leaveDays;
+    }
+
+    public void setLeaveDays(String leaveDays) {
+        this.leaveDays = leaveDays;
     }
 
     public String getStatus() {
