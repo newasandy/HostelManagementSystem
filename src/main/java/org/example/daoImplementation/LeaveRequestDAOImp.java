@@ -41,4 +41,15 @@ public class LeaveRequestDAOImp extends BaseDAOImp<LeaveRequest, Long> implement
             return null;
         }
     }
+
+    @Override
+    public List<LeaveRequest> getAllPendingRequest(){
+        try{
+            return entityManager.createQuery("SELECT lr FROM LeaveRequest lr WHERE lr.status= :status",LeaveRequest.class)
+                    .setParameter("status","PENDING")
+                    .getResultList();
+        }catch (NoResultException e){
+            return null;
+        }
+    }
 }

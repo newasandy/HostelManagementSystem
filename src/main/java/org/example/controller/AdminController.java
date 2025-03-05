@@ -13,6 +13,7 @@ public class AdminController {
     private AdminService adminService = new AdminService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private RoomAllocation roomAllocation = new RoomAllocation();
+    private LeaveRequestController leaveRequestController = new LeaveRequestController();
 
 
     public void loginedAdminService(){
@@ -21,7 +22,8 @@ public class AdminController {
             System.out.println("2. View All Rooms");
             System.out.println("3. View Allocated Details");
             System.out.println("4. View Visitors");
-            System.out.println("5. logout");
+            System.out.println("5. View All Leave request");
+            System.out.println("6. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
                 System.out.println("======================================");
@@ -38,7 +40,10 @@ public class AdminController {
             } else if (inputs == 4) {
                 System.out.println("======================================");
                 viewVisitors();
-            } else if (inputs ==5) {
+            }else if (inputs == 5) {
+                System.out.println("======================================");
+                viewAllLeaveRequest();
+            } else if (inputs ==6) {
                 break;
             }
         }
@@ -377,5 +382,19 @@ public class AdminController {
         int rowNumber =sc.nextInt();
         statusMessageModel = adminService.exitVisitorUpdate(rowNumber);
         System.out.println(statusMessageModel.getMessage());
+    }
+
+    public void viewAllLeaveRequest(){
+        leaveRequestController.viewAllLeaveRequestByAdmin();
+        while (true){
+            System.out.println("1. Response Pending Leave Request");
+            System.out.println("2. Exit");
+            int option = sc.nextInt();
+            if (option == 1){
+                leaveRequestController.responseLeaveRequestByAdmin();
+            } else if (option ==2) {
+                break;
+            }
+        }
     }
 }

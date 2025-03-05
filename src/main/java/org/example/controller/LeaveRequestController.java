@@ -113,10 +113,48 @@ public class LeaveRequestController {
                 String leaveDay = sc.nextLine();
                 updateLeaveRequest.setLeaveDays(leaveDay);
             }
-            statusMessageModel = leaveRequestService.updateLeaveRequest(updateLeaveRequest);
+            statusMessageModel = leaveRequestService.updateLeaveRequestByUser(updateLeaveRequest);
             System.out.println(statusMessageModel.getMessage());
         }else {
             System.out.println("Selected Leave Request is Not In Pending.");
+        }
+    }
+
+    public void viewAllLeaveRequestByAdmin(){
+        List<LeaveRequest> leaveRequestList = leaveRequestService.getAllLeaveRequestByAdmin();
+        for (LeaveRequest lr : leaveRequestList){
+            System.out.println(lr.getStudentId().getFullName()+"\t\t\t"+lr.getApplyDate()+"\t\t\t"+lr.getReason()+"\t\t\t"+lr.getStartFrom()+"\t\t\t"+lr.getLeaveDays()+"\t\t"+lr.getStatus());
+        }
+    }
+
+    public void responseLeaveRequestByAdmin(){
+        List<LeaveRequest> leaveRequestList = leaveRequestService.getAllPendingLeaveRequest();
+        for (LeaveRequest lr : leaveRequestList){
+            System.out.println(lr.getStudentId().getFullName()+"\t\t\t"+lr.getApplyDate()+"\t\t\t"+lr.getReason()+"\t\t\t"+lr.getStartFrom()+"\t\t\t"+lr.getLeaveDays()+"\t\t"+lr.getStatus());
+        }
+        LeaveRequest updateLeaveRequest = new LeaveRequest();
+        System.out.println("Select leave request by row number");
+        int rowNumber = sc.nextInt();
+        if (rowNumber <=0 || rowNumber > leaveRequestList.size()){
+            System.out.println("Invalid Row Number");
+        }else {
+            updateLeaveRequest = leaveRequestList.get(rowNumber-1);
+        }
+        System.out.println("====================================");
+        System.out.println(updateLeaveRequest.getStudentId().getFullName()+"\t\t\t"+updateLeaveRequest.getApplyDate()+"\t\t\t"+updateLeaveRequest.getReason()+"\t\t\t"+updateLeaveRequest.getStartFrom()+"\t\t\t"+updateLeaveRequest.getLeaveDays()+"\t\t"+updateLeaveRequest.getStatus());
+        System.out.println("=============================");
+        System.out.println("1. Do Accept");
+        System.out.println("2. Do Reject");
+        System.out.println("3. Exit");
+        int option =sc.nextInt();
+        if (option == 1){
+            updateLeaveRequest.setStatus("ACCEPTED");
+            statusMessageModel= leaveRequestService.updateLeaveRequestByAdmin(updateLeaveRequest);
+            System.out.println(statusMessageModel.getMessage());
+        } else if (option == 2) {
+            updateLeaveRequest.setStatus("REJECTED");
+            statusMessageModel= leaveRequestService.updateLeaveRequestByAdmin(updateLeaveRequest);
+            System.out.println(statusMessageModel.getMessage());
         }
     }
 }

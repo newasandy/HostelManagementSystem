@@ -8,4 +8,5 @@ public interface LeaveRequestDAO extends BaseDAO<LeaveRequest, Long>{
 
     List<LeaveRequest> getUserLeaveRequestByUserId(Long userId);
     LeaveRequest checkLeaveRequest(Long userId);
+    List<LeaveRequest> getAllPendingRequest();
 }

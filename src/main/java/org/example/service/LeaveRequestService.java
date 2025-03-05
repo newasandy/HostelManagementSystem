@@ -52,7 +52,25 @@ public class LeaveRequestService {
         return statusMessageModel;
     }
 
-    public StatusMessageModel updateLeaveRequest(LeaveRequest leaveRequest){
+    public StatusMessageModel updateLeaveRequestByUser(LeaveRequest leaveRequest){
+        if (leaveRequestDAO.update(leaveRequest)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Leave Request Update Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("Leave Request not Update");
+        }
+        return statusMessageModel;
+    }
+
+    public List<LeaveRequest> getAllLeaveRequestByAdmin(){
+        return leaveRequestDAO.getAll();
+    }
+    public List<LeaveRequest> getAllPendingLeaveRequest(){
+        return leaveRequestDAO.getAllPendingRequest();
+    }
+
+    public StatusMessageModel updateLeaveRequestByAdmin(LeaveRequest leaveRequest){
         if (leaveRequestDAO.update(leaveRequest)){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Leave Request Update Successfully");
