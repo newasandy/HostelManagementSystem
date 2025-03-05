@@ -36,7 +36,6 @@ public class AdminService {
         return statusMessageModel;
     }
 
-
     public StatusMessageModel registerNewStudent(Users registerStudent){
         Users checkUser = userDAO.findByEmail(registerStudent.getEmail());
         if (checkUser == null){
@@ -45,7 +44,7 @@ public class AdminService {
             statusMessageModel.setMessage("User Register Successfully");
         }else {
             statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("User Already Exits");
+            statusMessageModel.setMessage("User Already Exist");
         }
         return statusMessageModel;
     }
@@ -82,15 +81,34 @@ public class AdminService {
     }
 
     public StatusMessageModel updateUserDetails(Address user){
-        if (addressDAOImp.update(user)){
-            statusMessageModel.setStatus(true);
-            statusMessageModel.setMessage("User Details Update Successfully");
+        Users getUser = userDAO.getById(user.getUser().getId());
+        if (getUser.getEmail().equals(user.getUser().getEmail())){
+            if (addressDAOImp.update(user)){
+                statusMessageModel.setStatus(true);
+                statusMessageModel.setMessage("User Details Update Successfully");
+            }else {
+                statusMessageModel.setStatus(false);
+                statusMessageModel.setMessage("!! User Details Not Updated");
+            }
         }else {
-            statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("!! User Details Not Updated");
+            Users checkUser = userDAO.findByEmail(user.getUser().getEmail());
+            if (checkUser == null){
+                if (addressDAOImp.update(user)){
+                    statusMessageModel.setStatus(true);
+                    statusMessageModel.setMessage("User Details Update Successfully");
+                }else {
+                    statusMessageModel.setStatus(false);
+                    statusMessageModel.setMessage("!! User Details Not Updated");
+                }
+            }else {
+                statusMessageModel.setStatus(false);
+                statusMessageModel.setMessage("!! User Already Exist");
+            }
         }
+
         return statusMessageModel;
     }
+
 
     public StatusMessageModel deleteUserService(int rowNumber){
         List<Users> users = userDAO.getAll();
@@ -108,13 +126,20 @@ public class AdminService {
     }
 
     public StatusMessageModel addNewRoomService (Rooms newRooms){
-        if (roomDAOImp.add(newRooms)){
-            statusMessageModel.setStatus(true);
-            statusMessageModel.setMessage("Room Added Successfully");
+        Rooms checkRoom = roomDAOImp.findByRoomNumber(newRooms.getRoomNumber());
+        if (checkRoom == null){
+            if (roomDAOImp.add(newRooms)){
+                statusMessageModel.setStatus(true);
+                statusMessageModel.setMessage("Room Added Successfully");
+            }else {
+                statusMessageModel.setStatus(false);
+                statusMessageModel.setMessage("!! Room Not Added");
+            }
         }else {
             statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("!! Room Not Added");
+            statusMessageModel.setMessage("!! Room Already Exist");
         }
+
         return statusMessageModel;
     }
 
@@ -147,12 +172,33 @@ public class AdminService {
     }
 
     public StatusMessageModel updateRoomService(Rooms room){
-        if (roomDAOImp.update(room)){
-            statusMessageModel.setStatus(true);
-            statusMessageModel.setMessage("Update Room Successfully");
+        Rooms getRoom = roomDAOImp.getById(room.getId());
+        Long getOccupancy = roomAllocationDAO.getRoomOccupancy(room);
+        if (getRoom.getRoomNumber() == room.getRoomNumber() && getOccupancy <= room.getCapacity()){
+            if (roomDAOImp.update(room)){
+                statusMessageModel.setStatus(true);
+                statusMessageModel.setMessage("Update Room Successfully");
+            }else {
+                statusMessageModel.setStatus(false);
+                statusMessageModel.setMessage("!! Not Update Room");
+            }
+        } else if (getOccupancy <= room.getCapacity()) {
+            Rooms checkRoom = roomDAOImp.findByRoomNumber(room.getRoomNumber());
+            if (checkRoom == null ){
+                if (roomDAOImp.update(room)){
+                    statusMessageModel.setStatus(true);
+                    statusMessageModel.setMessage("Update Room Successfully");
+                }else {
+                    statusMessageModel.setStatus(false);
+                    statusMessageModel.setMessage("!! Not Update Room");
+                }
+            }else {
+                statusMessageModel.setStatus(false);
+                statusMessageModel.setMessage("!! Room Number Already Exist");
+            }
         }else {
             statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("!! Not Update Room");
+            statusMessageModel.setMessage("!! Given Room Capacity Is less than allocation count");
         }
         return statusMessageModel;
     }

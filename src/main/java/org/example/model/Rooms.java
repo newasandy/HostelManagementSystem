@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "rooms")
 public class Rooms extends BaseEntity{
-    @Column(name = "room_number", nullable = false)
+    @Column(name = "room_number", unique = true, nullable = false)
     private int roomNumber;
 
     @Column(name = "capacity", nullable = false)

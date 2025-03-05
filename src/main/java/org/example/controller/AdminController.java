@@ -71,6 +71,7 @@ public class AdminController {
 
         System.out.println("Enter full name");
         String studentName = sc.nextLine();
+
         System.out.println("Enter Email");
         String email= sc.nextLine();
         System.out.println("Enter Password");
@@ -101,7 +102,6 @@ public class AdminController {
         address.setWardNo(wardNo);
 
         statusMessageModel = adminService.registerNewStudent(student);
-
         if (statusMessageModel.isStatus()){
             address.setUser(student);
                 if (adminService.addUserAddress(address)){
