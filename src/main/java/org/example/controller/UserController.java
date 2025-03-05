@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class UserController {
     private final RoomAllocationController roomAllocationController = new RoomAllocationController();
-
+    private final VisitorsController visitorsController = new VisitorsController();
     public void userLoginService(Users loginUser){
         Scanner sc = new Scanner(System.in);
         while (true){
@@ -18,7 +18,7 @@ public class UserController {
             if (option ==1){
                 roomAllocationController.getUserAllocatedDetailsController(loginUser);
             } else if (option == 2) {
-
+                visitorsController.userVisitedBy(loginUser);
             } else if (option == 3) {
 
             } else if (option == 4) {
