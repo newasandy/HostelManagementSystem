@@ -66,8 +66,11 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
                     .setParameter("roomId",roomId)
                     .executeUpdate();
             entityTransaction.commit();
-
-            return updateRow > 0;
+            if (updateRow >0){
+                return true;
+            }else {
+                return false;
+            }
         }catch (Exception e){
             e.printStackTrace();
             return false;

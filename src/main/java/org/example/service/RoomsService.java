@@ -16,15 +16,11 @@ public class RoomsService {
     private RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
     private RoomDAO roomDAO = new RoomDAOImp();
 
-    public void getAllRoom(){
-        List<Rooms> rooms = roomDAO.getAll();
-        System.out.println("SN \t Room ID \t Room number \t Room Capacity");
-        System.out.println("=============================================");
-        int rowNumber = 1;
-        for (Rooms room : rooms){
-            System.out.println(rowNumber + "."+ room.getId()+"\t"+room.getRoomNumber()+"\t"+room.getCapacity());
-            rowNumber++;
-        }
+    public List<Rooms> getAllRoom(){
+        return roomDAO.getAll();
+    }
+    public List<Rooms> getAvailableRoom(){
+        return roomDAO.getAvailableRoom();
     }
 
     public StatusMessageModel addNewRoomService (Rooms newRooms){
@@ -49,7 +45,7 @@ public class RoomsService {
     public Rooms getRoomByRowNumber(int rowNumber){
         List<Rooms> rooms = roomDAO.getAll();
         if (rowNumber <0 || rowNumber > rooms.size()){
-            throw new IllegalArgumentException("Invalid Row Number");
+            System.out.println("invalid Row Number");
         }
         return rooms.get(rowNumber - 1);
     }
@@ -92,16 +88,18 @@ public class RoomsService {
             System.out.println("Invalid Row Number");
         }
         Rooms room = rooms.get(rowNumber-1);
+        room.setStatus(false);
         Date date = new Date();
         Timestamp unallocatedDate = new Timestamp(date.getTime());
         if (roomAllocationDAO.disableRoomUnallocatedStudent(room.getId(),unallocatedDate)){
-            if (roomDAO.delete(rooms.get(rowNumber-1).getId())){
+            if (roomDAO.update(room)){
                 statusMessageModel.setStatus(true);
-                statusMessageModel.setMessage("Delete Room Successfully");
+                statusMessageModel.setMessage("Disable Room Successfully");
             }else {
                 statusMessageModel.setStatus(false);
-                statusMessageModel.setMessage("!! Room Not Delete");
+                statusMessageModel.setMessage("!! Room Not Disable");
             }
+//            System.out.println("unallocated");
         }else {
             statusMessageModel.setStatus(false);
             statusMessageModel.setMessage("!! Student Unallocated Failed");

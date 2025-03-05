@@ -14,7 +14,6 @@ public class RoomAllocationController {
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final RoomsService roomsService = new RoomsService();
     private final Scanner sc = new Scanner(System.in);
-    private final RoomAllocation roomAllocation = new RoomAllocation();
 
     public void getUserAllocatedDetailsController(Users users){
         List<RoomAllocation> allocatedDetails = roomAllocationService.getAllocatedDetails(users.getId());
@@ -32,10 +31,8 @@ public class RoomAllocationController {
             int option = sc.nextInt();
             if (option ==1){
                 allocatedRoom();
-                break;
             } else if (option == 2) {
                 unallocatedRoom();
-                break;
             } else if (option == 3) {
                 break;
             }
@@ -43,46 +40,80 @@ public class RoomAllocationController {
     }
 
     public void allocatedRoom(){
-        roomAllocationService.viewUnallocatedStudent();
-        System.out.println("Select student by row number ");
-        int studentRowNumber = sc.nextInt();
-        Users studentId = roomAllocationService.getUnallocatedUserIdByRowNumber(studentRowNumber);
-        int roomRowNumber;
-        Rooms roomId ;
+        RoomAllocation allocationStudent = new RoomAllocation();
+        List<Users> unallocatedUsers = roomAllocationService.getUnallocatedStudent();
+        for (Users user : unallocatedUsers){
+            System.out.println(user.getId()+"\t\t"+user.getFullName()+"\t\t"+user.getEmail()+"\t\t"+user.getRoles());
+        }
+        System.out.println("===================================");
+        Users selectUser ;
+        int studentRowNumber ;
         while (true){
-            roomsService.getAllRoom();
-            System.out.println("Select Room by row Number ");
-            roomRowNumber = sc.nextInt();
-            roomId = roomAllocationService.getRoomByRowNumber(roomRowNumber);
-            int roomCapacity = roomId.getCapacity();
-            if (roomAllocationService.isRoomAvailable(roomId,roomCapacity)){
-                Date getDate = new Date();
-                Timestamp allocationDate = new Timestamp(getDate.getTime());
-
-                roomAllocation.setStudentId(studentId);
-                roomAllocation.setRoomId(roomId);
-                roomAllocation.setAllocationDate(allocationDate);
-
-                statusMessageModel = roomAllocationService.setStudentAtRoom(roomAllocation);
-                System.out.println(statusMessageModel.getMessage());
-                break;
+            System.out.println("Select student by row number ");
+            studentRowNumber = sc.nextInt();
+            if (studentRowNumber <1 || studentRowNumber > unallocatedUsers.size()){
+                System.out.println("Invalid Row number");
             }else {
-                System.out.println("Selected Room Is full select other room or enter exit:");
+                selectUser = unallocatedUsers.get(studentRowNumber-1);
                 break;
             }
-
         }
+        List<Rooms> roomList = roomsService.getAvailableRoom();
+        System.out.println("SN \t Room ID \t Room number \t Room Capacity");
+        System.out.println("=============================================");
+        int rowNumber = 1;
+        for (Rooms room : roomList){
+            System.out.println(rowNumber + ".  "+ room.getId()+"\t"+room.getRoomNumber()+"\t"+room.getCapacity());
+            rowNumber++;
+        }
+        int roomRowNumber;
+        Rooms selectRoom ;
+        while (true){
+            System.out.println("Select Room by row Number ");
+            roomRowNumber = sc.nextInt();
+            if (roomRowNumber <1 || roomRowNumber > roomList.size()){
+                System.out.println("Invalid Room Select row number");
+            }else {
+                selectRoom = roomList.get(roomRowNumber-1);
+                break;
+            }
+        }
+        Date getDate = new Date();
+        Timestamp allocationDate = new Timestamp(getDate.getTime());
+        allocationStudent.setStudentId(selectUser);
+        allocationStudent.setRoomId(selectRoom);
+        allocationStudent.setAllocationDate(allocationDate);
+        statusMessageModel = roomAllocationService.setStudentAtRoom(allocationStudent);
+        System.out.println(statusMessageModel.getMessage());
 
     }
+
     public void unallocatedRoom(){
-        roomAllocationService.getAllRoomAllocatedList();
-        System.out.println("Enter row number that want to unallocated");
-        System.out.println("For exit enter 0");
-        int rowNumber = sc.nextInt();
-        if (rowNumber > 0){
-            statusMessageModel = roomAllocationService.unallocatedStudentFromRoom(rowNumber);
-            System.out.println(statusMessageModel.getMessage());
+        List<RoomAllocation> roomAllocationsList = roomAllocationService.getAllRoomAllocatedList();
+        System.out.println("SN \t S ID \t R ID \t allocated \t unallocated");
+        System.out.println("=============================================");
+        int rowNumber =1 ;
+        for (RoomAllocation list : roomAllocationsList){
+            System.out.println(rowNumber +". "+list.getStudentId().getId()+"\t"+list.getRoomId().getId()+"\t"+list.getAllocationDate()+"\t"+list.getUnallocationDate());
+            rowNumber++;
         }
+        RoomAllocation selectUnallocatedRow;
+        int selectRowNumber ;
+        while (true){
+            System.out.println("Enter row number that want to unallocated");
+            selectRowNumber = sc.nextInt();
+            if (selectRowNumber <1 || selectRowNumber > roomAllocationsList.size()){
+                System.out.println("Invalid Selected Row Number");
+            }else {
+                selectUnallocatedRow = roomAllocationsList.get(selectRowNumber-1);
+                break;
+            }
+        }
+        Date date = new Date();
+        Timestamp unallocationDate = new Timestamp(date.getTime());
+        selectUnallocatedRow.setUnallocationDate(unallocationDate);
+        statusMessageModel = roomAllocationService.unallocatedStudentFromRoom(selectUnallocatedRow);
+        System.out.println(statusMessageModel.getMessage());
     }
 
 

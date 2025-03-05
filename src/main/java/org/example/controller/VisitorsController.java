@@ -27,7 +27,6 @@ public class VisitorsController {
     public void viewVisitors(){
         visitorService.getAllVisitor();
         while (true){
-            sc.nextLine();
             System.out.println("1. Add Visitor");
             System.out.println("2. Update Visitor when Exit");
             System.out.println("3. Exit");

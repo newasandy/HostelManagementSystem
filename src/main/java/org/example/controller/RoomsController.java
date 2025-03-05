@@ -1,8 +1,11 @@
 package org.example.controller;
 
+import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
 import org.example.service.RoomsService;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class RoomsController {
@@ -12,7 +15,12 @@ public class RoomsController {
 
 
     public void viewAllRoom(){
-        roomsService.getAllRoom();
+        List<Rooms> roomList =roomsService.getAllRoom();
+        int sn =1;
+        for (Rooms room : roomList){
+            System.out.println(sn+"\t\t"+room.getRoomNumber()+"\t\t"+room.getCapacity());
+            sn++;
+        }
         while (true){
             System.out.println("1. Add New Room");
             System.out.println("2. Update Room");
@@ -51,7 +59,12 @@ public class RoomsController {
     }
 
     public void updateRoom(){
-        roomsService.getAllRoom();
+        List<Rooms> roomList =roomsService.getAllRoom();
+        int sn =1;
+        for (Rooms room : roomList){
+            System.out.println(sn+"\t\t"+room.getRoomNumber()+"\t\t"+room.getCapacity());
+            sn++;
+        }
         System.out.println("Pick room by Row Number which want to update:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();
@@ -61,7 +74,7 @@ public class RoomsController {
             System.out.println("===============================");
             System.out.println("1. Room Number: "+rooms.getRoomNumber());
             System.out.println("2. Room Capacity: "+rooms.getCapacity());
-            System.out.println("3. Exit");
+            System.out.println("3. Update");
             int option = sc.nextInt();
             if (option ==1){
                 sc.nextLine();
@@ -80,7 +93,12 @@ public class RoomsController {
     }
 
     public void deleteRoom(){
-        roomsService.getAllRoom();
+        List<Rooms> roomList =roomsService.getAllRoom();
+        int sn =1;
+        for (Rooms room : roomList){
+            System.out.println(sn+"\t\t"+room.getRoomNumber()+"\t\t"+room.getCapacity());
+            sn++;
+        }
         System.out.println("Pick room by Row Number which want to delete:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();

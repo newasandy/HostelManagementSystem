@@ -35,6 +35,7 @@ public class LeaveRequestController {
     public void applyLeaveRequestController(Users users){
         statusMessageModel = leaveRequestService.checkLeaveRequest(users.getId());
         if (statusMessageModel.isStatus()){
+            sc.nextLine();
             LeaveRequest leaveRequest = new LeaveRequest();
             System.out.println("Enter Reason");
             String reason = sc.nextLine();
