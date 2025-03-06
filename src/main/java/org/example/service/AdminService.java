@@ -52,7 +52,7 @@ public class AdminService {
     public Address getUserDetailByRowNumber(int rowNumber){
         List<Address> users = addressDAOImp.getAll();
         if (rowNumber < 1 || rowNumber > users.size()){
-            throw new IllegalArgumentException("Invalid Row Number");
+            System.out.println("Invalid Row Number");
         }
         return users.get(rowNumber-1);
     }
