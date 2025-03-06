@@ -1,5 +1,6 @@
 package org.example.service;
 
+import com.mysql.cj.protocol.a.NativeUtils;
 import org.example.daoImplementation.*;
 import org.example.daoInterface.UserDAO;
 import org.example.model.*;
@@ -11,21 +12,21 @@ public class AdminService {
     private final StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final AddressDAOImp addressDAOImp = new AddressDAOImp();
 
-    public StatusMessageModel adminLoginService(Users admin){
+    public Users adminLoginService(Users admin){
         Users admins = userDAO.findByEmail(admin.getEmail());
         if (admins != null){
             if (PasswordUtil.verifyPassword(admin.getPasswords(),admins.getPasswords()) && admins.getRoles().equals("ADMIN")){
-                statusMessageModel.setStatus(true);
-                statusMessageModel.setMessage("Admin Login Successfully");
+                System.out.println("Admin Login Successfully");
+                return admins;
             }else {
-                statusMessageModel.setStatus(false);
-                statusMessageModel.setMessage("!! Invalid Password or You are not Admin");
+                System.out.println("!! Invalid Password");
+                return null;
             }
         }else {
-            statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("!! Invalid User");
+            System.out.println("!! Invalid Admin");
+            return null;
         }
-        return statusMessageModel;
+
     }
 
     public StatusMessageModel registerNewStudent(Users registerStudent){

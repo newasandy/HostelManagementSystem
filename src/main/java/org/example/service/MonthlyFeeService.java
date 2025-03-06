@@ -23,7 +23,6 @@ public class MonthlyFeeService {
         return statusMessageModel;
     }
 
-
     public List<MonthlyFee> getAllStudentFeeDetails(){
         return monthlyFeeDAO.getAll();
     }
@@ -36,6 +35,9 @@ public class MonthlyFeeService {
         return monthlyFeeDAO.getUserUnPaidFee(userId);
     }
 
+    public List<MonthlyFee> getAllUserUnpaidFeeDetails(){
+        return monthlyFeeDAO.getAllUserUnPaidFee();
+    }
     public StatusMessageModel feePaidByUser(MonthlyFee payFee){
         if (monthlyFeeDAO.update(payFee)){
             statusMessageModel.setStatus(true);

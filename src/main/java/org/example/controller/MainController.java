@@ -41,13 +41,11 @@ public class MainController {
             admin.setEmail(email);
             admin.setPasswords(password);
 
-            statusMessageModel = adminService.adminLoginService(admin);
-            if(statusMessageModel.isStatus()){
-                System.out.println(statusMessageModel.getMessage());
-                adminController.loginedAdminService();
+            Users loginAdmin = adminService.adminLoginService(admin);
+            if(loginAdmin != null){
+                adminController.loginedAdminService(loginAdmin);
                 break;
             }else{
-                System.out.println(statusMessageModel.getMessage());
                 System.out.println("1. Re-Enter");
                 System.out.println("2. Exit");
                 String option = sc.nextLine();

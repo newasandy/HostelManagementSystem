@@ -79,6 +79,7 @@ public class MonthyFeeController {
     public void viewAllStudentFee(){
         List<MonthlyFee> allFeeDetails = monthlyFeeService.getAllStudentFeeDetails();
         int sn =1;
+        System.out.println("SN \t\t Student Name\t\t\t Issue Date\t\t\t Fee Amount\t\t\t Paid \t\t\t Due");
         for (MonthlyFee feeDetails : allFeeDetails){
             System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
             sn++;
@@ -88,6 +89,7 @@ public class MonthyFeeController {
     public void viewFeeByUser(Users user){
         List<MonthlyFee> allFeeDetails = monthlyFeeService.getUserAllFeeDetails(user.getId());
         int sn =1;
+        System.out.println("SN \t\t Student Name\t\t\t Issue Date\t\t\t Fee Amount\t\t\t Paid \t\t\t Due");
         for (MonthlyFee feeDetails : allFeeDetails){
             System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
             sn++;
@@ -103,9 +105,13 @@ public class MonthyFeeController {
 
     }
 
-
-     public void payFee(Users user){
-        List<MonthlyFee> allUnPaidFeeDetails = monthlyFeeService.getUserUnpaidFee(user.getId());
+    public void payFee(Users user){
+        List<MonthlyFee> allUnPaidFeeDetails = new ArrayList<>() ;
+        if (user.getRoles().equals("USER")){
+            allUnPaidFeeDetails = monthlyFeeService.getUserUnpaidFee(user.getId());
+        }else if (user.getRoles().equals("ADMIN")){
+            allUnPaidFeeDetails = monthlyFeeService.getAllUserUnpaidFeeDetails();
+        }
         int sn =1;
         System.out.println("SN \t\t Student Name\t\t\t Issue Date\t\t\t Fee Amount\t\t\t Paid \t\t\t Due");
         for (MonthlyFee feeDetails : allUnPaidFeeDetails){

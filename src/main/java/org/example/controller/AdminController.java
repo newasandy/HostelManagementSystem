@@ -15,7 +15,7 @@ public class AdminController {
     private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
-    public void loginedAdminService(){
+    public void loginedAdminService(Users loginAdmin){
         while (true){
             System.out.println("1. View All Students");
             System.out.println("2. View All Rooms");
@@ -44,7 +44,7 @@ public class AdminController {
                 System.out.println("======================================");
                 viewAllLeaveRequest();
             } else if (inputs ==6) {
-                viewAllStudentFee();
+                viewAllStudentFee(loginAdmin);
             } else if (inputs ==7) {
                 break;
             }
@@ -212,14 +212,17 @@ public class AdminController {
         }
     }
 
-    public void viewAllStudentFee(){
+    public void viewAllStudentFee(Users loginAdmin){
         monthyFeeController.viewAllStudentFee();
         System.out.println("============================");
         System.out.println("1. Assign New Monthly Fee");
-        System.out.println("2. exit");
+        System.out.println("2. Pay Student Fee");
+        System.out.println("3. exit");
         int option = sc.nextInt();
         if (option == 1){
             monthyFeeController.assignMonthlyFee();
+        }else if (option == 2){
+            monthyFeeController.payFee(loginAdmin);
         }
 
     }
