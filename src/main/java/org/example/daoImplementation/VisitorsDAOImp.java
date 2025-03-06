@@ -11,7 +11,7 @@ import java.util.List;
 public class VisitorsDAOImp extends BaseDAOImp<Visitors , Long> implements VisitorsDAO {
 
     EntityManages entityManages = new EntityManages();
-    private final EntityManager entityManager = entityManages.getEntityManager();
+    private EntityManager entityManager = entityManages.getEntityManager();
     public VisitorsDAOImp(){
         super(Visitors.class);
     }

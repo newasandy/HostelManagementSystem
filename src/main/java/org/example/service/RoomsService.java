@@ -2,10 +2,14 @@ package org.example.service;
 
 import org.example.daoImplementation.RoomAllocationDAOImp;
 import org.example.daoImplementation.RoomDAOImp;
+import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.RoomAllocationDAO;
 import org.example.daoInterface.RoomDAO;
+import org.example.daoInterface.UserDAO;
+import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
+import org.example.model.Users;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -15,6 +19,7 @@ public class RoomsService {
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
     private RoomDAO roomDAO = new RoomDAOImp();
+    private UserDAO userDAO = new UserDAOImpl();
 
     public List<Rooms> getAllRoom(){
         return roomDAO.getAll();
@@ -82,30 +87,67 @@ public class RoomsService {
         return statusMessageModel;
     }
 
-    public StatusMessageModel deleteRoomService(int rowNumber){
-        List<Rooms> rooms = roomDAO.getAll();
-        if (rowNumber <= 0 || rowNumber > rooms.size()){
-            System.out.println("Invalid Row Number");
-        }
-        Rooms room = rooms.get(rowNumber-1);
+    public StatusMessageModel deleteRoomService(Rooms room){
         room.setStatus(false);
-        Date date = new Date();
-        Timestamp unallocatedDate = new Timestamp(date.getTime());
-        if (roomAllocationDAO.disableRoomUnallocatedStudent(room.getId(),unallocatedDate)){
-            if (roomDAO.update(room)){
+        if (roomDAO.update(room)){
                 statusMessageModel.setStatus(true);
                 statusMessageModel.setMessage("Disable Room Successfully");
-            }else {
+        }else {
                 statusMessageModel.setStatus(false);
                 statusMessageModel.setMessage("!! Room Not Disable");
-            }
-//            System.out.println("unallocated");
-        }else {
-            statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("!! Student Unallocated Failed");
         }
         return statusMessageModel;
     }
 
+    public List<RoomAllocation> getAllocatedDetails(Long userId){
+        List<RoomAllocation> allocatedDetails = roomAllocationDAO.getUserAllocated(userId);
+        return allocatedDetails;
+    }
+
+    public List<RoomAllocation> getAllocationDetails(){
+        return roomAllocationDAO.getAll();
+
+    }
+    public List<Users> getUnallocatedStudent(){
+        return userDAO.getUnallocatedUsers();
+    }
+
+    public StatusMessageModel setStudentAtRoom(RoomAllocation roomAllocation){
+        if (roomAllocationDAO.add(roomAllocation)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Student Allocated at room Successfully");
+        }else{
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Student not allocated at room");
+        }
+        return statusMessageModel;
+    }
+
+    public List<RoomAllocation> getAllRoomAllocatedList(){
+        return roomAllocationDAO.getAll();
+
+    }
+
+    public StatusMessageModel unallocatedStudentFromRoom(RoomAllocation unallocatedUser){
+        if (roomAllocationDAO.update(unallocatedUser)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Unallocated Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Unallocated Not Success");
+        }
+        return statusMessageModel;
+    }
+
+    public boolean disableRoomUnallocationServic(Long roomId){
+        Date date = new Date();
+        Timestamp unallocatedDate = new Timestamp(date.getTime());
+        if (roomAllocationDAO.disableRoomUnallocatedStudent(roomId,unallocatedDate)){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
 
 }

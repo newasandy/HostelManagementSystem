@@ -13,9 +13,9 @@ import java.util.List;
 
 public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> implements RoomAllocationDAO {
 
-    private final EntityManages entityManages = new EntityManages();
-    private final EntityManager entityManager = entityManages.getEntityManager();
-    private final EntityTransaction entityTransaction = entityManager.getTransaction();
+    EntityManages entityManages = new EntityManages();
+    private EntityManager entityManager = entityManages.getEntityManager();
+    private EntityTransaction entityTransaction = entityManager.getTransaction();
     public RoomAllocationDAOImp(){
         super(RoomAllocation.class);
     }
@@ -28,23 +28,6 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
                 .getSingleResult();
     }
 
-    @Override
-    public boolean unallocateStudent(Long studentId, Long roomId, Timestamp unallocationDate){
-        try{
-            entityTransaction.begin();
-            int updateRow = entityManager.createQuery("UPDATE RoomAllocation ra SET ra.unallocationDate = :unallocationDate WHERE ra.studentId.id = :studentId AND ra.roomId.id = :roomId AND ra.unallocationDate IS NULL")
-                    .setParameter("unallocationDate", unallocationDate)
-                    .setParameter("studentId",studentId)
-                    .setParameter("roomId",roomId)
-                    .executeUpdate();
-            entityTransaction.commit();
-
-            return updateRow > 0;
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     @Override
     public List<RoomAllocation> getUserAllocated(Long userId){
@@ -65,12 +48,10 @@ public class RoomAllocationDAOImp extends BaseDAOImp<RoomAllocation, Long> imple
                     .setParameter("unallocationDate", unallocationDate)
                     .setParameter("roomId",roomId)
                     .executeUpdate();
+            entityManager.flush();
+            entityManager.clear();
             entityTransaction.commit();
-            if (updateRow >0){
-                return true;
-            }else {
-                return false;
-            }
+            return updateRow >0;
         }catch (Exception e){
             e.printStackTrace();
             return false;

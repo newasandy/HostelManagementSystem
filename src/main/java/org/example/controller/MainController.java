@@ -19,8 +19,6 @@ public class MainController {
     private final UserController userController = new UserController();
     private static final Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-
-        TestConnection tc = new TestConnection();
         MainController mainController = new MainController();
         while (true){
             System.out.println("Select User For Login: \n 1. Admin Login \n 2. Student Login \n 3. Exit");

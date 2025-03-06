@@ -10,8 +10,8 @@ import java.util.List;
 
 
 public class LeaveRequestDAOImp extends BaseDAOImp<LeaveRequest, Long> implements LeaveRequestDAO {
-    private final EntityManages entityManages = new EntityManages();
-    private final EntityManager entityManager = entityManages.getEntityManager();
+    EntityManages entityManages = new EntityManages();
+    private EntityManager entityManager = entityManages.getEntityManager();
 
 
     public LeaveRequestDAOImp(){

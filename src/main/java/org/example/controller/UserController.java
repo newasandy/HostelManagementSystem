@@ -5,7 +5,7 @@ import org.example.model.Users;
 import java.util.Scanner;
 
 public class UserController {
-    private final RoomAllocationController roomAllocationController = new RoomAllocationController();
+    private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
 
@@ -18,7 +18,7 @@ public class UserController {
             System.out.println("4. Logout");
             int option = sc.nextInt();
             if (option ==1){
-                roomAllocationController.getUserAllocatedDetailsController(loginUser);
+                roomsController.getUserAllocatedDetailsController(loginUser);
             } else if (option == 2) {
                 visitorsController.userVisitedBy(loginUser);
             } else if (option == 3) {

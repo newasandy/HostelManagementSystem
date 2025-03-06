@@ -13,8 +13,8 @@ public class UserDAOImpl extends BaseDAOImp<Users, Long> implements UserDAO {
     public UserDAOImpl(){
         super(Users.class);
     }
-    private final EntityManages entityManages = new EntityManages();
-    private final EntityManager entityManager = entityManages.getEntityManager();
+    EntityManages entityManages = new EntityManages();
+    private  EntityManager entityManager = entityManages.getEntityManager();
 
 
 

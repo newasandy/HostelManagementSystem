@@ -33,15 +33,23 @@ public class Users extends BaseEntity{
     @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
     private List<Visitors> visitors;
 
+    @OneToMany(mappedBy = "studentId", cascade = CascadeType.ALL)
+    private List<MonthlyFee> monthlyFees;
+
     public Users() {
     }
 
-    public Users(String fullName, String email, String passwords, String roles, boolean status) {
+    public Users(String fullName, String email, String passwords, String roles, boolean status, Address address, List<LeaveRequest> leaveRequests, List<RoomAllocation> roomAllocations, List<Visitors> visitors, List<MonthlyFee> monthlyFees) {
         this.fullName = fullName;
         this.email = email;
         this.passwords = passwords;
         this.roles = roles;
         this.status = status;
+        this.address = address;
+        this.leaveRequests = leaveRequests;
+        this.roomAllocations = roomAllocations;
+        this.visitors = visitors;
+        this.monthlyFees = monthlyFees;
     }
 
     public String getFullName() {
@@ -114,5 +122,13 @@ public class Users extends BaseEntity{
 
     public void setVisitors(List<Visitors> visitors) {
         this.visitors = visitors;
+    }
+
+    public List<MonthlyFee> getMonthlyFees() {
+        return monthlyFees;
+    }
+
+    public void setMonthlyFees(List<MonthlyFee> monthlyFees) {
+        this.monthlyFees = monthlyFees;
     }
 }

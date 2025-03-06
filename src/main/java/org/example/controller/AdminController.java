@@ -12,7 +12,6 @@ public class AdminController {
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
     private final RoomsController roomsController = new RoomsController();
-    private final RoomAllocationController roomAllocationController = new RoomAllocationController();
     private final VisitorsController visitorsController = new VisitorsController();
 
     public void loginedAdminService(){
@@ -22,7 +21,8 @@ public class AdminController {
             System.out.println("3. View Allocated Details");
             System.out.println("4. View Visitors");
             System.out.println("5. View All Leave request");
-            System.out.println("6. logout");
+            System.out.println("6. Assign Monthly Fee");
+            System.out.println("7. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
                 System.out.println("======================================");
@@ -34,7 +34,7 @@ public class AdminController {
                 System.out.println("======================================");
             } else if (inputs == 3) {
                 System.out.println("======================================");
-                roomAllocationController.viewAllocatedDetails();
+                roomsController.viewAllocatedDetails();
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");
@@ -43,6 +43,8 @@ public class AdminController {
                 System.out.println("======================================");
                 viewAllLeaveRequest();
             } else if (inputs ==6) {
+                break;
+            } else if (inputs ==7) {
                 break;
             }
         }

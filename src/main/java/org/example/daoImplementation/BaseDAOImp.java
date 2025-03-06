@@ -11,8 +11,8 @@ public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T
 
     private final Class<T> entityClass;
 
-    private final EntityManages entityManages = new EntityManages();
-    private final EntityManager entityManager = entityManages.getEntityManager();
+    EntityManages entityManages = new EntityManages();
+    private EntityManager entityManager = entityManages.getEntityManager();
 
     public BaseDAOImp(Class<T> entityClass){
         this.entityClass = entityClass;
@@ -39,6 +39,8 @@ public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T
         try{
             transaction.begin();
             entityManager.merge(entity);
+            entityManager.flush();
+            entityManager.clear();
             transaction.commit();
             status = true;
         }catch (Exception e){
