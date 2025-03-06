@@ -45,13 +45,8 @@ public class AdminService {
         return addressDAOImp.add(address);
     }
 
-    public void viewOnlyStudent(){
-        List<Users> students = userDAO.getOnlyStudent();
-        System.out.printf("%-15s %-20s %-25s%n", "User Id", "Full Name", "Email");
-        System.out.println("======================================================");
-        for(Users student : students ){
-            System.out.printf("%-15s %-20s %-25s%n",student.getId(),student.getFullName(),student.getEmail());
-        }
+    public List<Users> viewOnlyStudent(){
+        return userDAO.getOnlyStudent();
     }
 
     public Address getUserDetailByRowNumber(int rowNumber){

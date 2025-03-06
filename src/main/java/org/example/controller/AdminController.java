@@ -4,7 +4,9 @@ import org.example.model.*;
 import org.example.service.AdminService;
 import org.example.utils.PasswordUtil;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.spi.AbstractResourceBundleProvider;
 
 public class AdminController {
     private final Scanner sc = new Scanner(System.in);
@@ -13,6 +15,7 @@ public class AdminController {
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
     private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
+    private final MonthyFeeController monthyFeeController = new MonthyFeeController();
 
     public void loginedAdminService(){
         while (true){
@@ -21,7 +24,7 @@ public class AdminController {
             System.out.println("3. View Allocated Details");
             System.out.println("4. View Visitors");
             System.out.println("5. View All Leave request");
-            System.out.println("6. Assign Monthly Fee");
+            System.out.println("6. View Monthly Fee");
             System.out.println("7. logout");
             int inputs = sc.nextInt();
             if (inputs == 1){
@@ -43,7 +46,7 @@ public class AdminController {
                 System.out.println("======================================");
                 viewAllLeaveRequest();
             } else if (inputs ==6) {
-                break;
+                viewAllStudentFee();
             } else if (inputs ==7) {
                 break;
             }
@@ -51,7 +54,12 @@ public class AdminController {
     }
 
     public void viewAllStudent(){
-        adminService.viewOnlyStudent();
+        List<Users> allUser = adminService.viewOnlyStudent();
+        System.out.printf("%-15s %-20s %-25s%n", "User Id", "Full Name", "Email");
+        System.out.println("======================================================");
+        for(Users student : allUser ){
+            System.out.printf("%-15s %-20s %-25s%n",student.getId(),student.getFullName(),student.getEmail());
+        }
         while (true){
             System.out.println("1. Add New Student");
             System.out.println("2. Update Users Details");
@@ -204,5 +212,17 @@ public class AdminController {
                 break;
             }
         }
+    }
+
+    public void viewAllStudentFee(){
+        monthyFeeController.viewAllStudentFee();
+        System.out.println("============================");
+        System.out.println("1. Assign New Monthly Fee");
+        System.out.println("2. exit");
+        int option = sc.nextInt();
+        if (option == 1){
+            monthyFeeController.assignMonthlyFee();
+        }
+
     }
 }
