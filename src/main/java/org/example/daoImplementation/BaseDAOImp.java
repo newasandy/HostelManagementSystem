@@ -74,6 +74,7 @@ public abstract class BaseDAOImp<T,ID extends Serializable> implements BaseDAO<T
 
     @Override
     public List<T> getAll() {
-        return entityManager.createQuery("SELECT e FROM "+ entityClass.getName() + " e",entityClass).getResultList();
+        return entityManager.createQuery("SELECT e FROM "+ entityClass.getName() + " e",entityClass)
+                .getResultList();
     }
 }

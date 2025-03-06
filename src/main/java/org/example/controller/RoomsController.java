@@ -116,7 +116,6 @@ public class RoomsController {
                 System.out.println("!!! Before Disable Room Unallocated Student Not Success");
             }
         }
-
     }
 
     public void getUserAllocatedDetailsController(Users users){
@@ -127,8 +126,7 @@ public class RoomsController {
     }
 
     public void viewAllocatedDetails(){
-        List<RoomAllocation> roomAllocatedList;
-        roomAllocatedList = roomsService.getAllocationDetails();
+        List<RoomAllocation> roomAllocatedList = roomsService.getAllocationDetails();
         System.out.println("SN\t\t Student Name \t\t\t Room Number \t\t\t Allocated Date \t\t\t Unallocated Date");
         int rowNumber =1;
         for (RoomAllocation roomAllocation : roomAllocatedList){

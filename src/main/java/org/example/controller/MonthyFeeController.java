@@ -36,21 +36,13 @@ public class MonthyFeeController {
             MonthlyFee assignMonthlyFee = new MonthlyFee();
             System.out.println("Select Months:");
             System.out.println("=========================");
-            System.out.println("1. January");
-            System.out.println("2. February");
-            System.out.println("3. March");
-            System.out.println("4. April");
-            System.out.println("5. May");
-            System.out.println("6. June");
-            System.out.println("7. July");
-            System.out.println("8. August");
-            System.out.println("9. September");
-            System.out.println("10. October");
-            System.out.println("11. November");
-            System.out.println("12. December");
+            String[] monthsName = {"January","February","March","April", "May","June","July","August","September","October","November","December"};
+            for (int i = 1 ; i <= monthsName.length ; i++){
+                System.out.println(i + ". "+monthsName[i]);
+            }
             String months = "";
             int monthsNumber = sc.nextInt();
-            String[] monthsName = {"January", "February", "March", "April", "May","June","July","August","September","October","November","December"};
+
             if (monthsNumber > 0 && monthsNumber <= monthsName.length){
                 months = monthsName[monthsNumber-1];
             }
