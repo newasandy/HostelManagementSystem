@@ -39,4 +39,14 @@ public class MonthlyFeeDAOImpl extends BaseDAOImp<MonthlyFee,Long> implements Mo
             return null;
         }
     }
+
+    @Override
+    public List<MonthlyFee> getAllUserUnPaidFee(){
+        try{
+            return entityManager.createQuery("SELECT m FROM MonthlyFee m WHERE m.paid < m.feeAmount", MonthlyFee.class)
+                    .getResultList();
+        }catch (NoResultException e){
+            return null;
+        }
+    }
 }

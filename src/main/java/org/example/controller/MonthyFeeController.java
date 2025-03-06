@@ -8,8 +8,8 @@ import org.example.service.MonthlyFeeService;
 import org.example.utils.PasswordUtil;
 
 import java.sql.Timestamp;
-import java.time.Month;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -36,21 +36,21 @@ public class MonthyFeeController {
             MonthlyFee assignMonthlyFee = new MonthlyFee();
             System.out.println("Select Months:");
             System.out.println("=========================");
-            System.out.println("1. Baishak");
-            System.out.println("2. Jestha");
-            System.out.println("3. Asar");
-            System.out.println("4. Shawan");
-            System.out.println("5. Bhadra");
-            System.out.println("6. Ashoj");
-            System.out.println("7. Katik");
-            System.out.println("8. Mangsir");
-            System.out.println("9. Push");
-            System.out.println("10. Magh");
-            System.out.println("11. Falgun");
-            System.out.println("12. Chaitra");
+            System.out.println("1. January");
+            System.out.println("2. February");
+            System.out.println("3. March");
+            System.out.println("4. April");
+            System.out.println("5. May");
+            System.out.println("6. June");
+            System.out.println("7. July");
+            System.out.println("8. August");
+            System.out.println("9. September");
+            System.out.println("10. October");
+            System.out.println("11. November");
+            System.out.println("12. December");
             String months = "";
             int monthsNumber = sc.nextInt();
-            String[] monthsName = {"Baishak", "Jestha", "Asar", "Shawan", "Bhadra","Ashoj","Katik","Mangsir","Push","Magh","Falgun","Chaitra"};
+            String[] monthsName = {"January", "February", "March", "April", "May","June","July","August","September","October","November","December"};
             if (monthsNumber > 0 && monthsNumber <= monthsName.length){
                 months = monthsName[monthsNumber-1];
             }
@@ -103,18 +103,20 @@ public class MonthyFeeController {
 
     }
 
+
      public void payFee(Users user){
-         List<MonthlyFee> allUnPaidFeeDetails = monthlyFeeService.getUserAllUnpaidFee(user.getId());
-         int sn =1;
-         for (MonthlyFee feeDetails : allUnPaidFeeDetails){
-             System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
-             sn++;
-         }
-         System.out.println("===================");
-         System.out.println("Select Month by Row Number for Pay Fee:");
-         MonthlyFee forPay;
-         int rowNumber = sc.nextInt();
-         if (rowNumber <1 || rowNumber > allUnPaidFeeDetails.size()){
+        List<MonthlyFee> allUnPaidFeeDetails = monthlyFeeService.getUserUnpaidFee(user.getId());
+        int sn =1;
+        System.out.println("SN \t\t Student Name\t\t\t Issue Date\t\t\t Fee Amount\t\t\t Paid \t\t\t Due");
+        for (MonthlyFee feeDetails : allUnPaidFeeDetails){
+            System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
+            sn++;
+        }
+        System.out.println("===================");
+        System.out.println("Select Month by Row Number for Pay Fee:");
+        MonthlyFee forPay;
+        int rowNumber = sc.nextInt();
+        if (rowNumber <1 || rowNumber > allUnPaidFeeDetails.size()){
              System.out.println("Invalid Row Number");
          }else {
              forPay = allUnPaidFeeDetails.get(rowNumber-1);

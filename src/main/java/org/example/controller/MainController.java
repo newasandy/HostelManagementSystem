@@ -47,7 +47,7 @@ public class MainController {
             statusMessageModel = adminService.adminLoginService(admin);
             if(statusMessageModel.isStatus()){
                 System.out.println(statusMessageModel.getMessage());
-                adminController.loginedAdminService();
+                adminController.loginedAdminService(admin);
                 break;
             }else{
                 System.out.println(statusMessageModel.getMessage());

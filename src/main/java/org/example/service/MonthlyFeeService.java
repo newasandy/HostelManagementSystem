@@ -32,7 +32,11 @@ public class MonthlyFeeService {
         return monthlyFeeDAO.getUserFeeDetails(userId);
     }
 
-    public List<MonthlyFee> getUserAllUnpaidFee(Long userId){
+    public List<MonthlyFee> getAllUserUnpaidFee(){
+        return monthlyFeeDAO.getAllUserUnPaidFee();
+    }
+
+    public List<MonthlyFee> getUserUnpaidFee(Long userId){
         return monthlyFeeDAO.getUserUnPaidFee(userId);
     }
 

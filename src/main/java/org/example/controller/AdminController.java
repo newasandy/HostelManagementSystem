@@ -16,8 +16,9 @@ public class AdminController {
     private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
-
-    public void loginedAdminService(){
+    private Users admins = new Users();
+    public void loginedAdminService(Users admin){
+        admins = admin;
         while (true){
             System.out.println("1. View All Students");
             System.out.println("2. View All Rooms");
