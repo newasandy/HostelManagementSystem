@@ -1,13 +1,10 @@
 package org.example.controller;
 
-import org.example.daoImplementation.UserDAOImpl;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.service.AdminService;
 import org.example.service.UserService;
-import org.example.testConnection.TestConnection;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class MainController {
@@ -47,7 +44,7 @@ public class MainController {
             statusMessageModel = adminService.adminLoginService(admin);
             if(statusMessageModel.isStatus()){
                 System.out.println(statusMessageModel.getMessage());
-                adminController.loginedAdminService(admin);
+                adminController.loginedAdminService();
                 break;
             }else{
                 System.out.println(statusMessageModel.getMessage());
@@ -83,17 +80,6 @@ public class MainController {
                     break;
                 }
             }
-        }
-    }
-
-    public void testGetAllUser(){
-
-        UserDAOImpl getAll = new UserDAOImpl();
-
-
-        List<Users> userss = getAll.getAll();
-        for (Users usersModel:userss){
-            System.out.println("ID: "+usersModel.getId() +"Name: "+usersModel.getFullName()+" email: "+usersModel.getEmail()+" password: "+usersModel.getPasswords()+" roll: "+usersModel.getRoles()+" status: "+usersModel.isStatus());
         }
     }
 }

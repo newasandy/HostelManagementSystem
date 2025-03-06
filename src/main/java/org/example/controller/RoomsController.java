@@ -119,8 +119,6 @@ public class RoomsController {
 
     }
 
-
-
     public void getUserAllocatedDetailsController(Users users){
         List<RoomAllocation> allocatedDetails = roomsService.getAllocatedDetails(users.getId());
         for (RoomAllocation allocation : allocatedDetails){

@@ -6,7 +6,6 @@ import org.example.utils.PasswordUtil;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.spi.AbstractResourceBundleProvider;
 
 public class AdminController {
     private final Scanner sc = new Scanner(System.in);
@@ -16,9 +15,7 @@ public class AdminController {
     private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
-    private Users admins = new Users();
-    public void loginedAdminService(Users admin){
-        admins = admin;
+    public void loginedAdminService(){
         while (true){
             System.out.println("1. View All Students");
             System.out.println("2. View All Rooms");
