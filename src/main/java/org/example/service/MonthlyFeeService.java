@@ -27,4 +27,25 @@ public class MonthlyFeeService {
     public List<MonthlyFee> getAllStudentFeeDetails(){
         return monthlyFeeDAO.getAll();
     }
+
+    public List<MonthlyFee> getUserAllFeeDetails(Long userId){
+        return monthlyFeeDAO.getUserFeeDetails(userId);
+    }
+
+    public List<MonthlyFee> getUserAllUnpaidFee(Long userId){
+        return monthlyFeeDAO.getUserUnPaidFee(userId);
+    }
+
+    public StatusMessageModel feePaidByUser(MonthlyFee payFee){
+        if (monthlyFeeDAO.update(payFee)){
+            statusMessageModel.setStatus(true);
+            statusMessageModel.setMessage("Paid Successfully");
+        }else {
+            statusMessageModel.setStatus(false);
+            statusMessageModel.setMessage("!! Failed to Paid");
+        }
+        return statusMessageModel;
+    }
+
+
 }

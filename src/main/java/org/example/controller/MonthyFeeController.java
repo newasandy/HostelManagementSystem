@@ -5,6 +5,7 @@ import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.service.AdminService;
 import org.example.service.MonthlyFeeService;
+import org.example.utils.PasswordUtil;
 
 import java.sql.Timestamp;
 import java.time.Month;
@@ -83,4 +84,86 @@ public class MonthyFeeController {
             sn++;
         }
     }
+
+    public void viewFeeByUser(Users user){
+        List<MonthlyFee> allFeeDetails = monthlyFeeService.getUserAllFeeDetails(user.getId());
+        int sn =1;
+        for (MonthlyFee feeDetails : allFeeDetails){
+            System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
+            sn++;
+        }
+        System.out.println("===========================");
+        System.out.println("1. Paid Due Fee");
+        System.out.println("2. Exit");
+        System.out.println("+++++");
+        int option = sc.nextInt();
+        if (option == 1){
+            payFee(user);
+        }
+
+    }
+
+     public void payFee(Users user){
+         List<MonthlyFee> allUnPaidFeeDetails = monthlyFeeService.getUserAllUnpaidFee(user.getId());
+         int sn =1;
+         for (MonthlyFee feeDetails : allUnPaidFeeDetails){
+             System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
+             sn++;
+         }
+         System.out.println("===================");
+         System.out.println("Select Month by Row Number for Pay Fee:");
+         MonthlyFee forPay;
+         int rowNumber = sc.nextInt();
+         if (rowNumber <1 || rowNumber > allUnPaidFeeDetails.size()){
+             System.out.println("Invalid Row Number");
+         }else {
+             forPay = allUnPaidFeeDetails.get(rowNumber-1);
+             System.out.println("1. Full Pay");
+             System.out.println("2. Only certain Amount");
+             int option = sc.nextInt();
+             if (option == 1){
+                 System.out.println("+++++");
+                 System.out.println("Your Due Amount: "+forPay.getDue());
+                 System.out.println("+++++");
+                 double amount = forPay.getDue();
+                 double paidAmount = amount + forPay.getPaid();
+                 double dueAmount = forPay.getDue() - amount;
+                 sc.nextLine();
+                 System.out.println("Enter User Password:");
+                 String conformPassword = sc.nextLine();
+                 if (PasswordUtil.verifyPassword(conformPassword,user.getPasswords())){
+                     forPay.setPaid(paidAmount);
+                     forPay.setDue(dueAmount);
+                     statusMessageModel = monthlyFeeService.feePaidByUser(forPay);
+                     System.out.println(statusMessageModel.getMessage());
+                 }else {
+                     System.out.println("!! Password Incorrect");
+                 }
+             } else if (option == 2) {
+                 System.out.println("+++++");
+                 System.out.println("Your Due Amount: "+forPay.getDue());
+                 System.out.println("+++++");
+                 System.out.println("Enter Amount to Pay:");
+                 double payAmount = sc.nextDouble();
+                 if (payAmount <= forPay.getDue()){
+                     double paidAmount = payAmount + forPay.getPaid();
+                     double dueAmount = forPay.getDue() - payAmount;
+                     sc.nextLine();
+                     System.out.println("Enter User Password:");
+                     String conformPassword = sc.nextLine();
+                     if (PasswordUtil.verifyPassword(conformPassword,user.getPasswords())){
+                         forPay.setPaid(paidAmount);
+                         forPay.setDue(dueAmount);
+                         statusMessageModel = monthlyFeeService.feePaidByUser(forPay);
+                         System.out.println(statusMessageModel.getMessage());
+                     }else {
+                         System.out.println("!! Password Incorrect");
+                     }
+                 }else {
+                     System.out.println("!! Given Amount is Greater then Due Amount");
+                 }
+             }
+
+         }
+     }
 }
