@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import org.example.daoImplementation.RoomAllocationDAOImp;
+import org.example.daoInterface.RoomAllocationDAO;
 import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
@@ -14,10 +16,12 @@ import java.util.Scanner;
 public class RoomsController {
     private RoomsService roomsService = new RoomsService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
+
+    private RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
     Scanner sc = new Scanner(System.in);
 
     public void viewAllAllocatedDetails(){
-        List<RoomAllocation> roomAllocatedList = roomsService.getAllocationDetails();
+        List<RoomAllocation> roomAllocatedList = roomAllocationDAO.getAll();
         System.out.println("SN\t\t Student Name \t\t\t Room Number \t\t\t Allocated Date \t\t\t Unallocated Date");
         int rowNumber =1;
         for (RoomAllocation roomAllocation : roomAllocatedList){
@@ -25,6 +29,9 @@ public class RoomsController {
             rowNumber++;
         }
     }
+
+
+
 
     public void viewAllRoom(){
         List<Rooms> roomList =roomsService.getAllRoom();

@@ -1,5 +1,9 @@
-package org.example.controller;
+package org.example.view;
 
+import org.example.controller.LeaveRequestController;
+import org.example.controller.MonthyFeeController;
+import org.example.controller.RoomsController;
+import org.example.controller.VisitorsController;
 import org.example.model.*;
 import org.example.service.AdminService;
 import org.example.utils.PasswordUtil;
@@ -15,6 +19,8 @@ public class AdminController {
     private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
+
+
     public void loginedAdminService(Users loginAdmin){
         while (true){
             System.out.println("1. View All Students");

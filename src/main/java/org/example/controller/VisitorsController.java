@@ -17,7 +17,7 @@ public class VisitorsController {
     private final AdminService adminService = new AdminService();
     private final Scanner sc = new Scanner(System.in);
 
-    public void userVisitedBy(Users users){
+    public void getUserVisitedBy(Users users){
         List<Visitors> visitors = visitorService.userVisitedBy(users.getId());
         for (Visitors visitor : visitors){
             System.out.println(visitor.getFullName()+"\t\t\t"+visitor.getRelation()+"\t\t\t"+visitor.getReason()+"\t\t\t"+visitor.getEntryDatetime()+"\t\t\t"+visitor.getExitDatetime());

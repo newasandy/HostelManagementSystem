@@ -86,15 +86,6 @@ public class MonthyFeeController {
             System.out.println(sn+"\t\t"+feeDetails.getStudentId().getFullName()+"\t\t\t"+feeDetails.getIssueDate()+"\t\t\t"+feeDetails.getFeeAmount()+"\t\t\t"+feeDetails.getPaid()+"\t\t\t"+feeDetails.getDue());
             sn++;
         }
-        System.out.println("===========================");
-        System.out.println("1. Paid Due Fee");
-        System.out.println("2. Exit");
-        System.out.println("+++++");
-        int option = sc.nextInt();
-        if (option == 1){
-            payFee(user);
-        }
-
     }
 
     public void payFee(Users user){

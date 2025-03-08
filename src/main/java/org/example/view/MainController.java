@@ -1,4 +1,4 @@
-package org.example.controller;
+package org.example.view;
 
 import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.UserDAO;
@@ -13,7 +13,6 @@ public class MainController {
 
 
     private UserDAO userDAO = new UserDAOImpl();
-    private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final AdminService adminService = new AdminService();
     private final AdminController adminController = new AdminController();
     private UserService userService = new UserService(userDAO);
