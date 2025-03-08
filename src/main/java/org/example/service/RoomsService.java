@@ -47,13 +47,7 @@ public class RoomsService {
     }
 
 
-    public Rooms getRoomByRowNumber(int rowNumber){
-        List<Rooms> rooms = roomDAO.getAll();
-        if (rowNumber <0 || rowNumber > rooms.size()){
-            System.out.println("invalid Row Number");
-        }
-        return rooms.get(rowNumber - 1);
-    }
+
 
     public StatusMessageModel updateRoomService(Rooms room){
         Rooms getRoom = roomDAO.getById(room.getId());

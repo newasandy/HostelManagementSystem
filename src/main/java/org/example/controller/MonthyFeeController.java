@@ -1,7 +1,10 @@
 package org.example.controller;
 
+import org.example.daoImplementation.AddressDAOImp;
 import org.example.daoImplementation.MonthlyFeeDAOImpl;
+import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.MonthlyFeeDAO;
+import org.example.daoInterface.UserDAO;
 import org.example.model.MonthlyFee;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
@@ -17,7 +20,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MonthyFeeController {
-    private UsersService usersService = new UsersService();
+    private UserDAO userDAO = new UserDAOImpl();
+    private AddressDAOImp addressDAOImp = new AddressDAOImp();
+
+    private UsersService usersService = new UsersService(userDAO,addressDAOImp);
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private MonthlyFeeDAO monthlyFeeDAO = new MonthlyFeeDAOImpl();
     private MonthlyFeeService monthlyFeeService = new MonthlyFeeService(monthlyFeeDAO);

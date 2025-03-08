@@ -2,14 +2,13 @@ package org.example.view;
 
 import org.example.controller.*;
 import org.example.model.*;
-import org.example.service.UsersService;
 import org.example.utils.PasswordUtil;
 
 import java.util.Scanner;
 
 public class AdminView {
     private final Scanner sc = new Scanner(System.in);
-    private final UsersService usersService = new UsersService();
+    private final RoomsView roomsView = new RoomsView();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
     private final RoomsController roomsController = new RoomsController();
@@ -33,7 +32,7 @@ public class AdminView {
                 System.out.println("======================================");
             } else if (inputs == 2) {
                 System.out.println("======================================");
-                roomsController.viewAllRoom();
+                roomsView.viewAllRooms();
                 System.out.println("======================================");
             } else if (inputs == 3) {
                 System.out.println("======================================");
@@ -166,7 +165,6 @@ public class AdminView {
         System.out.println(statusMessageModel.getMessage());
     }
 
-
     public void deleteUser(){
         usersController.getAllUserDetails();
         System.out.println("Pick user by Row Number which want to delete:");
@@ -175,7 +173,6 @@ public class AdminView {
         statusMessageModel = usersController.deleteUser(rowNumber);
         System.out.println(statusMessageModel.getMessage());
     }
-
 
     public void viewAllLeaveRequest(){
         leaveRequestController.viewAllLeaveRequestByAdmin();

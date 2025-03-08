@@ -7,9 +7,14 @@ import org.example.utils.PasswordUtil;
 import java.util.List;
 
 public class UsersService {
-    private final UserDAO userDAO = new UserDAOImpl();
+    private final UserDAO userDAO;
     private final StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private final AddressDAOImp addressDAOImp = new AddressDAOImp();
+    private final AddressDAOImp addressDAOImp ;
+
+    public UsersService(UserDAO userDAO , AddressDAOImp addressDAOImp){
+        this.userDAO=userDAO;
+        this.addressDAOImp=addressDAOImp;
+    }
 
     public Users adminLoginService(Users admin){
         Users admins = userDAO.findByEmail(admin.getEmail());

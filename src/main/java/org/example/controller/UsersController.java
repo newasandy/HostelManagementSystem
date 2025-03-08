@@ -1,5 +1,8 @@
 package org.example.controller;
 
+import org.example.daoImplementation.AddressDAOImp;
+import org.example.daoImplementation.UserDAOImpl;
+import org.example.daoInterface.UserDAO;
 import org.example.model.Address;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
@@ -8,8 +11,10 @@ import org.example.service.UsersService;
 import java.util.List;
 
 public class UsersController {
+    private UserDAO userDAO = new UserDAOImpl();
+    private AddressDAOImp addressDAOImp = new AddressDAOImp();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private UsersService usersService = new UsersService();
+    private UsersService usersService = new UsersService(userDAO, addressDAOImp);
 
     public void viewOnlyStudent(){
         List<Users> students = usersService.viewOnlyStudent();

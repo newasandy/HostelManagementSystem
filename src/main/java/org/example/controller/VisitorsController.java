@@ -1,5 +1,8 @@
 package org.example.controller;
 
+import org.example.daoImplementation.AddressDAOImp;
+import org.example.daoImplementation.UserDAOImpl;
+import org.example.daoInterface.UserDAO;
 import org.example.model.Address;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
@@ -12,9 +15,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class VisitorsController {
+    private UserDAO userDAO = new UserDAOImpl();
+    private AddressDAOImp addressDAOImp = new AddressDAOImp();
     private final VisitorService visitorService = new VisitorService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private final UsersService usersService = new UsersService();
+    private final UsersService usersService = new UsersService(userDAO,addressDAOImp);
     private final Scanner sc = new Scanner(System.in);
 
     public void getUserVisitedBy(Users users){

@@ -1,7 +1,9 @@
 package org.example.controller;
 
 import org.example.daoImplementation.RoomAllocationDAOImp;
+import org.example.daoImplementation.RoomDAOImp;
 import org.example.daoInterface.RoomAllocationDAO;
+import org.example.daoInterface.RoomDAO;
 import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
@@ -17,8 +19,28 @@ public class RoomsController {
     private RoomsService roomsService = new RoomsService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
 
+    private RoomDAO roomDAO = new RoomDAOImp();
+
     private RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
     Scanner sc = new Scanner(System.in);
+
+    public void getAllRooms(){
+        List<Rooms> roomList =roomsService.getAllRoom();
+        System.out.printf("%-5s %-10s %-10s%n","SN","Room No.","Capacity");
+        int sn =1;
+        for (Rooms room : roomList){
+            System.out.printf("%-5s %-10s %-10s%n",sn, room.getRoomNumber(),room.getCapacity());
+            sn++;
+        }
+    }
+
+    public Rooms getRoomByRowNumber(int rowNumber){
+        List<Rooms> rooms = roomDAO.getAll();
+        if (rowNumber <0 || rowNumber > rooms.size()){
+            System.out.println("invalid Row Number");
+        }
+        return rooms.get(rowNumber - 1);
+    }
 
     public void viewAllAllocatedDetails(){
         List<RoomAllocation> roomAllocatedList = roomAllocationDAO.getAll();
@@ -31,8 +53,6 @@ public class RoomsController {
     }
 
 
-
-
     public void viewAllRoom(){
         List<Rooms> roomList =roomsService.getAllRoom();
         int sn =1;
@@ -40,75 +60,20 @@ public class RoomsController {
             System.out.println(sn+"\t\t"+room.getRoomNumber()+"\t\t"+room.getCapacity());
             sn++;
         }
-        while (true){
-            System.out.println("1. Add New Room");
-            System.out.println("2. Update Room");
-            System.out.println("3. Delete Room");
-            System.out.println("4. Exit");
-            System.out.println("=================================");
-            int option = sc.nextInt();
-            if (option == 1){
-                addNewRoom();
-            } else if (option == 2) {
-                updateRoom();
-            } else if (option == 3) {
-                deleteRoom();
-            } else if (option == 4) {
-                break;
-            }
-        }
+
     }
 
-    public void addNewRoom(){
-        sc.nextLine();
+    public StatusMessageModel addNewRoomController(int roomNumber, int roomCapacity){
         Rooms roomsModel = new Rooms();
-
-        System.out.println("Enter New Room Number");
-        int roomNumber = sc.nextInt();
-        System.out.println("Enter Room Capacity");
-        int roomCapacity = sc.nextInt();
-
         roomsModel.setStatus(true);
         roomsModel.setRoomNumber(roomNumber);
         roomsModel.setCapacity(roomCapacity);
-
-        statusMessageModel = roomsService.addNewRoomService(roomsModel);
-        System.out.println(statusMessageModel.getMessage());
+        return roomsService.addNewRoomService(roomsModel);
 
     }
 
-    public void updateRoom(){
-        List<Rooms> roomList =roomsService.getAllRoom();
-        int sn =1;
-        for (Rooms room : roomList){
-            System.out.println(sn+"\t\t"+room.getRoomNumber()+"\t\t"+room.getCapacity());
-            sn++;
-        }
-        System.out.println("Pick room by Row Number which want to update:");
-        System.out.println("===========================================");
-        int rowNumber = sc.nextInt();
-        Rooms rooms = roomsService.getRoomByRowNumber(rowNumber);
-        while (true){
-            System.out.println("Which field want to update:");
-            System.out.println("===============================");
-            System.out.println("1. Room Number: "+rooms.getRoomNumber());
-            System.out.println("2. Room Capacity: "+rooms.getCapacity());
-            System.out.println("3. Update");
-            int option = sc.nextInt();
-            if (option ==1){
-                sc.nextLine();
-                System.out.println("Enter new Room Number:");
-                rooms.setRoomNumber(sc.nextInt());
-            } else if (option ==2) {
-                sc.nextLine();
-                System.out.println("Enter new Room Capacity:");
-                rooms.setCapacity(sc.nextInt());
-            }else if (option ==3) {
-                break;
-            }
-        }
-        statusMessageModel = roomsService.updateRoomService(rooms);
-        System.out.println(statusMessageModel.getMessage());
+    public StatusMessageModel updateRoom(Rooms room){
+        return roomsService.updateRoomService(room);
     }
 
     public void deleteRoom(){
