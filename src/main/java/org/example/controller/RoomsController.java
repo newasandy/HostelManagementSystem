@@ -16,6 +16,15 @@ public class RoomsController {
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     Scanner sc = new Scanner(System.in);
 
+    public void viewAllAllocatedDetails(){
+        List<RoomAllocation> roomAllocatedList = roomsService.getAllocationDetails();
+        System.out.println("SN\t\t Student Name \t\t\t Room Number \t\t\t Allocated Date \t\t\t Unallocated Date");
+        int rowNumber =1;
+        for (RoomAllocation roomAllocation : roomAllocatedList){
+            System.out.println(rowNumber+"\t\t"+roomAllocation.getStudentId().getFullName()+"\t\t\t"+roomAllocation.getRoomId().getRoomNumber()+"\t\t\t"+roomAllocation.getAllocationDate()+"\t\t\t"+roomAllocation.getUnallocationDate());
+            rowNumber++;
+        }
+    }
 
     public void viewAllRoom(){
         List<Rooms> roomList =roomsService.getAllRoom();
@@ -126,13 +135,7 @@ public class RoomsController {
     }
 
     public void viewAllocatedDetails(){
-        List<RoomAllocation> roomAllocatedList = roomsService.getAllocationDetails();
-        System.out.println("SN\t\t Student Name \t\t\t Room Number \t\t\t Allocated Date \t\t\t Unallocated Date");
-        int rowNumber =1;
-        for (RoomAllocation roomAllocation : roomAllocatedList){
-            System.out.println(rowNumber+"\t\t"+roomAllocation.getStudentId().getFullName()+"\t\t\t"+roomAllocation.getRoomId().getRoomNumber()+"\t\t\t"+roomAllocation.getAllocationDate()+"\t\t\t"+roomAllocation.getUnallocationDate());
-            rowNumber++;
-        }
+        viewAllAllocatedDetails();
         while (true){
             System.out.println("1. Allocated New Student in Room");
             System.out.println("2. Unallocated Student From Room");

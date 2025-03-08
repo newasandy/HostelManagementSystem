@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import org.example.daoImplementation.UserDAOImpl;
+import org.example.daoInterface.UserDAO;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.service.AdminService;
@@ -9,12 +11,16 @@ import java.util.Scanner;
 
 public class MainController {
 
+
+    private UserDAO userDAO = new UserDAOImpl();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final AdminService adminService = new AdminService();
     private final AdminController adminController = new AdminController();
-    private final UserService userService = new UserService();
+    private UserService userService = new UserService(userDAO);
     private final UserController userController = new UserController();
     private static final Scanner sc = new Scanner(System.in);
+
+
     public static void main(String[] args) {
         MainController mainController = new MainController();
         while (true){

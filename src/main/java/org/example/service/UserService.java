@@ -7,10 +7,12 @@ import org.example.model.Users;
 import org.example.utils.PasswordUtil;
 
 public class UserService {
-    private final UserDAO userDAO = new UserDAOImpl();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
+    private UserDAO userDAO ;
 
-
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     public Users userLoginService(Users loginUser){
         Users user = userDAO.findByEmail(loginUser.getEmail());
