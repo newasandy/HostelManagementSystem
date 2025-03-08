@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.daoImplementation.MonthlyFeeDAOImpl;
 import org.example.daoInterface.MonthlyFeeDAO;
 import org.example.model.MonthlyFee;
 import org.example.model.StatusMessageModel;
@@ -10,7 +9,11 @@ import java.util.List;
 public class MonthlyFeeService {
 
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private MonthlyFeeDAO monthlyFeeDAO = new MonthlyFeeDAOImpl();
+    private MonthlyFeeDAO monthlyFeeDAO ;
+
+    public MonthlyFeeService(MonthlyFeeDAO monthlyFeeDAO){
+        this.monthlyFeeDAO = monthlyFeeDAO;
+    }
 
     public StatusMessageModel setStudentMonthlyFee(MonthlyFee assignFee){
         if (monthlyFeeDAO.add(assignFee)){

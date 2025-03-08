@@ -4,7 +4,7 @@ import org.example.model.Address;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.model.Visitors;
-import org.example.service.AdminService;
+import org.example.service.UsersService;
 import org.example.service.VisitorService;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class VisitorsController {
     private final VisitorService visitorService = new VisitorService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private final AdminService adminService = new AdminService();
+    private final UsersService usersService = new UsersService();
     private final Scanner sc = new Scanner(System.in);
 
     public void getUserVisitedBy(Users users){
@@ -45,10 +45,10 @@ public class VisitorsController {
 
     public void addVisitor(){
         Visitors visitor = new Visitors();
-        adminService.getAllUserAndAddress();
+        usersService.getAllUserAndAddress();
         System.out.println("Select Student By Row Number");
         int rowNumber = sc.nextInt();
-        Address user = adminService.getUserDetailByRowNumber(rowNumber);
+        Address user = usersService.getUserDetailByRowNumber(rowNumber);
         sc.nextLine();
         System.out.println("Enter Visitor Name");
         String visitorName = sc.nextLine();

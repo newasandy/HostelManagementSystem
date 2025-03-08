@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Scanner;
 
-public class UserController {
+public class GeneralUserView {
     Scanner sc = new Scanner(System.in);
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
 

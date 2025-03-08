@@ -75,7 +75,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.5.0</version>
                 <configuration>
-                    <mainClass>org.example.view.MainController</mainClass>
+                    <mainClass>org.example.view.Main</mainClass>
                 </configuration>
             </plugin>
             <plugin>

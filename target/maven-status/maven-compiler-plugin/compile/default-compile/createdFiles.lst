@@ -2,7 +2,6 @@ org/example/model/BaseEntity.class
 org/example/daoImplementation/LeaveRequestDAOImp.class
 org/example/daoImplementation/VisitorsDAOImp.class
 org/example/service/AdminService.class
-org/example/controller/AdminController.class
 org/example/daoInterface/BaseDAO.class
 org/example/daoInterface/RoomAllocationDAO.class
 org/example/daoImplementation/AddressDAOImp.class
@@ -23,6 +22,7 @@ org/example/controller/VisitorsController.class
 org/example/service/LeaveRequestService.class
 org/example/model/Visitors.class
 org/example/daoInterface/VisitorsDAO.class
+org/example/view/MainController.class
 org/example/model/MonthlyFee.class
 org/example/daoImplementation/MonthlyFeeDAOImpl.class
 org/example/model/StatusMessageModel.class
@@ -30,10 +30,10 @@ org/example/daoImplementation/UserDAOImpl.class
 org/example/daoInterface/RoomDAO.class
 org/example/service/MonthlyFeeService.class
 org/example/utils/PasswordUtil.class
+org/example/view/AdminController.class
 org/example/model/Rooms.class
 org/example/daoImplementation/RoomDAOImp.class
-org/example/controller/MainController.class
-org/example/controller/UserController.class
+org/example/view/UserController.class
 org/example/daoImplementation/BaseDAOImp.class
 org/example/model/RoomAllocation.class
 org/example/controller/LeaveRequestController.class

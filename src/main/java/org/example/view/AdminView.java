@@ -1,25 +1,22 @@
 package org.example.view;
 
-import org.example.controller.LeaveRequestController;
-import org.example.controller.MonthyFeeController;
-import org.example.controller.RoomsController;
-import org.example.controller.VisitorsController;
+import org.example.controller.*;
 import org.example.model.*;
-import org.example.service.AdminService;
+import org.example.service.UsersService;
 import org.example.utils.PasswordUtil;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class AdminController {
+public class AdminView {
     private final Scanner sc = new Scanner(System.in);
-    private final AdminService adminService = new AdminService();
+    private final UsersService usersService = new UsersService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
     private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
-
+    private final UsersController usersController = new UsersController();
 
     public void loginedAdminService(Users loginAdmin){
         while (true){
@@ -58,12 +55,7 @@ public class AdminController {
     }
 
     public void viewAllStudent(){
-        List<Users> allUser = adminService.viewOnlyStudent();
-        System.out.printf("%-15s %-20s %-25s%n", "User Id", "Full Name", "Email");
-        System.out.println("======================================================");
-        for(Users student : allUser ){
-            System.out.printf("%-15s %-20s %-25s%n",student.getId(),student.getFullName(),student.getEmail());
-        }
+        usersController.viewOnlyStudent();
         while (true){
             System.out.println("1. Add New Student");
             System.out.println("2. Update Users Details");
@@ -85,8 +77,6 @@ public class AdminController {
 
     public void addNewStudent(){
         sc.nextLine();
-        Users student = new Users();
-        Address address = new Address();
 
         System.out.println("Enter full name");
         String studentName = sc.nextLine();
@@ -109,34 +99,16 @@ public class AdminController {
         int wardNo = sc.nextInt();
         sc.nextLine();
 
-        student.setFullName(studentName);
-        student.setEmail(email);
-        student.setPasswords(hashPassword);
-        student.setRoles(role);
-        student.setStatus(true);
-
-        address.setCountry(country);
-        address.setDistrict(district);
-        address.setRmcMc(rmcMc);
-        address.setWardNo(wardNo);
-
-        statusMessageModel = adminService.registerNewStudent(student);
-        if (statusMessageModel.isStatus()){
-            address.setUser(student);
-                if (adminService.addUserAddress(address)){
-                    System.out.println(statusMessageModel.getMessage());
-                }
-        }else {
-            System.out.println(statusMessageModel.getMessage());
-        }
+        statusMessageModel = usersController.addNewStudent(studentName,email,hashPassword,role,country,district,rmcMc,wardNo);
+        System.out.println(statusMessageModel.getMessage());
     }
 
     public void updateUsersDetails(){
-        adminService.getAllUserAndAddress();
+        usersService.getAllUserAndAddress();
         System.out.println("Pick user by Row Number which want to update:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();
-        Address user = adminService.getUserDetailByRowNumber(rowNumber);
+        Address user = usersService.getUserDetailByRowNumber(rowNumber);
         while (true){
             System.out.println("Which field want to update:");
             System.out.println("===============================");
@@ -191,16 +163,16 @@ public class AdminController {
                 break;
             }
         }
-        statusMessageModel = adminService.updateUserDetails(user);
+        statusMessageModel = usersService.updateUserDetails(user);
         System.out.println(statusMessageModel.getMessage());
     }
 
     public void deleteUser(){
-        adminService.getAllUserAndAddress();
+        usersService.getAllUserAndAddress();
         System.out.println("Pick user by Row Number which want to delete:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();
-        statusMessageModel = adminService.deleteUserService(rowNumber);
+        statusMessageModel = usersService.deleteUserService(rowNumber);
         System.out.println(statusMessageModel.getMessage());
     }
 

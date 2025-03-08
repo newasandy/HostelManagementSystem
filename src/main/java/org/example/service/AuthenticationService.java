@@ -1,16 +1,13 @@
 package org.example.service;
 
-import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.UserDAO;
-import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.utils.PasswordUtil;
 
-public class UserService {
-    private StatusMessageModel statusMessageModel = new StatusMessageModel();
+public class AuthenticationService {
     private UserDAO userDAO ;
 
-    public UserService(UserDAO userDAO) {
+    public AuthenticationService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
@@ -25,7 +22,6 @@ public class UserService {
                 return null;
             }
         }else {
-
             System.out.println("!! Invalid User");
             return null;
         }

@@ -2,34 +2,33 @@ package org.example.view;
 
 import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.UserDAO;
-import org.example.model.StatusMessageModel;
 import org.example.model.Users;
-import org.example.service.AdminService;
-import org.example.service.UserService;
+import org.example.service.UsersService;
+import org.example.service.AuthenticationService;
 
 import java.util.Scanner;
 
-public class MainController {
+public class Main {
 
 
     private UserDAO userDAO = new UserDAOImpl();
-    private final AdminService adminService = new AdminService();
-    private final AdminController adminController = new AdminController();
-    private UserService userService = new UserService(userDAO);
-    private final UserController userController = new UserController();
+    private final UsersService usersService = new UsersService();
+    private final AdminView adminView = new AdminView();
+    private AuthenticationService authenticationService = new AuthenticationService(userDAO);
+    private final GeneralUserView generalUserView = new GeneralUserView();
     private static final Scanner sc = new Scanner(System.in);
 
 
     public static void main(String[] args) {
-        MainController mainController = new MainController();
+        Main main = new Main();
         while (true){
             System.out.println("Select User For Login: \n 1. Admin Login \n 2. Student Login \n 3. Exit");
             int i = sc.nextInt();
             sc.nextLine();
             if (i == 1){
-                mainController.adminLogin();
+                main.adminLogin();
             } else if (i == 2){
-                mainController.userLogin();
+                main.userLogin();
             }else if (i ==3) {
                 System.out.println("have a good day");
                 break;
@@ -46,9 +45,9 @@ public class MainController {
             admin.setEmail(email);
             admin.setPasswords(password);
 
-            Users loginAdmin = adminService.adminLoginService(admin);
+            Users loginAdmin = usersService.adminLoginService(admin);
             if(loginAdmin != null){
-                adminController.loginedAdminService(loginAdmin);
+                adminView.loginedAdminService(loginAdmin);
                 break;
             }else{
                 System.out.println("1. Re-Enter");
@@ -71,9 +70,9 @@ public class MainController {
             user.setEmail(email);
             user.setPasswords(password);
 
-            Users loginUser = userService.userLoginService(user);
+            Users loginUser = authenticationService.userLoginService(user);
             if(loginUser != null){
-                userController.userLoginService(loginUser);
+                generalUserView.userLoginService(loginUser);
                 break;
             }else{
                 System.out.println("1. Re-Enter");

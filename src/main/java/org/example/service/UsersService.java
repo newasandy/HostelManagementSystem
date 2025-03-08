@@ -1,13 +1,12 @@
 package org.example.service;
 
-import com.mysql.cj.protocol.a.NativeUtils;
 import org.example.daoImplementation.*;
 import org.example.daoInterface.UserDAO;
 import org.example.model.*;
 import org.example.utils.PasswordUtil;
 import java.util.List;
 
-public class AdminService {
+public class UsersService {
     private final UserDAO userDAO = new UserDAOImpl();
     private final StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final AddressDAOImp addressDAOImp = new AddressDAOImp();

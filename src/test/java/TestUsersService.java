@@ -1,32 +1,25 @@
-import org.example.daoImplementation.AddressDAOImp;
-import org.example.daoInterface.RoomAllocationDAO;
-import org.example.daoInterface.RoomDAO;
 import org.example.daoInterface.UserDAO;
 import org.example.model.*;
-import org.example.service.RoomsService;
-import org.example.service.UserService;
+import org.example.service.AuthenticationService;
 import org.example.utils.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class TestAdminService {
+public class TestUsersService {
 
     private UserDAO mockUserDAO;
-    private UserService mockUserService;
+    private AuthenticationService mockAuthenticationService;
 
     @BeforeEach
     void setup() {
         mockUserDAO = mock(UserDAO.class);
-        mockUserService = new UserService(mockUserDAO);
+        mockAuthenticationService = new AuthenticationService(mockUserDAO);
     }
 
     @Test
@@ -54,7 +47,7 @@ public class TestAdminService {
                     .thenReturn(true); // Mock password verification
 
             // Act
-            Users user = mockUserService.userLoginService(userss);
+            Users user = mockAuthenticationService.userLoginService(userss);
 
             // Assert
             assertNotNull(user);

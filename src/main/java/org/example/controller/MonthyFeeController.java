@@ -1,9 +1,11 @@
 package org.example.controller;
 
+import org.example.daoImplementation.MonthlyFeeDAOImpl;
+import org.example.daoInterface.MonthlyFeeDAO;
 import org.example.model.MonthlyFee;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
-import org.example.service.AdminService;
+import org.example.service.UsersService;
 import org.example.service.MonthlyFeeService;
 import org.example.utils.PasswordUtil;
 
@@ -15,13 +17,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MonthyFeeController {
-    private AdminService adminService = new AdminService();
+    private UsersService usersService = new UsersService();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private MonthlyFeeService monthlyFeeService = new MonthlyFeeService();
+    private MonthlyFeeDAO monthlyFeeDAO = new MonthlyFeeDAOImpl();
+    private MonthlyFeeService monthlyFeeService = new MonthlyFeeService(monthlyFeeDAO);
     private Scanner sc = new Scanner(System.in);
 
     public void assignMonthlyFee(){
-        List<Users> allUser = adminService.viewOnlyStudent();
+        List<Users> allUser = usersService.viewOnlyStudent();
         System.out.printf("%-15s %-20s %-25s%n", "User Id", "Full Name", "Email");
         System.out.println("======================================================");
         for(Users student : allUser ){
