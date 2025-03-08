@@ -5,7 +5,6 @@ import org.example.model.*;
 import org.example.service.UsersService;
 import org.example.utils.PasswordUtil;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class AdminView {
@@ -104,77 +103,79 @@ public class AdminView {
     }
 
     public void updateUsersDetails(){
-        usersService.getAllUserAndAddress();
+        usersController.getAllUserDetails();
         System.out.println("Pick user by Row Number which want to update:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();
-        Address user = usersService.getUserDetailByRowNumber(rowNumber);
+        Users user = usersController.getUserDetailByRowNumber(rowNumber);
         while (true){
             System.out.println("Which field want to update:");
             System.out.println("===============================");
-            System.out.println("1. Name: "+user.getUser().getFullName());
-            System.out.println("2. Email: "+user.getUser().getEmail());
-            System.out.println("3. Role: "+user.getUser().getRoles());
-            System.out.println("4. Status: "+(user.getUser().isStatus() ? "Active" : "Inactive"));
-            System.out.println("5. Country: "+user.getCountry());
-            System.out.println("6. District: "+user.getDistrict());
-            System.out.println("7. RMC/MC: "+user.getRmcMc());
-            System.out.println("8. Ward No: "+user.getWardNo());
+            System.out.println("1. Name: "+user.getFullName());
+            System.out.println("2. Email: "+user.getEmail());
+            System.out.println("3. Role: "+user.getRoles());
+            System.out.println("4. Status: "+(user.isStatus() ? "Active" : "Inactive"));
+            System.out.println("5. Country: "+user.getAddress().getCountry());
+            System.out.println("6. District: "+user.getAddress().getDistrict());
+            System.out.println("7. RMC/MC: "+user.getAddress().getRmcMc());
+            System.out.println("8. Ward No: "+user.getAddress().getWardNo());
             System.out.println("9. Update ");
             int option = sc.nextInt();
             if (option ==1){
                 sc.nextLine();
                 System.out.println("Enter new Name:");
-                user.getUser().setFullName(sc.nextLine());
+                user.setFullName(sc.nextLine());
             } else if (option ==2) {
                 sc.nextLine();
                 System.out.println("Enter new Email:");
-                user.getUser().setEmail(sc.nextLine());
+                user.setEmail(sc.nextLine());
             }else if (option ==3) {
                 sc.nextLine();
                 System.out.println("Enter new Role:");
-                user.getUser().setRoles(sc.nextLine());
+                user.setRoles(sc.nextLine());
             }else if (option ==4) {
                 sc.nextLine();
                 System.out.println("Enter new status:1 for active and 0 or inactive");
                 int status = sc.nextInt();
                 if (status ==1){
-                    user.getUser().setStatus(true);
+                    user.setStatus(true);
                 } else if (status == 0) {
-                    user.getUser().setStatus(false);
+                    user.setStatus(false);
                 }
             }else if (option ==5) {
                 sc.nextLine();
                 System.out.println("Enter new Country:");
-                user.setCountry(sc.nextLine());
+                user.getAddress().setCountry(sc.nextLine());
             }else if (option ==6) {
                 sc.nextLine();
                 System.out.println("Enter new District:");
-                user.setDistrict(sc.nextLine());
+                user.getAddress().setDistrict(sc.nextLine());
             }else if (option ==7) {
                 sc.nextLine();
                 System.out.println("Enter new RMC/MC:");
-                user.setRmcMc(sc.nextLine());
+                user.getAddress().setRmcMc(sc.nextLine());
             }else if (option ==8) {
                 sc.nextLine();
                 System.out.println("Enter new Ward No.:");
-                user.setWardNo(sc.nextInt());
+                user.getAddress().setWardNo(sc.nextInt());
             }else if (option ==9) {
                 break;
             }
         }
-        statusMessageModel = usersService.updateUserDetails(user);
+        statusMessageModel = usersController.updateUserDetails(user);
         System.out.println(statusMessageModel.getMessage());
     }
 
+
     public void deleteUser(){
-        usersService.getAllUserAndAddress();
+        usersController.getAllUserDetails();
         System.out.println("Pick user by Row Number which want to delete:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();
-        statusMessageModel = usersService.deleteUserService(rowNumber);
+        statusMessageModel = usersController.deleteUser(rowNumber);
         System.out.println(statusMessageModel.getMessage());
     }
+
 
     public void viewAllLeaveRequest(){
         leaveRequestController.viewAllLeaveRequestByAdmin();

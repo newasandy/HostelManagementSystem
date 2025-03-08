@@ -57,20 +57,15 @@ public class UsersService {
         return users.get(rowNumber-1);
     }
 
-    public void getAllUserAndAddress(){
-        List<Address> users = addressDAOImp.getAll();
-        int rowNumber = 1;
-        for (Address user : users){
-            System.out.println(rowNumber+"\t"+user.getUser().getFullName()+"\t\t"+user.getUser().getEmail() +"\t\t" +user.getUser().getRoles()+"\t\t" +user.getUser().isStatus());
-            rowNumber++;
-        }
+    public List<Users> getAllUser(){
+        return userDAO.getAll();
     }
 
-    public StatusMessageModel updateUserDetails(Address user){
-        Users getUser = userDAO.getById(user.getUser().getId());
-        if (getUser.getEmail().equals(user.getUser().getEmail())){
-            if (userDAO.update(user.getUser())){
-                if (addressDAOImp.update(user)){
+    public StatusMessageModel updateUserDetails(Users user){
+        Users updateUserData = userDAO.getById(user.getId());
+        if (updateUserData.getEmail().equals(user.getEmail())){
+            if (userDAO.update(user)){
+                if (addressDAOImp.update(user.getAddress())){
                     statusMessageModel.setStatus(true);
                     statusMessageModel.setMessage("User Details Update Successfully");
                 }
@@ -79,10 +74,10 @@ public class UsersService {
                 statusMessageModel.setMessage("!! User Details Not Updated");
             }
         }else {
-            Users checkUser = userDAO.findByEmail(user.getUser().getEmail());
+            Users checkUser = userDAO.findByEmail(user.getEmail());
             if (checkUser == null){
-                if (userDAO.update(user.getUser())){
-                    if (addressDAOImp.update(user)){
+                if (userDAO.update(user)){
+                    if (addressDAOImp.update(user.getAddress())){
                         statusMessageModel.setStatus(true);
                         statusMessageModel.setMessage("User Details Update Successfully");
                     }
@@ -98,12 +93,9 @@ public class UsersService {
         return statusMessageModel;
     }
 
-    public StatusMessageModel deleteUserService(int rowNumber){
-        List<Users> users = userDAO.getAll();
-        if (rowNumber < 0 || rowNumber > users.size()){
-            throw new IllegalArgumentException("Invalid Row Number");
-        }
-        if (userDAO.delete(users.get(rowNumber - 1 ).getId())){
+
+    public StatusMessageModel deleteUserService(Users deleteUser){
+        if (userDAO.delete(deleteUser.getId())){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Delete user Successfully");
         }else {

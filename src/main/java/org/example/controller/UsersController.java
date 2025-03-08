@@ -12,11 +12,34 @@ public class UsersController {
     private UsersService usersService = new UsersService();
 
     public void viewOnlyStudent(){
-        List<Users> allUser = usersService.viewOnlyStudent();
-        System.out.printf("%-15s %-20s %-25s%n", "User Id", "Full Name", "Email");
+        List<Users> students = usersService.viewOnlyStudent();
+        System.out.printf("%-5s %-15s %-20s %-25s %-20s %-20s %-25s %-10s%n","SN", "User Id", "Full Name", "Email","Country","District","RMC/MC","Ward No");
         System.out.println("======================================================");
+        int sn = 1;
+        for(Users student : students){
+            System.out.printf("%-5s %-15s %-20s %-25s %-20s %-20s %-25s %-10s%n",sn ,student.getId(),student.getFullName(),student.getEmail(),student.getAddress().getCountry(),student.getAddress().getDistrict(),student.getAddress().getRmcMc(),student.getAddress().getWardNo());
+            sn++;
+        }
+    }
+
+    public void getAllUserDetails(){
+        List<Users> allUser = usersService.getAllUser();
+        System.out.printf("%-5s %-15s %-20s %-25s %-20s %-20s %-25s %-10s%n","SN", "User Id", "Full Name", "Email","Country","District","RMC/MC","Ward No");
+        System.out.println("======================================================");
+        int sn = 1;
         for(Users student : allUser ){
-            System.out.printf("%-15s %-20s %-25s%n",student.getId(),student.getFullName(),student.getEmail());
+            System.out.printf("%-5s %-15s %-20s %-25s %-20s %-20s %-25s %-10s%n",sn ,student.getId(),student.getFullName(),student.getEmail(),student.getAddress().getCountry(),student.getAddress().getDistrict(),student.getAddress().getRmcMc(),student.getAddress().getWardNo());
+            sn++;
+        }
+    }
+
+    public Users getUserDetailByRowNumber(int rowNumber){
+        List<Users> allUser = usersService.getAllUser();
+        if (rowNumber <1 || rowNumber >allUser.size()){
+            System.out.println("Invalid Row Number");
+            return null;
+        }else {
+            return allUser.get(rowNumber-1);
         }
     }
 
@@ -48,5 +71,15 @@ public class UsersController {
         }else {
             return statusMessageModel;
         }
+    }
+
+    public StatusMessageModel updateUserDetails(Users userUpdateDetails){
+
+        return usersService.updateUserDetails(userUpdateDetails);
+    }
+
+    public StatusMessageModel deleteUser(int rowNumber){
+        Users deleteUser = getUserDetailByRowNumber(rowNumber);
+        return statusMessageModel = usersService.deleteUserService(deleteUser);
     }
 }

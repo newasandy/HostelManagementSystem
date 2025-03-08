@@ -45,7 +45,7 @@ public class VisitorsController {
 
     public void addVisitor(){
         Visitors visitor = new Visitors();
-        usersService.getAllUserAndAddress();
+        usersService.getAllUser();
         System.out.println("Select Student By Row Number");
         int rowNumber = sc.nextInt();
         Address user = usersService.getUserDetailByRowNumber(rowNumber);
