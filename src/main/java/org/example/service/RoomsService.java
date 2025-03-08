@@ -1,15 +1,10 @@
 package org.example.service;
 
-import org.example.daoImplementation.RoomAllocationDAOImp;
-import org.example.daoImplementation.RoomDAOImp;
-import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.RoomAllocationDAO;
 import org.example.daoInterface.RoomDAO;
-import org.example.daoInterface.UserDAO;
 import org.example.model.RoomAllocation;
 import org.example.model.Rooms;
 import org.example.model.StatusMessageModel;
-import org.example.model.Users;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -17,9 +12,13 @@ import java.util.List;
 
 public class RoomsService {
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
-    private RoomDAO roomDAO = new RoomDAOImp();
-    private UserDAO userDAO = new UserDAOImpl();
+    private RoomAllocationDAO roomAllocationDAO ;
+    private RoomDAO roomDAO ;
+
+    public RoomsService(RoomDAO roomDAO, RoomAllocationDAO roomAllocationDAO){
+        this.roomDAO=roomDAO;
+        this.roomAllocationDAO=roomAllocationDAO;
+    }
 
     public List<Rooms> getAllRoom(){
         return roomDAO.getAll();
@@ -42,12 +41,8 @@ public class RoomsService {
             statusMessageModel.setStatus(false);
             statusMessageModel.setMessage("!! Room Already Exist");
         }
-
         return statusMessageModel;
     }
-
-
-
 
     public StatusMessageModel updateRoomService(Rooms room){
         Rooms getRoom = roomDAO.getById(room.getId());
@@ -82,7 +77,6 @@ public class RoomsService {
     }
 
     public StatusMessageModel deleteRoomService(Rooms room){
-        room.setStatus(false);
         if (roomDAO.update(room)){
                 statusMessageModel.setStatus(true);
                 statusMessageModel.setMessage("Disable Room Successfully");
@@ -93,17 +87,16 @@ public class RoomsService {
         return statusMessageModel;
     }
 
-    public List<RoomAllocation> getAllocatedDetails(Long userId){
-        List<RoomAllocation> allocatedDetails = roomAllocationDAO.getUserAllocated(userId);
-        return allocatedDetails;
+    public List<RoomAllocation> getUserAllocatedDetails(Long userId){
+        return roomAllocationDAO.getUserAllocated(userId);
     }
 
-    public List<RoomAllocation> getAllocationDetails(){
+    public List<RoomAllocation> getOnlyAllocatedDetails(){
+        return roomAllocationDAO.getOnlyAllocatedDetails();
+    }
+
+    public List<RoomAllocation> getAllRoomAllocatedDetails(){
         return roomAllocationDAO.getAll();
-
-    }
-    public List<Users> getUnallocatedStudent(){
-        return userDAO.getUnallocatedUsers();
     }
 
     public StatusMessageModel setStudentAtRoom(RoomAllocation roomAllocation){
@@ -115,11 +108,6 @@ public class RoomsService {
             statusMessageModel.setMessage("!! Student not allocated at room");
         }
         return statusMessageModel;
-    }
-
-    public List<RoomAllocation> getAllRoomAllocatedList(){
-        return roomAllocationDAO.getAll();
-
     }
 
     public StatusMessageModel unallocatedStudentFromRoom(RoomAllocation unallocatedUser){
@@ -141,7 +129,5 @@ public class RoomsService {
         }else {
             return false;
         }
-
     }
-
 }

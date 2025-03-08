@@ -36,7 +36,7 @@ public class AdminView {
                 System.out.println("======================================");
             } else if (inputs == 3) {
                 System.out.println("======================================");
-                roomsController.viewAllocatedDetails();
+                roomsView.viewAllocatedDetails();
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");

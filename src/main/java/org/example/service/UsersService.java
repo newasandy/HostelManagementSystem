@@ -110,4 +110,8 @@ public class UsersService {
         return statusMessageModel;
     }
 
+    public List<Users> getUnallocatedStudent(){
+        return userDAO.getUnallocatedUsers();
+    }
+
 }

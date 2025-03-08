@@ -48,6 +48,30 @@ public class UsersController {
         }
     }
 
+    public boolean viewUnallocatedStudent(){
+        List<Users> unallocatedUsers = usersService.getUnallocatedStudent();
+        if (unallocatedUsers.isEmpty()){
+            return false;
+        }else {
+            int sn = 1;
+            for (Users user : unallocatedUsers){
+                System.out.println(sn +"\t"+user.getId()+"\t\t"+user.getFullName()+"\t\t"+user.getEmail()+"\t\t"+user.getRoles());
+            }
+            return true;
+        }
+
+    }
+
+    public Users getUnallocatedStudentByRow(int rowNumber){
+        List<Users> unallocatedUsers = usersService.getUnallocatedStudent();
+        if (rowNumber <1 || rowNumber >unallocatedUsers.size()){
+            System.out.println("Invalid Row Number");
+            return null;
+        }else {
+            return unallocatedUsers.get(rowNumber-1);
+        }
+    }
+
 
     public StatusMessageModel addNewStudent(String fullName, String email, String hashPassword, String role, String country, String district, String rmcMc, int wardNo){
         Users student = new Users();

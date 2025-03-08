@@ -47,7 +47,7 @@ public class GeneralUserView {
     }
 
     public void viewUserAllocatedDetails(Users user){
-        roomsController.getUserAllocatedDetailsController(user);
+        roomsController.getUserAllocatedDetails(user);
     }
 
     public void viewUserVisitedBy(Users user){
