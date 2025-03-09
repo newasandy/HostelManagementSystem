@@ -47,7 +47,7 @@ public class TestUsersService {
                     .thenReturn(true); // Mock password verification
 
             // Act
-            Users user = mockAuthenticationService.userLoginService(userss);
+            Users user = mockAuthenticationService.loginService(userss);
 
             // Assert
             assertNotNull(user);

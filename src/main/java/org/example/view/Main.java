@@ -24,20 +24,18 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
         while (true){
-            System.out.println("Select User For Login: \n 1. Admin Login \n 2. Student Login \n 3. Exit");
+            System.out.println("Login Page: \n 1. Login \n 2. Exit");
             int i = sc.nextInt();
             sc.nextLine();
             if (i == 1){
-                main.adminLogin();
-            } else if (i == 2){
-                main.userLogin();
-            }else if (i ==3) {
+                main.loginUser();
+            }else if (i ==2) {
                 System.out.println("have a good day");
                 break;
             }
         }
     }
-    public void adminLogin(){
+    public void loginUser(){
         Users admin = new Users();
         while (true){
             System.out.println("Enter Email:");
@@ -47,35 +45,14 @@ public class Main {
             admin.setEmail(email);
             admin.setPasswords(password);
 
-            Users loginAdmin = usersService.adminLoginService(admin);
-            if(loginAdmin != null){
-                adminView.loginedAdminService(loginAdmin);
-                break;
-            }else{
-                System.out.println("1. Re-Enter");
-                System.out.println("2. Exit");
-                String option = sc.nextLine();
-                if (option.equals("2")){
-                    break;
-                }
-            }
-        }
-    }
+            Users loginUser = authenticationService.loginService(admin);
 
-    public void userLogin(){
-        Users user = new Users();
-        while (true){
-            System.out.println("Enter Email:");
-            String email = sc.nextLine();
-            System.out.println("Enter Password:");
-            String password = sc.nextLine();
-            user.setEmail(email);
-            user.setPasswords(password);
-
-            Users loginUser = authenticationService.userLoginService(user);
             if(loginUser != null){
-                generalUserView.userLoginService(loginUser);
-                break;
+                if (loginUser.getRoles().equals("ADMIN")){
+                    adminView.loginedAdminService(loginUser);
+                }else if (loginUser.getRoles().equals("USER")){
+                    generalUserView.userLoginService(loginUser);
+                }
             }else{
                 System.out.println("1. Re-Enter");
                 System.out.println("2. Exit");

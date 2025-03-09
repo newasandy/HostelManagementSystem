@@ -16,22 +16,6 @@ public class UsersService {
         this.addressDAOImp=addressDAOImp;
     }
 
-    public Users adminLoginService(Users admin){
-        Users admins = userDAO.findByEmail(admin.getEmail());
-        if (admins != null){
-            if (PasswordUtil.verifyPassword(admin.getPasswords(),admins.getPasswords()) && admins.getRoles().equals("ADMIN")){
-                System.out.println("Admin Login Successfully");
-                return admins;
-            }else {
-                System.out.println("!! Invalid Password");
-                return null;
-            }
-        }else {
-            System.out.println("!! Invalid Admin");
-            return null;
-        }
-
-    }
 
     public StatusMessageModel registerNewStudent(Users registerStudent){
         Users checkUser = userDAO.findByEmail(registerStudent.getEmail());

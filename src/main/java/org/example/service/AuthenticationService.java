@@ -11,12 +11,14 @@ public class AuthenticationService {
         this.userDAO = userDAO;
     }
 
-    public Users userLoginService(Users loginUser){
+    public Users loginService(Users loginUser){
         Users user = userDAO.findByEmail(loginUser.getEmail());
         if (user != null){
-            if (PasswordUtil.verifyPassword(loginUser.getPasswords(),user.getPasswords()) && user.getRoles().equals("USER")){
-                System.out.println("User Login Successfully");
+            if (PasswordUtil.verifyPassword(loginUser.getPasswords(),user.getPasswords())){
+
+                System.out.println("Hi, "+user.getFullName()+" Welcome Back");
                 return user;
+
             }else {
                 System.out.println("!! Password Invalid or You Are Not User");
                 return null;
