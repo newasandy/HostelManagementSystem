@@ -1,5 +1,7 @@
 package org.example.controller;
 
+import org.example.daoImplementation.VisitorsDAOImp;
+import org.example.daoInterface.VisitorsDAO;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.model.Visitors;
@@ -9,8 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 public class VisitorsController {
-
-    private final VisitorService visitorService = new VisitorService();
+    private VisitorsDAO visitorsDAO = new VisitorsDAOImp();
+    private final VisitorService visitorService = new VisitorService(visitorsDAO);
     private UsersController usersController = new UsersController();
 
     public void getUserVisitedBy(Users users){

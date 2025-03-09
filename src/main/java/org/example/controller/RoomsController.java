@@ -20,7 +20,6 @@ public class RoomsController {
     private RoomAllocationDAO roomAllocationDAO = new RoomAllocationDAOImp();
     private RoomsService roomsService = new RoomsService(roomDAO,roomAllocationDAO);
 
-
     public void getAllRooms(){
         List<Rooms> roomList =roomsService.getAllRoom();
         System.out.printf("%-5s %-10s %-10s%n","SN","Room No.","Capacity");

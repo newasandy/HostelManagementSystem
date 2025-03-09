@@ -5,14 +5,16 @@ import org.example.daoInterface.VisitorsDAO;
 import org.example.model.StatusMessageModel;
 import org.example.model.Visitors;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class VisitorService {
 
-    private final VisitorsDAO visitorsDAO = new VisitorsDAOImp();
+    private final VisitorsDAO visitorsDAO;
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
+
+    public VisitorService(VisitorsDAO visitorsDAO){
+        this.visitorsDAO=visitorsDAO;
+    }
 
     public List<Visitors> userVisitedBy(Long userId){
         List<Visitors> visitors = visitorsDAO.getUserVisitedBy(userId);

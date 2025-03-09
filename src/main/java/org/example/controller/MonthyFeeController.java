@@ -1,31 +1,18 @@
 package org.example.controller;
 
-import org.example.daoImplementation.AddressDAOImp;
 import org.example.daoImplementation.MonthlyFeeDAOImpl;
-import org.example.daoImplementation.UserDAOImpl;
 import org.example.daoInterface.MonthlyFeeDAO;
-import org.example.daoInterface.UserDAO;
 import org.example.model.MonthlyFee;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
-import org.example.service.UsersService;
 import org.example.service.MonthlyFeeService;
-import org.example.utils.PasswordUtil;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class MonthyFeeController {
-    private UserDAO userDAO = new UserDAOImpl();
-    private AddressDAOImp addressDAOImp = new AddressDAOImp();
-
-    private UsersService usersService = new UsersService(userDAO,addressDAOImp);
-    private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private MonthlyFeeDAO monthlyFeeDAO = new MonthlyFeeDAOImpl();
     private MonthlyFeeService monthlyFeeService = new MonthlyFeeService(monthlyFeeDAO);
-    private Scanner sc = new Scanner(System.in);
 
 
     public StatusMessageModel assignMonthlyFee(Users selectStudent, String months, int years, double amount, Timestamp issueDate){

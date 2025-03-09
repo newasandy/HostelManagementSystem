@@ -3,7 +3,6 @@ package org.example.service;
 import org.example.daoImplementation.*;
 import org.example.daoInterface.UserDAO;
 import org.example.model.*;
-import org.example.utils.PasswordUtil;
 import java.util.List;
 
 public class UsersService {

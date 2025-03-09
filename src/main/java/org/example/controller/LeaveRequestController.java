@@ -9,12 +9,10 @@ import org.example.service.LeaveRequestService;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Scanner;
 
 public class LeaveRequestController {
     private LeaveRequestDAO leaveRequestDAO = new LeaveRequestDAOImp();
     private final LeaveRequestService leaveRequestService = new LeaveRequestService(leaveRequestDAO);
-    Scanner sc = new Scanner(System.in);
 
     public void getUserLeaveRequest(Users user){
         List<LeaveRequest> leaveRequestList = leaveRequestService.viewUserLeaveRequestByUser(user.getId());
@@ -46,7 +44,6 @@ public class LeaveRequestController {
         }
     }
 
-
     public StatusMessageModel applyLeaveRequestController(Users users, String reason, String startFrom, String leaveDays, Timestamp applyDate){
         LeaveRequest leaveRequest = new LeaveRequest();
         leaveRequest.setStudentId(users);
@@ -58,7 +55,6 @@ public class LeaveRequestController {
         return leaveRequestService.applyLeaveRequestService(leaveRequest);
     }
 
-
     public StatusMessageModel updatePendingLeaveRequest(LeaveRequest leaveRequest){
         return leaveRequestService.updateLeaveRequest(leaveRequest);
     }
@@ -69,6 +65,4 @@ public class LeaveRequestController {
             System.out.println(lr.getStudentId().getFullName()+"\t\t\t"+lr.getApplyDate()+"\t\t\t"+lr.getReason()+"\t\t\t"+lr.getStartFrom()+"\t\t\t"+lr.getLeaveDays()+"\t\t"+lr.getStatus());
         }
     }
-
-
 }

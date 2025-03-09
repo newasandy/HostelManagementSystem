@@ -13,8 +13,6 @@ public class Main {
 
 
     private UserDAO userDAO = new UserDAOImpl();
-    private AddressDAOImp addressDAOImp = new AddressDAOImp();
-    private final UsersService usersService = new UsersService(userDAO,addressDAOImp);
     private final AdminView adminView = new AdminView();
     private AuthenticationService authenticationService = new AuthenticationService(userDAO);
     private final GeneralUserView generalUserView = new GeneralUserView();
