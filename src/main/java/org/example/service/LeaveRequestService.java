@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.daoImplementation.LeaveRequestDAOImp;
 import org.example.daoInterface.LeaveRequestDAO;
 import org.example.model.LeaveRequest;
 import org.example.model.StatusMessageModel;
@@ -19,20 +18,6 @@ public class LeaveRequestService {
         return leaveRequestDAO.getUserLeaveRequestByUserId(userId);
     }
 
-
-
-    public LeaveRequest getLeaveDetailsByRowNumber(int rowNumber, Long userId){
-        List<LeaveRequest> leaveRequestList = leaveRequestDAO.getUserLeaveRequestByUserId(userId);
-        if (rowNumber <= 0 || rowNumber > leaveRequestList.size() ){
-            System.out.println("Invalid Row Number");
-        }
-        LeaveRequest lr = leaveRequestDAO.checkLeaveRequest(leaveRequestList.get(rowNumber-1).getStudentId().getId());
-        if (lr != null){
-            return leaveRequestList.get(rowNumber-1);
-        }else {
-           return null;
-        }
-    }
 
     public StatusMessageModel applyLeaveRequestService(LeaveRequest leaveRequest){
         if (leaveRequestDAO.add(leaveRequest)){

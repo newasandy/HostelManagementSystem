@@ -41,7 +41,11 @@ public class MonthlyFeeService {
     public List<MonthlyFee> getAllUserUnpaidFeeDetails(){
         return monthlyFeeDAO.getAllUserUnPaidFee();
     }
-    public StatusMessageModel feePaidByUser(MonthlyFee payFee){
+    public StatusMessageModel feePaid(MonthlyFee payFee , double amount){
+        double paidAmount = payFee.getPaid()+amount;
+        double dueAmount = payFee.getDue() - amount;
+        payFee.setPaid(paidAmount);
+        payFee.setDue(dueAmount);
         if (monthlyFeeDAO.update(payFee)){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Paid Successfully");

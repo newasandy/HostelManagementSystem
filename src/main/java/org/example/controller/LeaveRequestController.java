@@ -7,14 +7,11 @@ import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.service.LeaveRequestService;
 
-import javax.swing.text.AbstractDocument;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class LeaveRequestController {
-    private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private LeaveRequestDAO leaveRequestDAO = new LeaveRequestDAOImp();
     private final LeaveRequestService leaveRequestService = new LeaveRequestService(leaveRequestDAO);
     Scanner sc = new Scanner(System.in);
@@ -32,12 +29,14 @@ public class LeaveRequestController {
 
     public void getAllPendingLeaveRequest(){
         List<LeaveRequest> leaveRequestList =  leaveRequestDAO.getAllPendingRequest();
+        int sn =1;
         for (LeaveRequest lr : leaveRequestList){
-            System.out.println(lr.getStudentId().getFullName()+"\t\t\t"+lr.getApplyDate()+"\t\t\t"+lr.getReason()+"\t\t\t"+lr.getStartFrom()+"\t\t\t"+lr.getLeaveDays()+"\t\t"+lr.getStatus());
+            System.out.println(sn +"\t\t"+lr.getStudentId().getFullName()+"\t\t\t"+lr.getApplyDate()+"\t\t\t"+lr.getReason()+"\t\t\t"+lr.getStartFrom()+"\t\t\t"+lr.getLeaveDays()+"\t\t"+lr.getStatus());
+            sn++;
         }
     }
 
-    public LeaveRequest getLeaveRequestByRowNumber(int rowNumber){
+    public LeaveRequest getPendingLeaveRequestByRowNumber(int rowNumber){
         List<LeaveRequest> leaveRequestList = leaveRequestDAO.getAllPendingRequest();
         if (rowNumber <=0 || rowNumber > leaveRequestList.size()){
             System.out.println("Invalid Row Number");
@@ -47,17 +46,6 @@ public class LeaveRequestController {
         }
     }
 
-    public StatusMessageModel checkLeaveRequest(Long userId){
-        LeaveRequest lr = leaveRequestDAO.checkLeaveRequest(userId);
-        if (lr == null){
-            statusMessageModel.setStatus(true);
-            statusMessageModel.setMessage("No Leave Request");
-        }else {
-            statusMessageModel.setStatus(false);
-            statusMessageModel.setMessage("Leave Request Already Exist and Still Pending");
-        }
-        return statusMessageModel;
-    }
 
     public StatusMessageModel applyLeaveRequestController(Users users, String reason, String startFrom, String leaveDays, Timestamp applyDate){
         LeaveRequest leaveRequest = new LeaveRequest();
@@ -67,7 +55,6 @@ public class LeaveRequestController {
         leaveRequest.setLeaveDays(leaveDays);
         leaveRequest.setApplyDate(applyDate);
         leaveRequest.setStatus("PENDING");
-
         return leaveRequestService.applyLeaveRequestService(leaveRequest);
     }
 
@@ -83,27 +70,5 @@ public class LeaveRequestController {
         }
     }
 
-    public void responseLeaveRequestByAdmin(){
-        getAllPendingLeaveRequest();
-        LeaveRequest updateLeaveRequest;
-        System.out.println("Select leave request by row number");
-        int rowNumber = sc.nextInt();
-        updateLeaveRequest = getLeaveRequestByRowNumber(rowNumber);
-        System.out.println("====================================");
-        System.out.println(updateLeaveRequest.getStudentId().getFullName()+"\t\t\t"+updateLeaveRequest.getApplyDate()+"\t\t\t"+updateLeaveRequest.getReason()+"\t\t\t"+updateLeaveRequest.getStartFrom()+"\t\t\t"+updateLeaveRequest.getLeaveDays()+"\t\t"+updateLeaveRequest.getStatus());
-        System.out.println("=============================");
-        System.out.println("1. Do Accept");
-        System.out.println("2. Do Reject");
-        System.out.println("3. Exit");
-        int option =sc.nextInt();
-        if (option == 1){
-            updateLeaveRequest.setStatus("ACCEPTED");
-            statusMessageModel= leaveRequestService.updateLeaveRequest(updateLeaveRequest);
-            System.out.println(statusMessageModel.getMessage());
-        } else if (option == 2) {
-            updateLeaveRequest.setStatus("REJECTED");
-            statusMessageModel= leaveRequestService.updateLeaveRequest(updateLeaveRequest);
-            System.out.println(statusMessageModel.getMessage());
-        }
-    }
+
 }

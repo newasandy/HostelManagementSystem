@@ -69,8 +69,8 @@ public class GeneralUserView {
     }
 
     public void applyLeaveRequest(Users user){
-        statusMessageModel = leaveRequestController.checkLeaveRequest(user.getId());
-        if (statusMessageModel.isStatus()){
+        LeaveRequest leaveRequest = leaveRequestController.getPendingLeaveRequest(user.getId());
+        if (leaveRequest == null){
             sc.nextLine();
             System.out.println("Enter Reason");
             String reason = sc.nextLine();
@@ -100,7 +100,7 @@ public class GeneralUserView {
             System.out.println(statusMessageModel.getMessage());
 
         }else {
-            System.out.println(statusMessageModel.getMessage());
+            System.out.println("Leave Request Already Exist and Still Pending");
         }
     }
 

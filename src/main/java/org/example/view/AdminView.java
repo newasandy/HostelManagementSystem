@@ -4,6 +4,10 @@ import org.example.controller.*;
 import org.example.model.*;
 import org.example.utils.PasswordUtil;
 
+import java.sql.SQLOutput;
+import java.sql.Timestamp;
+import java.time.Year;
+import java.util.Date;
 import java.util.Scanner;
 
 public class AdminView {
@@ -12,7 +16,6 @@ public class AdminView {
     private final VisitorsView visitorsView = new VisitorsView();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
-    private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
     private final UsersController usersController = new UsersController();
 
@@ -181,10 +184,34 @@ public class AdminView {
             System.out.println("2. Exit");
             int option = sc.nextInt();
             if (option == 1){
-                leaveRequestController.responseLeaveRequestByAdmin();
+                responseLeaveRequestByAdmin();
             } else if (option ==2) {
                 break;
             }
+        }
+    }
+
+    public void responseLeaveRequestByAdmin(){
+        leaveRequestController.getAllPendingLeaveRequest();
+        LeaveRequest updateLeaveRequest;
+        System.out.println("Select leave request by row number");
+        int rowNumber = sc.nextInt();
+        updateLeaveRequest = leaveRequestController.getPendingLeaveRequestByRowNumber(rowNumber);
+        System.out.println("====================================");
+        System.out.println(updateLeaveRequest.getStudentId().getFullName()+"\t\t\t"+updateLeaveRequest.getApplyDate()+"\t\t\t"+updateLeaveRequest.getReason()+"\t\t\t"+updateLeaveRequest.getStartFrom()+"\t\t\t"+updateLeaveRequest.getLeaveDays()+"\t\t"+updateLeaveRequest.getStatus());
+        System.out.println("=============================");
+        System.out.println("1. Do Accept");
+        System.out.println("2. Do Reject");
+        System.out.println("3. Exit");
+        int option =sc.nextInt();
+        if (option == 1){
+            updateLeaveRequest.setStatus("ACCEPTED");
+            statusMessageModel= leaveRequestController.updatePendingLeaveRequest(updateLeaveRequest);
+            System.out.println(statusMessageModel.getMessage());
+        } else if (option == 2) {
+            updateLeaveRequest.setStatus("REJECTED");
+            statusMessageModel= leaveRequestController.updatePendingLeaveRequest(updateLeaveRequest);
+            System.out.println(statusMessageModel.getMessage());
         }
     }
 
@@ -196,10 +223,85 @@ public class AdminView {
         System.out.println("3. exit");
         int option = sc.nextInt();
         if (option == 1){
-            monthyFeeController.assignMonthlyFee();
+            assignFee();
         }else if (option == 2){
-            monthyFeeController.payFee(loginAdmin);
+            feePay(loginAdmin);
         }
+    }
 
+    public void assignFee(){
+        usersController.viewOnlyStudent();
+        System.out.println("============================");
+        System.out.println("select student by row number:");
+        int rowNumber = sc.nextInt();
+        Users selectUser = usersController.getOnlyStudentByRow(rowNumber);
+        if (selectUser != null){
+            System.out.println("Select Months:");
+            System.out.println("=========================");
+            String[] monthsName = {"January","February","March","April", "May","June","July","August","September","October","November","December"};
+            for (int i = 1 ; i <= monthsName.length ; i++){
+                System.out.println(i + ". "+monthsName[i-1]);
+            }
+            String months = "";
+            int monthsNumber = sc.nextInt();
+
+            if (monthsNumber > 0 && monthsNumber <= monthsName.length){
+                months = monthsName[monthsNumber-1];
+            }
+
+            int currentYear = Year.now().getValue();
+            System.out.println("enter amount:");
+            double amount = sc.nextDouble();
+            Date date = new Date();
+            Timestamp issueDate = new Timestamp(date.getTime());
+            monthyFeeController.assignMonthlyFee(selectUser,months,currentYear,amount,issueDate);
+        }
+    }
+
+    public void feePay(Users loginUsers) {
+        monthyFeeController.viewALlUnpaidFee();
+        System.out.println("===================");
+        System.out.println("Select Unpaid Fee by row number:");
+        int rowNumber = sc.nextInt();
+        MonthlyFee unpaidFeeDetails = monthyFeeController.getUnpaidFeeDetailsByRow(rowNumber);
+        double paidAmount = 0.0;
+        if (unpaidFeeDetails != null) {
+            System.out.println("1. Full Pay");
+            System.out.println("2. Only certain Amount");
+            int option = sc.nextInt();
+            if (option == 1) {
+                System.out.println("+++++");
+                System.out.println("Your Due Amount: " + unpaidFeeDetails.getDue());
+                System.out.println("+++++");
+                sc.nextLine();
+                System.out.println("Enter User Password:");
+                String conformPassword = sc.nextLine();
+                if (PasswordUtil.verifyPassword(conformPassword, loginUsers.getPasswords())) {
+                    paidAmount = unpaidFeeDetails.getDue();
+                } else {
+                    System.out.println("!! Password Incorrect");
+                }
+            } else if (option == 2) {
+                System.out.println("+++++");
+                System.out.println("Your Due Amount: " + unpaidFeeDetails.getDue());
+                System.out.println("+++++");
+                System.out.println("Enter Amount to Pay:");
+                double enterAmount = sc.nextDouble();
+                if (enterAmount <= unpaidFeeDetails.getDue()) {
+                    sc.nextLine();
+                    System.out.println("Enter User Password:");
+                    String conformPassword = sc.nextLine();
+                    if (PasswordUtil.verifyPassword(conformPassword, loginUsers.getPasswords())) {
+                        paidAmount = enterAmount;
+                    } else {
+                        System.out.println("!! Password Incorrect");
+                    }
+                } else {
+                    System.out.println("!! Given Amount is Greater then Due Amount");
+                }
+            }
+            statusMessageModel = monthyFeeController.payMonthlyFee(unpaidFeeDetails,paidAmount);
+            System.out.println(statusMessageModel.getMessage());
+        }
     }
 }
