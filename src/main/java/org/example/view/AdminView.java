@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class AdminView {
     private final Scanner sc = new Scanner(System.in);
     private final RoomsView roomsView = new RoomsView();
+    private final VisitorsView visitorsView = new VisitorsView();
     private StatusMessageModel statusMessageModel = new StatusMessageModel();
     private final LeaveRequestController leaveRequestController = new LeaveRequestController();
-    private final RoomsController roomsController = new RoomsController();
     private final VisitorsController visitorsController = new VisitorsController();
     private final MonthyFeeController monthyFeeController = new MonthyFeeController();
     private final UsersController usersController = new UsersController();
@@ -40,7 +40,7 @@ public class AdminView {
                 System.out.println("======================================");
             } else if (inputs == 4) {
                 System.out.println("======================================");
-                visitorsController.viewVisitors();
+                visitorsView.viewVisitors();
             }else if (inputs == 5) {
                 System.out.println("======================================");
                 viewAllLeaveRequest();
@@ -102,7 +102,7 @@ public class AdminView {
     }
 
     public void updateUsersDetails(){
-        usersController.getAllUserDetails();
+        usersController.viewAllUserDetails();
         System.out.println("Pick user by Row Number which want to update:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();
@@ -166,7 +166,7 @@ public class AdminView {
     }
 
     public void deleteUser(){
-        usersController.getAllUserDetails();
+        usersController.viewAllUserDetails();
         System.out.println("Pick user by Row Number which want to delete:");
         System.out.println("===========================================");
         int rowNumber = sc.nextInt();

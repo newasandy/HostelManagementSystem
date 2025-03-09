@@ -1,26 +1,17 @@
 package org.example.controller;
 
-import org.example.daoImplementation.AddressDAOImp;
-import org.example.daoImplementation.UserDAOImpl;
-import org.example.daoInterface.UserDAO;
-import org.example.model.Address;
 import org.example.model.StatusMessageModel;
 import org.example.model.Users;
 import org.example.model.Visitors;
-import org.example.service.UsersService;
 import org.example.service.VisitorService;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 public class VisitorsController {
-    private UserDAO userDAO = new UserDAOImpl();
-    private AddressDAOImp addressDAOImp = new AddressDAOImp();
+
     private final VisitorService visitorService = new VisitorService();
-    private StatusMessageModel statusMessageModel = new StatusMessageModel();
-    private final UsersService usersService = new UsersService(userDAO,addressDAOImp);
-    private final Scanner sc = new Scanner(System.in);
+    private UsersController usersController = new UsersController();
 
     public void getUserVisitedBy(Users users){
         List<Visitors> visitors = visitorService.userVisitedBy(users.getId());
@@ -29,57 +20,53 @@ public class VisitorsController {
         }
     }
 
-    public void viewVisitors(){
-        visitorService.getAllVisitor();
-        while (true){
-            System.out.println("1. Add Visitor");
-            System.out.println("2. Update Visitor when Exit");
-            System.out.println("3. Exit");
-            int option = sc.nextInt();
-            if (option == 1){
-                System.out.println("Add Visitor");
-                System.out.println("===================================");
-                addVisitor();
-            } else if (option == 2) {
-                updateVisitor();
-            } else if (option == 3) {
-                break;
-            }
+    public void viewAllVisitor(){
+        List<Visitors> visitors = visitorService.getAllVisitor();
+        int sn = 1;
+        for(Visitors visitor : visitors){
+            System.out.println(sn +"\t\t"+visitor.getStudentId().getFullName()+"\t\t\t"+visitor.getFullName()+"\t\t\t"+visitor.getRelation()+"\t\t\t"+visitor.getReason()+"\t\t\t"+visitor.getEntryDatetime()+"\t\t\t"+visitor.getExitDatetime());
+            sn++;
+        }
+    }
+    public void viewAllNotExitVisitor(){
+        List<Visitors> visitors = visitorService.getAllNotExitVisitor();
+        int sn = 1;
+        for(Visitors visitor : visitors){
+            System.out.println(sn +"\t\t"+visitor.getStudentId().getFullName()+"\t\t\t"+visitor.getFullName()+"\t\t\t"+visitor.getRelation()+"\t\t\t"+visitor.getReason()+"\t\t\t"+visitor.getEntryDatetime()+"\t\t\t"+visitor.getExitDatetime());
+            sn++;
         }
     }
 
-    public void addVisitor(){
+    public Visitors getNotExitVisitorByRow(int rowNumber){
+        List<Visitors> notExitVisitors = visitorService.getAllNotExitVisitor();
+        if (rowNumber <1 || rowNumber > notExitVisitors.size()){
+            System.out.println("Invalid Visitor");
+            return null;
+        }
+        return notExitVisitors.get(rowNumber-1);
+    }
+
+
+
+    public StatusMessageModel addVisitor(int rowNumber, String visitorName, String relation, String reason){
         Visitors visitor = new Visitors();
-        usersService.getAllUser();
-        System.out.println("Select Student By Row Number");
-        int rowNumber = sc.nextInt();
-        Address user = usersService.getUserDetailByRowNumber(rowNumber);
-        sc.nextLine();
-        System.out.println("Enter Visitor Name");
-        String visitorName = sc.nextLine();
-        System.out.println("Enter Visitor Relation With Student");
-        String relation = sc.nextLine();
-        System.out.println("Enter Reason");
-        String reason = sc.nextLine();
+        Users forUser = usersController.getOnlyStudentByRow(rowNumber);
         Date getEntryDate = new Date();
         Timestamp entryDateTime = new Timestamp(getEntryDate.getTime());
-
-        visitor.setStudentId(user.getUser());
+        visitor.setStudentId(forUser);
         visitor.setFullName(visitorName);
         visitor.setRelation(relation);
         visitor.setReason(reason);
         visitor.setEntryDatetime(entryDateTime);
+        return visitorService.addVisitorService(visitor);
 
-        statusMessageModel = visitorService.addVisitorService(visitor);
-        System.out.println(statusMessageModel.getMessage());
     }
 
-    public void updateVisitor(){
-        visitorService.getAllVisitor();
-        System.out.println("========================================");
-        System.out.println("Select the visitor who exit");
-        int rowNumber =sc.nextInt();
-        statusMessageModel = visitorService.exitVisitorUpdate(rowNumber);
-        System.out.println(statusMessageModel.getMessage());
+    public StatusMessageModel updateVisitor(int rowNumber){
+        Visitors exitVisitor = getNotExitVisitorByRow(rowNumber);
+        Date date = new Date();
+        Timestamp exitDate = new Timestamp(date.getTime());
+        exitVisitor.setExitDatetime(exitDate);
+        return visitorService.exitVisitorUpdate(exitVisitor);
     }
 }

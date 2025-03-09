@@ -27,4 +27,14 @@ public class VisitorsDAOImp extends BaseDAOImp<Visitors , Long> implements Visit
         }
     }
 
+    @Override
+    public List<Visitors> getAllNotExitVistior(){
+        try{
+            return entityManager.createQuery("SELECT v FROM Visitors v WHERE v.exitDatetime IS NULL",Visitors.class)
+                    .getResultList();
+        }catch (NoResultException e){
+            return null;
+        }
+    }
+
 }

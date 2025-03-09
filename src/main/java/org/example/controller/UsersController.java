@@ -27,7 +27,16 @@ public class UsersController {
         }
     }
 
-    public void getAllUserDetails(){
+    public Users getOnlyStudentByRow(int rowNumber){
+        List<Users> students = usersService.viewOnlyStudent();
+        if (rowNumber<1 || rowNumber > students.size()){
+            System.out.println("Invalid Row Number");
+            return null;
+        }
+        return students.get(rowNumber-1);
+    }
+
+    public void viewAllUserDetails(){
         List<Users> allUser = usersService.getAllUser();
         System.out.printf("%-5s %-15s %-20s %-25s %-20s %-20s %-25s %-10s%n","SN", "User Id", "Full Name", "Email","Country","District","RMC/MC","Ward No");
         System.out.println("======================================================");
@@ -103,7 +112,6 @@ public class UsersController {
     }
 
     public StatusMessageModel updateUserDetails(Users userUpdateDetails){
-
         return usersService.updateUserDetails(userUpdateDetails);
     }
 

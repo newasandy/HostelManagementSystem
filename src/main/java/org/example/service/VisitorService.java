@@ -20,13 +20,12 @@ public class VisitorService {
     }
 
 
-    public void getAllVisitor(){
-        List<Visitors> visitors = visitorsDAO.getAll();
-        int rowNumber = 1;
-        for(Visitors visitor : visitors){
-            System.out.println(rowNumber +"\t\t"+visitor.getStudentId().getFullName()+"\t\t\t"+visitor.getFullName()+"\t\t\t"+visitor.getRelation()+"\t\t\t"+visitor.getReason()+"\t\t\t"+visitor.getEntryDatetime()+"\t\t\t"+visitor.getExitDatetime());
-            rowNumber++;
-        }
+    public List<Visitors> getAllVisitor(){
+        return visitorsDAO.getAll();
+    }
+
+    public List<Visitors> getAllNotExitVisitor(){
+        return visitorsDAO.getAllNotExitVistior();
     }
 
     public StatusMessageModel addVisitorService(Visitors visitor){
@@ -40,17 +39,8 @@ public class VisitorService {
         return statusMessageModel;
     }
 
-    public StatusMessageModel exitVisitorUpdate(int rowNumber){
-        List<Visitors> visitors = visitorsDAO.getAll();
-        if (rowNumber < 0 || rowNumber > visitors.size()){
-            System.out.println("Invalid Row Number");
-        }
-        Date date = new Date();
-        Timestamp exitDate = new Timestamp(date.getTime());
-        Visitors visitor = visitors.get(rowNumber-1);
-        visitor.setExitDatetime(exitDate);
-
-        if (visitorsDAO.update(visitor)){
+    public StatusMessageModel exitVisitorUpdate(Visitors exitVisitor){
+        if (visitorsDAO.update(exitVisitor)){
             statusMessageModel.setStatus(true);
             statusMessageModel.setMessage("Visitor Update Successfully");
         }else {
